@@ -1,14 +1,14 @@
 # Version 1.0
-# [CCID] : [Github name]
+# [First name - Last name] : [CCID] : [Github name]
 
-1) nanthana 	abinandn1 
+1) nanthana : abinandn1 
 
-2) zijing8 	zijing8
+2) zijing8  : zijing8
 
-3) wolowyk 	mic8404
+3) wolowyk  : mic8404
 
-4) pasrija 	JayPasrija
+4) pasrija  : JayPasrija
 
-5) thiminhh	thea2506
+5) Thea Nguyen  : thiminhh : thea2506
 
-6) dangviet   dvadinh				 
+6) dangviet : dvadinh				 
