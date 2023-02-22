@@ -34,5 +34,6 @@ Above each  of the styling section, comment  one line to indicate which componen
 file much easier to intepret):
 ![image](https://user-images.githubusercontent.com/90273567/220496831-bb1d7505-cb95-4b8c-b88f-bfce78e9364a.png)
 
-5.Do not forget to commit regularly. When finish, push the code to your branch and create a pull request. Project board will be updated later (Please remember the
-naming conventions for branch)
+5. Do not forget to commit regularly. When finish, push the code to your branch and create a pull request. Project board will be updated later (Please remember the
+naming conventions for branch) (DO NOT PUSH DIRECTLY TO DEVELOP BRANCH OR MAIN BRANCH, ONLY PUSH CODE TO YOUR BRANCH). If you do not have a branch, create one using 
+`git checkout -b <branch name with conventions>`
