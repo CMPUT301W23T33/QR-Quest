@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ShapeAppearance" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!--Text-->
+    <style name="Heading.1" parent="">
+        <item name="android:textSize">52sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="Heading.2" parent="">
+        <item name="android:textSize">48sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="Heading.3" parent="">
+        <item name="android:textSize">40sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="Heading.4" parent="">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+    </style>
+
+    <style name="body" parent="">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="small" parent="">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <!--FAB-->
+    <style name="Button.Primary" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/black</item>
+        <item name="tint">@color/thistle</item>
+        <item name="maxImageSize">28dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Primary.Contrast" parent="Widget.Material3.FloatingActionButton.Secondary">
+        <item name="backgroundTint">@color/thistle</item>
+        <item name="tint">@color/chinese_violet</item>
+        <item name="maxImageSize">28dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Secondary" parent="Widget.Material3.FloatingActionButton.Secondary">
+        <item name="android:backgroundTint">@color/black</item>
+        <item name="borderWidth">2dp</item>
+        <item name="backgroundTint">@color/thistle</item>
+        <item name="tint">@color/thistle</item>
+        <item name="maxImageSize">28dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!--Normal buttons-->
+    <style name="Button.Save" parent="Widget.Material3.Button.TextButton">
+        <item name="backgroundTint">@color/thistle</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:paddingStart">36dp</item>
+        <item name="android:paddingEnd">36dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Elevated.Primary" parent="Widget.Material3.Button.ElevatedButton.Icon">
+        <item name="backgroundTint">@color/thistle</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="iconTint">@color/black</item>
+        <item name="iconSize">24dp</item>
+        <item name="android:paddingStart">28dp</item>
+        <item name="android:paddingEnd">28dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Elevated.Secondary" parent="Widget.Material3.Button.ElevatedButton.Icon">
+        <item name="backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/thistle</item>
+        <item name="iconTint">@color/thistle</item>
+        <item name="iconSize">24dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/thistle</item>
+        <item name="android:paddingStart">14dp</item>
+        <item name="android:paddingEnd">14dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Image.Primary" parent="Widget.Material3.Button.IconButton">
+        <item name="backgroundTint">@color/thistle</item>
+        <item name="iconTint">@color/black</item>
+        <item name="iconSize">20dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:paddingStart">46dp</item>
+        <item name="android:paddingEnd">46dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Image.Secondary" parent="Widget.Material3.Button.IconButton">
+        <item name="backgroundTint">@color/black</item>
+        <item name="iconTint">@color/thistle</item>
+        <item name="iconSize">20dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/thistle</item>
+        <item name="android:paddingStart">46dp</item>
+        <item name="android:paddingEnd">46dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Text.Leaderboard.Init" parent="Widget.Material3.Button.TextButton">
+        <item name="backgroundTint">@color/black</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">@color/chinese_violet</item>
+        <item name="android:textColor">@color/chinese_violet</item>
+    </style>
+    <!--Text Display-->
+    <style name="Text.Display" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginStart">48dp</item>
+        <item name="android:layout_marginEnd">48dp</item>
+        <item name="android:background">@drawable/rect_shape</item>
+        <item name="android:textColor">@color/thistle</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="Profile.Display" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape</item>
+        <item name="tint">@color/chinese_violet</item>
+    </style>
+
+    <!--Search bar-->
+    <style name="TextInputLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="boxBackgroundColor">@color/black</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+        <item name="startIconDrawable">@drawable/baseline_search_24</item>
+        <item name="startIconTint">@color/thistle</item>
+        <item name="android:hint">Search</item>
+        <item name="hintTextColor">@color/thistle</item>
+        <item name="hintTextAppearance">@style/small</item>
+    </style>
+
+    <style name="TextInputEdit.Style" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/thistle</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxLength">40</item>
+    </style>
+
+    <style name="QRDisplay.Style" parent="">
+        <item name="android:layout_marginStart">32dp</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:background">@drawable/rect_shape</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+</resources>
