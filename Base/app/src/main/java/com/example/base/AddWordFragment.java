@@ -80,8 +80,7 @@ public class AddWordFragment extends Fragment {
         toCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireActivity(), CameraFeature.class);
-                useCamera.launch(intent);
+                Navigation.findNavController(v).navigate(R.id.action_addWordFragment_to_cameraFragment);
             }
         });
 
