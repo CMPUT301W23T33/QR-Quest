@@ -22,5 +22,17 @@
         <action
             android:id="@+id/action_addWordFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_addWordFragment_to_imageViewFragment"
+            app:destination="@id/imageViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/imageViewFragment"
+        android:name="com.example.base.ImageViewFragment"
+        android:label="fragment_image_view"
+        tools:layout="@layout/fragment_image_view" >
+        <action
+            android:id="@+id/action_imageViewFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment" />
     </fragment>
 </navigation>

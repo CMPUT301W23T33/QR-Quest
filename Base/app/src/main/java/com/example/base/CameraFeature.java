@@ -124,7 +124,7 @@ public class CameraFeature extends AppCompatActivity {
         }
         Date date = new Date();
         String timestamp = String.valueOf(date.getTime());
-        String photoFilePath = photoDir.getAbsolutePath() + "/" + timestamp + ".jpg";
+        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
 
         // Photo is saved at /storage/emulated/0/Android/data/com.example.base/cache/Pictures (absolute path)
         // Go to Files -> Device -> Android -> data -> com.example.base -> cache -> Pictures

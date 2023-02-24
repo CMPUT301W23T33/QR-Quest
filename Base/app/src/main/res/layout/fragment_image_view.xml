@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageViewFragment"
+    android:orientation="vertical">
+
+    <ImageView
+        android:src="@drawable/image_80"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:id="@+id/image_display"
+        android:layout_margin="12dp"
+        android:layout_weight="0.7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+    </ImageView>
+
+    <RelativeLayout
+        android:layout_margin="12dp"
+        android:layout_weight="0.3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <Button
+            android:textColor="@color/teal_200"
+            android:backgroundTint="@color/purple_700"
+            android:text="UPLOAD IMAGE TO CLOUD"
+            android:id="@+id/upload_image"
+            android:layout_above="@id/get_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+        <Button
+            android:textColor="@color/teal_200"
+            android:backgroundTint="@color/purple_700"
+            android:text="GET IMAGE FROM CLOUD"
+            android:id="@+id/get_image"
+            android:layout_above="@id/set_image_local"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+        <Button
+            android:textColor="@color/teal_200"
+            android:backgroundTint="@color/purple_700"
+            android:text="SET IMAGE LOCAL"
+            android:id="@+id/set_image_local"
+            android:layout_above="@id/back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+        <Button
+            android:textColor="@color/teal_200"
+            android:backgroundTint="@color/purple_700"
+            android:text="BACK"
+            android:id="@+id/back"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

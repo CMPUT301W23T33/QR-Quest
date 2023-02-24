@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddWordFragment extends Fragment {
 
-    Button button, toCamera, search;
+    Button button, toCamera, search, toImage;
     TextView score, longitude, latitude;
     EditText editText;
     private FirebaseFirestore firebaseFirestore;
@@ -66,6 +66,7 @@ public class AddWordFragment extends Fragment {
         score = view.findViewById(R.id.qrcodescore);
         latitude = view.findViewById(R.id.qrcodeslatitude);
         longitude = view.findViewById(R.id.qrcodelongitude);
+        toImage = view.findViewById(R.id.image);
 
         // Navigate back to the main fragment
         button.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +76,7 @@ public class AddWordFragment extends Fragment {
             }
         });
 
-        // Launching Camera
+        // Launch Camera
         toCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +112,14 @@ public class AddWordFragment extends Fragment {
                                 Toast.makeText(requireContext(), "There has been a problem retrieving such item", Toast.LENGTH_SHORT).show();
                             }
                         });
+            }
+        });
+
+        // Navigate to retrieving image from google cloud screen
+        toImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_addWordFragment_to_imageViewFragment);
             }
         });
 

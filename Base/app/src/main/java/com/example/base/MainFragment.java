@@ -38,6 +38,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     SignInButton signInButton;
+    GoogleSignInClient googleSignInClient;
     TextView emailAddress;
     Button next, signOut, removeAccount, addItem, removeItem;
     FirebaseUser firebaseUser;
