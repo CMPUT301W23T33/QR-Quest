@@ -185,4 +185,13 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <!--Start screen layout-->
+    <style name="Theme.BottomSheetDialog" parent="Widget.Material3.BottomSheet">
+        <item name="android:background">@drawable/rounded_top_corners</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">80dp</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
 </resources>

@@ -12,10 +12,13 @@
         android:theme="@style/Theme.QRQuest"
         tools:targetApi="31">
         <activity
+            android:name=".Components"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Components"
+            android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
