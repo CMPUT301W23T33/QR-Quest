@@ -1,39 +1,27 @@
-# QR-Quest
+## Tasks
 
-## Notice
-- To change the start screen navigation, go to AndroidManifest file
-- The Components Activity is used to show some components in the UI design as an example
-- All the necessary icons are already created in the drawable file
-- All the necessary colours are already created in the colors.xml file (in values folder)
-- All the font is also created
-- Some buttons' margin/ padding should be changed accordingly. The sample code is not the final code.
+1. CameraX (Set up the cameraX API, and if possible, do reaserach about ML Kit): Sam
+2. Main screen and map: Vanh
+3. Creating account screen with shared preferences: Thea
+4. Layout (from QR Found to QR Confirm): Jay, Michael (View pager and TextInputLayout, TextInputEdit) 
+5. Unit testing and design database: Abi
 
-## Font (Poppins)
-- There are 6 types of fonts:
-- Heading 1 (52, Semibold)
-- Heading 2 (48, Semibold)
-- Heading 3 (40, Semibold)
-- Heading 4 (32, Semibold)
-- Body      (24, Semibold)
-- Small     (16, Semibold) (Most popular)
-- To use the fonts, command "TextAppearance", all the font styles will show up accordingly
+## Dealine 
 
-## Requirements
-- Try to use as much [Google Material](https://m3.material.io/) as possible to create components 
-- Use Constraint Layout for all xml file (You can use linear layout/ frame layout inside constraint layout, no worries)
-- Anything too hard to code, notify the members (using the project board to communicate is recommended)
+1. Report: Wednesday (03/01/2023)
+2. Before the Thursday meeting (03/02/2023)
 
-## Procedure
-1. Create an activity with a layout file
-2. Create the components (You should look at the example components)
-3. All the Shape Appearance, Coloring, Padding, Marign, Sizing should be done by creating a new style section with a unique, precise name in the style.xml file. 
-Above each  of the styling section, comment  one line to indicate which component uses that styling section. Example:
-![image](https://user-images.githubusercontent.com/90273567/220496638-81228881-a4c4-42c3-91d6-a8a076dd2bf5.png)
+## Resources
 
-4. This is what your components should look like in the main xml file after applying the styling (most lines are logical structuring, styling is separated, making the
-file much easier to intepret):
-![image](https://user-images.githubusercontent.com/90273567/220496831-bb1d7505-cb95-4b8c-b88f-bfce78e9364a.png)
+Some of the resources you need to go through in the future when querying the Firestore database to implement the features from the issues:
+- [Firestore Data Model](https://firebase.google.com/docs/firestore/data-model#java_4)
+- [Firestore Data Types](https://firebase.google.com/docs/firestore/manage-data/data-types)
+- [Firestore Index Overview](https://firebase.google.com/docs/firestore/query-data/index-overview)
+- [Firestore Structure Data](https://firebase.google.com/docs/firestore/manage-data/structure-data)
+- [Firestore Storage](https://firebase.google.com/docs/storage/android/start)
 
-5. Do not forget to commit regularly. When finish, push the code to your branch and create a pull request. Project board will be updated later (Please remember the
-naming conventions for branch) (DO NOT PUSH DIRECTLY TO DEVELOP BRANCH OR MAIN BRANCH, ONLY PUSH CODE TO YOUR BRANCH). If you do not have a branch, create one using 
-`git checkout -b <branch name with conventions>`
+## Notes
+
+You might want to go through the base code in branch vanh under project "Base" (sorry the skeleton code is informal so I can't really push it to develop) for the camera and the layouts in the branch develop under project "code"  for some of the components that Thea created.
+
+Next week is the midterm week so we would report the progress of our task on Wednesday and resolve any issues to accommodate our schedules and get the work done by Thursday.
