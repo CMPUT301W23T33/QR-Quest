@@ -158,7 +158,7 @@
     </style>
 
     <!--Search bar-->
-    <style name="TextInputLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+    <style name="SearchLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>
         <item name="android:paddingStart">32dp</item>
         <item name="android:paddingEnd">32dp</item>
@@ -171,10 +171,21 @@
         <item name="hintTextAppearance">@style/small</item>
     </style>
 
+    <!--InputLayout and EditLayout Styling-->
     <style name="TextInputEdit.Style" parent="Widget.Material3.TextInputEditText.OutlinedBox">
         <item name="android:textColor">@color/thistle</item>
         <item name="android:maxLines">1</item>
         <item name="android:maxLength">40</item>
+    </style>
+
+    <style name="TextInputLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>
+        <item name="android:paddingStart">32dp</item>
+        <item name="android:paddingEnd">32dp</item>
+        <item name="boxBackgroundColor">@color/black</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke_color</item>
+        <item name="hintTextColor">@color/thistle</item>
+        <item name="hintTextAppearance">@style/small</item>
     </style>
 
     <style name="QRDisplay.Style" parent="">
@@ -193,5 +204,8 @@
         <item name="android:paddingTop">80dp</item>
         <item name="android:paddingBottom">8dp</item>
     </style>
+
+    <!--Create account layout-->
+
 
 </resources>

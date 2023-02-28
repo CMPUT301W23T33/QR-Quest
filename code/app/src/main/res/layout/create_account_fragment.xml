@@ -4,6 +4,116 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".CreateAccountFragment">
+
+    <ImageButton
+        android:id="@+id/button_back"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:contentDescription="@string/back_button_description"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:backgroundTint="@color/black"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:tint="@color/thistle"/>
+
+    <TextView
+        android:id="@+id/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_create_account"
+        android:textColor="@color/thistle"
+        android:textAlignment="viewStart"
+        android:textAppearance="@style/Heading.4"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_back"/>
+
+    <TextView
+        android:id="@+id/text_additional"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_choose_name"
+        android:textColor="@color/fairy_tale"
+        android:textAppearance="@style/small"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_title"/>
+
+    <TextView
+        android:id="@+id/text_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_name_generator"
+        android:textColor="@color/fairy_tale"
+        android:textAppearance="@style/small"
+        android:paddingTop="100dp"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_additional"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/name_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_name"
+        style="@style/TextInputLayout.Style">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/small"
+            android:enabled="false"
+            style="@style/TextInputEdit.Style"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="32dp"
+        android:paddingEnd="32dp"
+        android:paddingTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/name_layout">
+        <Button
+            android:id="@+id/button_elevated_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/another_button_description"
+            android:textAppearance="@style/small"
+            android:layout_margin="4dp"
+            android:layout_gravity="start"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_auto_fix_normal_24"
+            style="@style/Button.Elevated.Secondary"/>
+
+        <Button
+            android:id="@+id/button_elevated_primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nice_button_description"
+            android:textAppearance="@style/small"
+            android:layout_margin="4dp"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            app:icon="@drawable/baseline_auto_fix_high_24"
+            style="@style/Button.Elevated.Primary"/>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

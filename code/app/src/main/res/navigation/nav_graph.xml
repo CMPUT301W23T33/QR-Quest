@@ -18,5 +18,9 @@
         android:id="@+id/createAccountFragment"
         android:name="com.example.qrquest.CreateAccountFragment"
         android:label="create_account_fragment"
-        tools:layout="@layout/create_account_fragment" />
+        tools:layout="@layout/create_account_fragment" >
+        <action
+            android:id="@+id/action_createAccountFragment_to_startFragment"
+            app:destination="@id/startFragment" />
+    </fragment>
 </navigation>

@@ -1,19 +1,28 @@
 <resources>
     <string name="app_name">QR Quest</string>
+    <!--Buttons description-->
     <string name="next_button_description">Navigate to the next screen</string>
+    <string name="back_button_description">navigate back to the previous screen</string>
     <string name="camera_button_description">Camera-related actions</string>
     <string name="save_button_description">Save</string>
     <string name="nice_button_description">Nice</string>
     <string name="another_button_description">Another</string>
-    <string name="username">Dogwood</string>
     <string name="check_button_description">Accept</string>
     <string name="close_button_description">Decline</string>
+    <string name="single_button_description">Single</string>
+
+    <!--Users-->
+    <string name="username">Dogwood</string>
     <string name="user_profile_description">Display user\'s profile</string>
     <string name="top_user_profile_description">Display top profile</string>
-    <string name="single_button_description">Single</string>
     <string name="qr_code_picture_description">Display a picture of QR Code</string>
+
+    <!--Start Screen-->
     <string name="text_welcome">Welcome to QR Quest!</string>
     <string name="text_getting_started">Getting Started</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Create Account Screen-->
+    <string name="text_create_account">Create Account</string>
+    <string name="text_choose_name">Please choose a name!</string>
+    <string name="text_name_generator">Name generator:</string>
 </resources>

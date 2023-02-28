@@ -18,7 +18,7 @@ public class StartFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // view binding
-        com.example.qrquest.databinding.FragmentStartBinding binding = FragmentStartBinding.inflate(inflater, container, false);
+        FragmentStartBinding binding = FragmentStartBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         // next button
