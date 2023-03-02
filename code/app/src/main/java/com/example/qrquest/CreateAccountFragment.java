@@ -21,26 +21,27 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.qrquest.databinding.CreateAccountFragmentBinding;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 
 public class CreateAccountFragment extends Fragment implements LocationListener {
     FirebaseFirestore db;
     LocationManager manager;
     Player newPlayer;
-    DocumentReference newCityRef;
+    CollectionReference playerRef;
+    String randomName;
 
     @Nullable
     @Override
@@ -56,14 +57,32 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
         // database
         db = FirebaseFirestore.getInstance();
+        playerRef = db.collection("Player");
+        newPlayer = new Player();
 
-        // create user profile
-        newPlayer = new Player("Thea", "Null", new ArrayList<>(), 0, 0);
-        newCityRef = db.collection("Player").document();
-
+        // get region
         grantPermission();
         checkLocationEnabled();
         getLocation();
+
+        // generate unique name
+        randomName = UUID.randomUUID().toString().substring(0, 8);
+        binding.nameText.setText(randomName);
+
+        // nice button (primary button)
+        binding.buttonElevatedPrimary.setOnClickListener(v -> {
+            newPlayer.setName(randomName);
+            playerRef.document(randomName)
+                    .set(newPlayer)
+                    .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
+                    .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
+        });
+
+        // another button (secondary button) (re-generate)
+        binding.buttonElevatedSecondary.setOnClickListener(v -> {
+            randomName = UUID.randomUUID().toString().substring(0, 8);
+            binding.nameText.setText(randomName);
+        });
 
         return view;
     }
@@ -85,12 +104,6 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
         try {
             GPSEnabled = manager1.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        }
-        catch (Exception error) {
-            error.printStackTrace();
-        }
-
-        try {
             networkEnabled = manager1.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         }
         catch (Exception error) {
@@ -102,7 +115,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
                     .setTitle("Enable GPS Service")
                     .setCancelable(false)
                     .setPositiveButton("Enable", (dialog, which) -> startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton("Decline", null)
                     .show();
         }
     }
@@ -125,7 +138,6 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
 
             newPlayer.setRegion(addresses.get(0).getAdminArea());
-            newCityRef.set(newPlayer);
 
         } catch (IOException e) {
             e.printStackTrace();

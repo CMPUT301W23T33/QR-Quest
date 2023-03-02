@@ -8,31 +8,30 @@ public class Player {
     // Player's attributes
     private String name;
     private String emailAddress;
-    private ArrayList<QRCode> history;
-    private double score = 0;
+    private int score = 0;
     private int scanned = 0;
     private String region;
+    private ArrayList<QRCode> history;
 
 
-    // Player's modifiers
+    // Constructors
     public Player(){}
 
-    // Defining a new player profile
-    public Player(String emailAddress){
-        setEmailAddress(emailAddress);
-        // Player name can be randomized or ...
-        setHistory(new ArrayList<QRCode>());
+    // Defining a new player profile (Missing username, region)
+    public Player(String name){
+        setName(name);
+        setEmailAddress("None");
         setScore(0);
         setScanned(0);
     }
 
     // Loading an existing player profile
-    public Player(String name, String emailAddress, ArrayList<QRCode> history, double score, int scanned) {
+    public Player(String name, String emailAddress, int score, int scanned, String region) {
         setName(name);
         setEmailAddress(emailAddress);
-        setHistory(history);
         setScore(score);
         setScanned(scanned);
+        setRegion(region);
     }
 
     public String getRegion() {
@@ -59,7 +58,7 @@ public class Player {
         return history;
     }
 
-    public double getScore() {
+    public int getScore() {
         return score;
     }
 
@@ -71,7 +70,7 @@ public class Player {
         this.name = name;
     }
 
-    public void setScore(double score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
