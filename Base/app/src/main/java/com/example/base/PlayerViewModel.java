@@ -14,6 +14,7 @@ public class PlayerViewModel extends AndroidViewModel {
     private Repository repository;
     // Throwaway
     private MutableLiveData<List<String>> mutableDataSet;
+    private MutableLiveData<List<String>> mutableQueryDataSet;
 
 
 //    private MutableLiveData<LinkedList<Player>> playerList;
@@ -35,9 +36,24 @@ public class PlayerViewModel extends AndroidViewModel {
         }
     }
 
+    public void populateQueryData(){
+        if (mutableQueryDataSet == null){
+            this.mutableQueryDataSet = this.repository.getQueryString();
+        }
+    }
+
     // (Throwaway) fetch data
     public LiveData<List<String>> getDataset(){
         return this.mutableDataSet;
+    }
+
+    public LiveData<List<String>> getQueryDataset(){
+        return this.mutableQueryDataSet;
+    }
+
+    public LiveData<List<String>> addQueryString(double score) {
+        this.mutableQueryDataSet = this.repository.addQueryString(score);
+        return this.mutableQueryDataSet;
     }
 
     // (Throwaway) add data
@@ -52,33 +68,16 @@ public class PlayerViewModel extends AndroidViewModel {
         return this.mutableDataSet;
     }
 
+    // (Throwaway) add data
     public LiveData<List<String>> removeAtPosition(int position){
         this.mutableDataSet = this.repository.removeAtPosition(position);
         return this.mutableDataSet;
     }
 
-//    public LiveData<LinkedList<Player>> getPlayerList(){
-//        return playerList;
-//    }
-//
-//    public LiveData<LinkedList<QRCode>> getQRCodeList(){
-//        return QRCodeList;
-//    }
-//
-//    public LiveData<LinkedList<Player>> getQRCodeRank(){
-//        return QRCodeRank;
-//    }
-//
-//    public LiveData<LinkedList<Player>> getRegionalRank(){
-//        return regionalRank;
-//    }
-//
-//    public LiveData<LinkedList<Player>> getScoreRank(){
-//        return scoreRank;
-//    }
-//
-//    public LiveData<LinkedList<Player>> getScannedRank(){
-//        return scannedRank;
-//    }
+    public LiveData<List<String>> removeAtQueryPosition(int position){
+        this.mutableQueryDataSet = this.repository.removeAtQueryPosition(position);
+        return this.mutableQueryDataSet;
+    }
+
 
 }

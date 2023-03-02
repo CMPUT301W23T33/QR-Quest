@@ -15,7 +15,9 @@ public class Repository {
     // Throwaway
     private double count = 1000f;
     private ArrayList<String> dataSet = new ArrayList<>();
+    private ArrayList<String> queryDataSet = new ArrayList<>();
     private MutableLiveData<List<String>> data = new MutableLiveData<>();
+    private MutableLiveData<List<String>> queryData = new MutableLiveData<>();
 
     /**
      * We don't really need this a class for repository, we just need a member, therefore just go for static to represent the class
@@ -37,11 +39,21 @@ public class Repository {
         return this.data;
     }
 
+    public MutableLiveData<List<String>> getQueryString(){
+//        setQueryString();
+        this.queryData.setValue(queryDataSet);
+        return this.queryData;
+    }
+
     // (Throwaway) populate data
     private void setString(){
         dataSet.add("1");
         dataSet.add("10");
         dataSet.add("100");
+    }
+
+    private void setQueryString(){
+        queryDataSet.add("1");
     }
 
     // (Throwaway) add data
@@ -67,6 +79,18 @@ public class Repository {
         dataSet.remove(p);
         this.data.setValue(dataSet);
         return this.data;
+    }
+
+    public MutableLiveData<List<String>> removeAtQueryPosition(int p){
+        queryDataSet.remove(p);
+        this.queryData.setValue(queryDataSet);
+        return this.queryData;
+    }
+
+    public MutableLiveData<List<String>> addQueryString(double score){
+        this.queryDataSet.add(String.format("%.2f", score));
+        this.queryData.setValue(queryDataSet);
+        return this.queryData;
     }
 
 }

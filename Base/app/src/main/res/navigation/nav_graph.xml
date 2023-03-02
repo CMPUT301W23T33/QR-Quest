@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_addWordFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_addWordFragment_to_queryFragment"
+            app:destination="@id/queryFragment" />
     </fragment>
     <fragment
         android:id="@+id/imageViewFragment"
@@ -45,6 +48,15 @@
         tools:layout="@layout/fragment_camera" >
         <action
             android:id="@+id/action_cameraFragment_to_addWordFragment"
+            app:destination="@id/addWordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/queryFragment"
+        android:name="com.example.base.QueryFragment"
+        android:label="fragment_query"
+        tools:layout="@layout/fragment_query" >
+        <action
+            android:id="@+id/action_queryFragment_to_addWordFragment"
             app:destination="@id/addWordFragment" />
     </fragment>
 </navigation>

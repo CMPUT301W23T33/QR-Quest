@@ -3,12 +3,14 @@ package com.example.base;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +92,10 @@ public class ImageViewFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final StorageReference reference = storageReference.child("images/timestamp.jpg");
+                File dir = new File(requireActivity().getExternalCacheDir() + "/Pictures");
+                if (!dir.exists()) {
+                    dir.mkdir();
+                }
                 reference.getFile(new File(requireContext().getExternalCacheDir() + "/Pictures/image.jpg"))
                         .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                             @Override

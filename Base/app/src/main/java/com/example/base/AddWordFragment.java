@@ -26,7 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddWordFragment extends Fragment {
 
-    Button button, toCamera, search, toImage;
+    Button button, toCamera, search, toImage, query;
     TextView score, longitude, latitude;
     EditText editText;
     private FirebaseFirestore firebaseFirestore;
@@ -50,7 +50,7 @@ public class AddWordFragment extends Fragment {
 
         // Set up Firestore database
         firebaseFirestore = FirebaseFirestore.getInstance();
-        collectionReference = firebaseFirestore.collection("QR Code");
+        collectionReference = firebaseFirestore.collection("Player");
 
     }
 
@@ -67,12 +67,20 @@ public class AddWordFragment extends Fragment {
         latitude = view.findViewById(R.id.qrcodeslatitude);
         longitude = view.findViewById(R.id.qrcodelongitude);
         toImage = view.findViewById(R.id.image);
-
+        query = view.findViewById(R.id.button_query);
         // Navigate back to the main fragment
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.action_addWordFragment_to_mainFragment);
+            }
+        });
+
+        // Navigate to query fragment
+        query.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_addWordFragment_to_queryFragment);
             }
         });
 

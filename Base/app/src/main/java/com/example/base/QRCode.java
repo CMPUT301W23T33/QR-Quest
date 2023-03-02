@@ -8,8 +8,7 @@ public class QRCode {
     private double latitude;
     private double longitude;
 
-    // Still working on this one
-//    private boolean image;
+    private String image;
 
     // QR Code's modifiers
     public QRCode(){}
