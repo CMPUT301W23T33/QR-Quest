@@ -21,53 +21,53 @@ public class Leaderboard {
         this.regionalScoreRank = playerList;
     }
 
-    public LinkedList<Player> getScoreRank(){
-        this.scoreRank.sort(new Comparator<Player>() {
-            @Override
-            public int compare(Player o1, Player o2) {
-                if (o1.getScore() > o2.getScore()){
-                    return 1;
-                }
-                else if (o1.getScore() == o2.getScore()){
-                    return 0;
-                }
-                else{
-                    return -1;
-                }
-            }
-        });
-        return this.scoreRank;
-    }
+//    public LinkedList<Player> getScoreRank(){
+//        this.scoreRank.sort(new Comparator<Player>() {
+//            @Override
+//            public int compare(Player o1, Player o2) {
+//                if (o1.getScore() > o2.getScore()){
+//                    return 1;
+//                }
+//                else if (o1.getScore() == o2.getScore()){
+//                    return 0;
+//                }
+//                else{
+//                    return -1;
+//                }
+//            }
+//        });
+//        return this.scoreRank;
+//    }
 
-    public LinkedList<Player> getScannedRank(){
-        this.scannedRank.sort(new Comparator<Player>() {
-            @Override
-            public int compare(Player o1, Player o2) {
-                return 0;
-            }
-        });
-        return this.scannedRank;
-    }
-
-    public LinkedList<Player> getQRCodeRank(){
-        this.qrCodeRank.sort(new Comparator<Player>() {
-            @Override
-            public int compare(Player o1, Player o2) {
-                return 0;
-            }
-        });
-        return this.qrCodeRank;
-    }
-
-    // For regions, should we use HashMap to store
-    public LinkedList<Player> getRegionalScoreRank(int region){
-        this.regionalScoreRank.sort(new Comparator<Player>() {
-            @Override
-            public int compare(Player o1, Player o2) {
-                return 0;
-            }
-        });
-        return this.regionalScoreRank;
-    }
+//    public LinkedList<Player> getScannedRank(){
+//        this.scannedRank.sort(new Comparator<Player>() {
+//            @Override
+//            public int compare(Player o1, Player o2) {
+//                return 0;
+//            }
+//        });
+//        return this.scannedRank;
+//    }
+//
+//    public LinkedList<Player> getQRCodeRank(){
+//        this.qrCodeRank.sort(new Comparator<Player>() {
+//            @Override
+//            public int compare(Player o1, Player o2) {
+//                return 0;
+//            }
+//        });
+//        return this.qrCodeRank;
+//    }
+//
+//    // For regions, should we use HashMap to store
+//    public LinkedList<Player> getRegionalScoreRank(int region){
+//        this.regionalScoreRank.sort(new Comparator<Player>() {
+//            @Override
+//            public int compare(Player o1, Player o2) {
+//                return 0;
+//            }
+//        });
+//        return this.regionalScoreRank;
+//    }
 
 }

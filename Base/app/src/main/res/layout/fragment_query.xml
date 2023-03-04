@@ -8,11 +8,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"
-        android:layout_weight="0.85"
+        android:layout_weight="0.775"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:layout_weight="0.075"
+        android:id="@+id/custome_query"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="CUSTOM QUERY"
+        android:layout_margin="12dp"
+        android:textColor="@color/white" />
 
     <Button
         android:layout_weight="0.075"

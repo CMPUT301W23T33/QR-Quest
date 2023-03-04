@@ -35,7 +35,7 @@ public class DisplayAdapter extends ListAdapter<String, DisplayViewHolder>{
 
         @Override
         public boolean areContentsTheSame(@NonNull Player oldItem, @NonNull Player newItem) {
-            return oldItem.getEmailAddress().equals(newItem.getEmailAddress());
+            return oldItem.getUniqueIdentifier().equals(newItem.getUniqueIdentifier());
         }
     }
 
