@@ -1,12 +1,9 @@
 package com.example.base;
 
-import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
-
-import java.util.LinkedList;
 
 public class DisplayAdapter extends ListAdapter<String, DisplayViewHolder>{
 
@@ -26,15 +23,15 @@ public class DisplayAdapter extends ListAdapter<String, DisplayViewHolder>{
         super(diffCallback);
     }
 
-    static class playerDiff extends DiffUtil.ItemCallback<Player>{
+    static class playerDiff extends DiffUtil.ItemCallback<ExpandedPlayer>{
 
         @Override
-        public boolean areItemsTheSame(@NonNull Player oldItem, @NonNull Player newItem) {
+        public boolean areItemsTheSame(@NonNull ExpandedPlayer oldItem, @NonNull ExpandedPlayer newItem) {
             return oldItem == newItem;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Player oldItem, @NonNull Player newItem) {
+        public boolean areContentsTheSame(@NonNull ExpandedPlayer oldItem, @NonNull ExpandedPlayer newItem) {
             return oldItem.getUniqueIdentifier().equals(newItem.getUniqueIdentifier());
         }
     }

@@ -11,6 +11,11 @@ import java.util.Locale;
 public class Info {
 
     /**
+     * This member represents the unique identifier of the player
+     */
+    private String uniqueIdentifier;
+
+    /**
      * This member represents the hashed name of the QR Code
      */
     private String qrCode;
@@ -24,6 +29,11 @@ public class Info {
      * This member represents a comment for the QR Code
      */
     private String comment;
+
+    /**
+     * This member represents the region of the QR Code when scanned
+     */
+    private String region;
 
     /**
      * This member represents the username of the player that scanned the QR Code
@@ -56,11 +66,81 @@ public class Info {
     public Info() {}
 
     /**
+     * This method defines an existing QR Code in the database comprised with its associated player
+     * @param comment: the comment by the player
+     * @param latitude: the latitude of the QR Code
+     * @param longitude: the longitude of the QR Code
+     * @param qrCode: the unhashed name of the QR Code
+     * @param score: the score of the QR Code
+     * @param uniqueIdentifier: the unique identifier of the player
+     * @param username: the username of the player
+     */
+    public Info(String comment, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String uniqueIdentifier, String username){
+        setComment(comment);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setQrCode(qrCode);
+        setRegion(region);
+        setScore(score);
+        setTimeStamp(timeStamp);
+        setUniqueIdentifier(uniqueIdentifier);
+        setUsername(username);
+    }
+
+    /**
+     * This method defines a new QR Code comprised with its associated player
+     * @param comment: the comment by the player
+     * @param hashedQRCode: the hashed name of the QR Code
+     * @param latitude: the latitude of the QR Code
+     * @param longitude: the longitude of the QR Code
+     * @param qrCode: the unhashed name of the QR Code
+     * @param score: the score of the QR Code
+     * @param uniqueIdentifier: the unique identifier of the player
+     * @param username: the username of the player
+     */
+    public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String uniqueIdentifier, String username){
+        setComment(comment);
+        setHashedQRCode(hashedQRCode);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setQrCode(qrCode);
+        setRegion(region);
+        setScore(score);
+        setTimeStamp(timeStamp);
+        setUniqueIdentifier(uniqueIdentifier);
+        setUsername(username);
+    }
+
+    /**
+     * This methods retrieves the unique identifier of the player
+     * @return the unique identifier of the player
+     */
+    public String getUniqueIdentifier() {
+        return this.uniqueIdentifier;
+    }
+
+    /**
+     * This method sets the unique identifier for the player
+     * @param uniqueIdentifier: the unique identifier of the player
+     */
+    public void setUniqueIdentifier(String uniqueIdentifier) {
+        this.uniqueIdentifier = uniqueIdentifier;
+    }
+
+    /**
      * This method retrieves the unhashed name of the QR Code
      * @return the unhashed name of the QR Code
      */
     public String getQrCode() {
         return this.qrCode;
+    }
+
+    /**
+     * This method set the unhashed name for the QR Code and performs QR Code hashing
+     * @param qrCode: the unhashed name of the QR Code
+     */
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
     /**
@@ -72,12 +152,18 @@ public class Info {
     }
 
     /**
-     * This method set the (unhashed) name for the QR Code and performs QR Code hashing
-     * @param qrCode: the (unhashed) name of the QR Code
+     * This method sets the hashed name (if provided) for the QR Code
+     * @param hashedQRCode: the hashed name of the QR Code
      */
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
-        hashQRCode();
+    public void setHashedQRCode(String hashedQRCode){
+        this.hashedQRCode = hashedQRCode;
+    }
+
+    /**
+     * This method hashes the raw name of the QR Code
+     */
+    public void hashQRCode(){
+
     }
 
     /**
@@ -94,6 +180,22 @@ public class Info {
      */
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    /**
+     * This method retrieves the region of the QR Code when scanned
+     * @return the region of the QR Code when scanned
+     */
+    public String getRegion() {
+        return this.region;
+    }
+
+    /**
+     * This method sets the region for the QR Code when scanned
+     * @param region: the region of the QR Code when scanned
+     */
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     /**
@@ -182,18 +284,11 @@ public class Info {
      * @return the absolute path to the image of the QR Code in the database
      */
     public String getImagePath(Locale locale){
+        // If we ever need to specific the locale, just create a switch on the region string
         String time = new SimpleDateFormat("MM_dd_yyyy_hh_mm_ss", locale).format(getTimeStamp());
         return "Images/" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/unhashed
-    }
-
-    /**
-     * This method hashes the raw name of the QR Code
-     */
-    private void hashQRCode(){
-
     }
 
     // In the future we may need (some) method(s) for comparing the QR Code
 
 }
-

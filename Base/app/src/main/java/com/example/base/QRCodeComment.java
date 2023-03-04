@@ -40,7 +40,6 @@ public class QRCodeComment {
         return this.username;
     }
 
-
     /**
      * This method retrieves the comment made by the player
      * @return the comment made by the player

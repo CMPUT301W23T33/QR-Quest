@@ -1,10 +1,10 @@
 package com.example.base;
 
 /**
- * This class defines new players (end-users)
+ * This class defines players (end-users)
  * @author Dang Viet Anh Dinh
  */
-public class Player {
+public class ExpandedPlayer {
 
     /**
      * This member represents the unique identifier of the player
@@ -37,27 +37,29 @@ public class Player {
     private double score;
 
     /**
-     * This method defines a default new player profile
+     * This member represents the highest scoring QR Code rank of the player
      */
-    public Player(){}
+    private int scoringQRCodeRank;
 
     /**
-     * This method defines a new player profile with basic attributes
-     * @param hasScanned:
-     * @param highestScore:
-     * @param region:
-     * @param score:
-     * @param uniqueIdentifier:
-     * @param username:
+     * This member represents the number of QR Codes rank of the player
      */
-    public Player(int hasScanned, double highestScore, String region, double score, String uniqueIdentifier, String username){
-        setHasScanned(hasScanned);
-        setHighestScore(highestScore);
-        setRegion(region);
-        setScore(score);
-        setUniqueIdentifier(uniqueIdentifier);
-        setUsername(username);
-    }
+    private int hasScannedRank;
+
+    /**
+     * This member represents the total QR Code score rank of the player
+     */
+    private int scoreRank;
+
+    /**
+     * This member represents the regional highest scoring QR Code rank of the player
+     */
+    private int regionalScoringQRCodeRank;
+
+    /**
+     * This method defines a default compact QR Code
+     */
+    public ExpandedPlayer(){}
 
     /**
      * This method retrieves the unique identifier of the player
@@ -153,6 +155,70 @@ public class Player {
      */
     public void setScore(double score) {
         this.score = score;
+    }
+
+    /**
+     * This method retrieves the highest scoring QR Code rank of the player
+     * @return the highest scoring QR Code rank of the player
+     */
+    public int getScoringQRCodeRank() {
+        return this.scoringQRCodeRank;
+    }
+
+    /**
+     * This method sets the highest scoring QR Code rank for the player
+     * @param scoringQRCodeRank: the highest scoring QR Code rank of the player
+     */
+    public void setScoringQRCodeRank(int scoringQRCodeRank) {
+        this.scoringQRCodeRank = scoringQRCodeRank;
+    }
+
+    /**
+     * This method retrieves the number of scanned QR Codes rank of the player
+     * @return
+     */
+    public int getHasScannedRank() {
+        return this.hasScannedRank;
+    }
+
+    /**
+     * This method sets the number of scanned QR Codes rank for the player
+     * @param hasScannedRank: the number of scanned QR Codes rank of the player
+     */
+    public void setHasScannedRank(int hasScannedRank) {
+        this.hasScannedRank = hasScannedRank;
+    }
+
+    /**
+     * This method retrieves the total QR Code score of the player
+     * @return the total QR Code score of the player
+     */
+    public int getScoreRank() {
+        return this.scoreRank;
+    }
+
+    /**
+     * This method sets the total QR Code score for the player
+     * @param scoreRank: the total QR Code score of the player
+     */
+    public void setScoreRank(int scoreRank) {
+        this.scoreRank = scoreRank;
+    }
+
+    /**
+     * This method retrieves the regional highest scoring QR Code rank of the player
+     * @return the regional, highest scoring QR Code rank of the player
+     */
+    public int getRegionalScoringQRCodeRank() {
+        return this.regionalScoringQRCodeRank;
+    }
+
+    /**
+     * This method sets the regional highest scoring QR Code rank for the player
+     * @param regionalScoringQRCodeRank: the regional highest scoring QR Code rank of the player
+     */
+    public void setRegionalScoringQRCodeRank(int regionalScoringQRCodeRank) {
+        this.regionalScoringQRCodeRank = regionalScoringQRCodeRank;
     }
 
 }
