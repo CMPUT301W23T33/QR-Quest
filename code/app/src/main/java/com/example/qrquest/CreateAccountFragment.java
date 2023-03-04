@@ -34,10 +34,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.UUID;
 
-
+/**
+ * This fragment represents the Create Account Screen.
+ * Creates an account with a unique username and defined location (region).
+ * A local file will be created to store the username.
+ * @author Thea Nguyen
+ */
 public class CreateAccountFragment extends Fragment implements LocationListener {
     FirebaseFirestore db;
     LocationManager manager;
@@ -89,20 +93,14 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         return view;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // save the username locally
-        SharedPreferences sb = requireActivity().getPreferences(Context.MODE_PRIVATE);
-
-        if (!sb.contains("username")) {
-            SharedPreferences.Editor editor = sb.edit();
-            editor.putString("username", randomName);
-            editor.apply();
-        }
-    }
-
-    private void getLocation() {
+    /**
+     * This method obtains location of the device using Network Provider.
+     * If permissions are granted, the location updates are requested with a min time interval of
+     * 500 milliseconds and a minimum distance interval of 5 meters.
+     * @throws SecurityException if an app does not have all necessary permissions to access
+     * location information
+     */
+    private void getLocation() throws SecurityException{
         try {
             manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
             manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 5, this);
@@ -112,6 +110,10 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
     }
 
+    /**
+     * This method checks if location service is enabled or not.
+     * If location services are not enabled, an alert dialog is displayed, prompting user to enable them.
+     */
     private void checkLocationEnabled() {
         LocationManager manager1 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean GPSEnabled = false;
@@ -129,13 +131,20 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             new AlertDialog.Builder(requireContext())
                     .setTitle("Enable GPS Service")
                     .setCancelable(false)
-                    .setPositiveButton("Enable", (dialog, which) -> startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                    .setPositiveButton("Enable", (dialog, which) ->
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
                     .setNegativeButton("Decline", null)
                     .show();
         }
     }
 
-    private void grantPermission() {
+    /**
+     * This method requests permission to access user's location.
+     * If the permission has not been granted, a dialog box will be displayed prompting for the permission.
+     * If the permission is already granted, the method does nothing.
+     * @throws SecurityException if user denies giving location access permission
+     */
+    private void grantPermission() throws SecurityException{
         if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -144,7 +153,6 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         }
     }
-
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
@@ -177,5 +185,18 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     @Override
     public void onProviderDisabled(@NonNull String provider) {
         LocationListener.super.onProviderDisabled(provider);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // save the username locally
+        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        if (!sharedPref.contains("username")) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("username", randomName);
+            editor.apply();
+        }
     }
 }

@@ -13,6 +13,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentStartBinding;
 
+/**
+ * This fragment represents the Start Screen.
+ * @author Thea Nguyen
+ */
 public class StartFragment extends Fragment {
     @Nullable
     @Override
