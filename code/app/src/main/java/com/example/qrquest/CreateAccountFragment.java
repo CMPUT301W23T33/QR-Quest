@@ -13,6 +13,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -85,6 +87,19 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         });
 
         return view;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // save the username locally
+        SharedPreferences sb = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        if (!sb.contains("username")) {
+            SharedPreferences.Editor editor = sb.edit();
+            editor.putString("username", randomName);
+            editor.apply();
+        }
     }
 
     private void getLocation() {
