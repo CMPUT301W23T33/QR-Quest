@@ -43,12 +43,12 @@ public class Player {
 
     /**
      * This method defines a new player profile with basic attributes
-     * @param hasScanned:
-     * @param highestScore:
-     * @param region:
-     * @param score:
-     * @param uniqueIdentifier:
-     * @param username:
+     * @param hasScanned: the number of QR Code scanned by the player
+     * @param highestScore: the highest QR Code score of the player
+     * @param region: the region of the player
+     * @param score: the total QR Code score of the player
+     * @param uniqueIdentifier: the unique identifier of the player
+     * @param username: the username of the player
      */
     public Player(int hasScanned, double highestScore, String region, double score, String uniqueIdentifier, String username){
         setHasScanned(hasScanned);
