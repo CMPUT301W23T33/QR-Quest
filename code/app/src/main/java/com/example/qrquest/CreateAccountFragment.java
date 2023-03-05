@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -61,10 +60,29 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
                 findNavController(view).navigate(R.id.action_createAccountFragment_to_startFragment));
 
         permission.launch(Manifest.permission.ACCESS_FINE_LOCATION);
+        permission.launch(Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
         return view;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // save the username locally
+        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        if (!sharedPref.contains("username") && !sharedPref.contains("uniqueIdentifier")) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("username", randomName);
+            editor.putString("uniqueIdentifier", randomName);
+            editor.apply();
+        }
+    }
+
+    /**
+     * This creates an Activity Result Launcher to synchronously wait for user permission
+     */
     private final ActivityResultLauncher<String> permission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
         if (result) {
             checkLocationEnabled();
@@ -82,7 +100,8 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             // nice button (primary button)
             binding.buttonElevatedPrimary.setOnClickListener(v -> {
                 newPlayer.setUsername(randomName);
-                playerRef.document(randomName)
+                newPlayer.setUniqueIdentifier(randomName);
+                playerRef.document(newPlayer.getUniqueIdentifier())
                         .set(newPlayer)
                         .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
                         .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
@@ -96,7 +115,11 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         }
     });
 
-
+    /**
+     * This method requests the device's location using the LocationManager and the NETWORK_PROVIDER.
+     * The method registers for location updates with a minimum time interval of 0 milliseconds and a
+     * minimum distance of 0 meters.
+     */
     private void getLocation() {
         try {
             manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -107,6 +130,11 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
     }
 
+    /**
+     * This method checks whether the device's location services are enabled.
+     * If all the necessary services are enable, it does nothing
+     * Else, an alert dialog will be displayed prompting permissions from the user.
+     */
     private void checkLocationEnabled() {
         LocationManager manager1 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean GPSEnabled = false;
@@ -162,18 +190,5 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     @Override
     public void onProviderDisabled(@NonNull String provider) {
         LocationListener.super.onProviderDisabled(provider);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        // save the username locally
-        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
-
-        if (!sharedPref.contains("username")) {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("username", randomName);
-            editor.apply();
-        }
     }
 }
