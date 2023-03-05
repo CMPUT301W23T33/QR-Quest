@@ -81,7 +81,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     }
 
     /**
-     * This creates an Activity Result Launcher to synchronously wait for user permission
+     * This creates an Activity Result Launcher to synchronously wait for user permission.
      */
     private final ActivityResultLauncher<String> permission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
         if (result) {
@@ -132,7 +132,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
     /**
      * This method checks whether the device's location services are enabled.
-     * If all the necessary services are enable, it does nothing
+     * If all the necessary services are enable, it does nothing.
      * Else, an alert dialog will be displayed prompting permissions from the user.
      */
     private void checkLocationEnabled() {
