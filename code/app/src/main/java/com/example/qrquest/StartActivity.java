@@ -1,9 +1,11 @@
 package com.example.qrquest;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 public class StartActivity extends AppCompatActivity {
 
@@ -15,6 +17,13 @@ public class StartActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         assert navHostFragment != null;
-        NavController navController = navHostFragment.getNavController();
+        // NavController navController = navHostFragment.getNavController();
+
+        // retrieve user data if any
+        SharedPreferences sb = getPreferences(Context.MODE_PRIVATE);
+        if (sb.contains("username")) {
+            Intent intent = new Intent(StartActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

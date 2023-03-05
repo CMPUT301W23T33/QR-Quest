@@ -2,10 +2,10 @@ package com.example.qrquest;
 
 import static androidx.navigation.Navigation.findNavController;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 
@@ -14,7 +14,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -34,60 +33,64 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.UUID;
 
 
 public class CreateAccountFragment extends Fragment implements LocationListener {
     FirebaseFirestore db;
     LocationManager manager;
-    Player newPlayer;
-    CollectionReference playerRef;
-    String randomName;
+    private Player newPlayer;
+    private CollectionReference playerRef;
+    private String randomName;
+    private CreateAccountFragmentBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // view binding
-        CreateAccountFragmentBinding binding = CreateAccountFragmentBinding.inflate(inflater, container, false);
+        binding = CreateAccountFragmentBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
         // next button
         binding.buttonBack.setOnClickListener(v ->
                 findNavController(view).navigate(R.id.action_createAccountFragment_to_startFragment));
 
+        permission.launch(Manifest.permission.ACCESS_FINE_LOCATION);
 
-        // database
-        db = FirebaseFirestore.getInstance();
-        playerRef = db.collection("Player");
-        newPlayer = new Player();
-
-        // get region
-        grantPermission();
-        checkLocationEnabled();
-        getLocation();
-
-        // generate unique name
-        randomName = UUID.randomUUID().toString().substring(0, 8);
-        binding.nameText.setText(randomName);
-
-        // nice button (primary button)
-        binding.buttonElevatedPrimary.setOnClickListener(v -> {
-            newPlayer.setName(randomName);
-            playerRef.document(randomName)
-                    .set(newPlayer)
-                    .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
-                    .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
-        });
-
-        // another button (secondary button) (re-generate)
-        binding.buttonElevatedSecondary.setOnClickListener(v -> {
-            randomName = UUID.randomUUID().toString().substring(0, 8);
-            binding.nameText.setText(randomName);
-        });
 
         return view;
     }
+
+    private final ActivityResultLauncher<String> permission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
+        if (result) {
+            checkLocationEnabled();
+            getLocation();
+
+            // database
+            db = FirebaseFirestore.getInstance();
+            playerRef = db.collection("Player");
+            newPlayer = new Player();
+
+            // generate unique name
+            randomName = UUID.randomUUID().toString().substring(0, 8);
+            binding.nameText.setText(randomName);
+
+            // nice button (primary button)
+            binding.buttonElevatedPrimary.setOnClickListener(v -> {
+                newPlayer.setUsername(randomName);
+                playerRef.document(randomName)
+                        .set(newPlayer)
+                        .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
+                        .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
+            });
+
+            // another button (secondary button) (re-generate)
+            binding.buttonElevatedSecondary.setOnClickListener(v -> {
+                randomName = UUID.randomUUID().toString().substring(0, 8);
+                binding.nameText.setText(randomName);
+            });
+        }
+    });
 
     @Override
     public void onPause() {
@@ -105,13 +108,12 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     private void getLocation() {
         try {
             manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 500, 5, this);
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         } catch (SecurityException error) {
             error.printStackTrace();
         }
 
     }
-
     private void checkLocationEnabled() {
         LocationManager manager1 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean GPSEnabled = false;
@@ -134,17 +136,6 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
                     .show();
         }
     }
-
-    private void grantPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
-        }
-    }
-
 
     @Override
     public void onLocationChanged(@NonNull Location location) {

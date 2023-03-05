@@ -1,36 +1,38 @@
 package com.example.qrquest;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Player {
 
     // Player's attributes
-    private String name;
-    private String emailAddress;
-    private int score = 0;
-    private int scanned = 0;
+    private String username;
+    private String uniqueIdentifier;
     private String region;
-    private ArrayList<QRCode> history;
+    private float score = 0;
+    private float highestScore = 0;
+    private int hasScanned = 0;
 
 
     // Constructors
     public Player(){}
 
     // Defining a new player profile (Missing username, region)
-    public Player(String name){
-        setName(name);
-        setEmailAddress("None");
+    public Player(String username, String uniqueIdentifier){
+        setUsername(username);
+        setUniqueIdentifier(uniqueIdentifier);
         setScore(0);
-        setScanned(0);
+        setHighestScore(0);
+        setHasScanned(0);
     }
 
     // Loading an existing player profile
-    public Player(String name, String emailAddress, int score, int scanned, String region) {
-        setName(name);
-        setEmailAddress(emailAddress);
+    public Player(String username, String uniqueIdentifier, float score, float highestScore,
+                  int hasScanned, String region) {
+        setUsername(username);
+        setUniqueIdentifier(uniqueIdentifier);
         setScore(score);
-        setScanned(scanned);
+        setHighestScore(highestScore);
+        setHasScanned(hasScanned);
         setRegion(region);
     }
 
@@ -42,55 +44,45 @@ public class Player {
         this.region = region;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.emailAddress = emailAddress;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getUniqueIdentifier() {
+        return uniqueIdentifier;
     }
 
-    public ArrayList<QRCode> getHistory() {
-        return history;
+    public void setUniqueIdentifier(String uniqueIdentifier) {
+        this.uniqueIdentifier = uniqueIdentifier;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public int getScanned() {
-        return scanned;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setScore(int score) {
+    public void setScore(float score) {
         this.score = score;
     }
 
-    public void setScanned(int scanned) {
-        this.scanned = scanned;
+    public int getHasScanned() {
+        return hasScanned;
     }
 
-    public void setHistory(ArrayList<QRCode> history) {
-        this.history = history;
+    public void setHasScanned(int hasScanned) {
+        this.hasScanned = hasScanned;
     }
 
-    public void addQRCode(QRCode qrCode){
-        this.history.add(qrCode);
-        this.scanned+= 1;
+
+    public float getHighestScore() {
+        return highestScore;
     }
 
-    public void removeQRCode(int position){
-        this.history.remove(position);
-        this.scanned-= 1;
+    public void setHighestScore(float highestScore) {
+        this.highestScore = highestScore;
     }
-
 }
 
