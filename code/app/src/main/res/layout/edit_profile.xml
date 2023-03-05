@@ -61,10 +61,7 @@
             android:layout_below="@id/edit_profile_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:hint="@string/example_email"
-            android:textColorHint="@color/thistle">
-
-        </com.google.android.material.textfield.TextInputEditText>
+            android:hint="@string/example_email"/>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_profile_phone_number"
@@ -74,12 +71,9 @@
             android:layout_below="@id/edit_profile_email_address"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:hint="@string/_999_999_999"
-            android:textColorHint="@color/thistle">
+            android:hint="@string/_999_999_999"/>
 
-        </com.google.android.material.textfield.TextInputEditText>
-
-<!--        Change style to "@style/Button.Save.Unclickable" to make it unclickable-->
+        <!--Change style to "@style/Button.Save.Unclickable" to make it unclickable-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_profile_button_save"
             style="@style/Button.Save"
@@ -106,7 +100,7 @@
 
         </ImageView>
 
-<!--        Change style to "@style/Text.Display.Invisible" to make it disappear-->
+        <!--Change style to "@style/Text.Display.Invisible" to make it disappear-->
         <LinearLayout
             android:id="@+id/edit_profile_alert"
             style="@style/Text.Display.Invisible"
@@ -139,10 +133,9 @@
                 android:textAppearance="@style/small">
 
             </Button>
-
         </LinearLayout>
 
-<!--        Change style to "@style/Heading.4.Invisible" to make it disappear-->
+        <!--Change style to "@style/Heading.4.Invisible" to make it disappear-->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/edit_profile_qr_quest"
             style="@style/Heading.4"
@@ -151,6 +144,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
+            android:textAppearance="@style/Heading.4"
             android:text="@string/app_name"
             android:textColor="@color/thistle">
 
