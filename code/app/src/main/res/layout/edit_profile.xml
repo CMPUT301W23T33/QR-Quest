@@ -11,14 +11,14 @@
         android:layout_height="0dp"
         android:minHeight="24dp">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:layout_alignParentStart="true"
             android:id="@+id/edit_profile_button_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:contentDescription="@string/next_button_description"
             android:src="@drawable/baseline_arrow_back_24"
-            style="@style/Button.Primary"/>
+            style="@style/Image.BackButton.Style"/>
 
     </RelativeLayout>
 
@@ -146,9 +146,7 @@
             android:layout_marginBottom="16dp"
             android:textAppearance="@style/Heading.4"
             android:text="@string/app_name"
-            android:textColor="@color/thistle">
-
-        </com.google.android.material.textview.MaterialTextView>
+            android:textColor="@color/thistle"/>
 
     </RelativeLayout>
 
