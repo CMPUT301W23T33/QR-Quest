@@ -35,7 +35,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-
+/**
+ * This fragment represents the Create Account Screen.
+ * Creates an account with a unique username and defined location (region).
+ * A local file will be created to store the username.
+ * @author Thea Nguyen
+ */
 public class CreateAccountFragment extends Fragment implements LocationListener {
     FirebaseFirestore db;
     LocationManager manager;
@@ -60,7 +65,6 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
         return view;
     }
-
     private final ActivityResultLauncher<String> permission = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
         if (result) {
             checkLocationEnabled();
@@ -92,18 +96,6 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         }
     });
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        // save the username locally
-        SharedPreferences sb = requireActivity().getPreferences(Context.MODE_PRIVATE);
-
-        if (!sb.contains("username")) {
-            SharedPreferences.Editor editor = sb.edit();
-            editor.putString("username", randomName);
-            editor.apply();
-        }
-    }
 
     private void getLocation() {
         try {
@@ -114,6 +106,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         }
 
     }
+
     private void checkLocationEnabled() {
         LocationManager manager1 = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean GPSEnabled = false;
@@ -131,7 +124,8 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             new AlertDialog.Builder(requireContext())
                     .setTitle("Enable GPS Service")
                     .setCancelable(false)
-                    .setPositiveButton("Enable", (dialog, which) -> startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
+                    .setPositiveButton("Enable", (dialog, which) ->
+                            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)))
                     .setNegativeButton("Decline", null)
                     .show();
         }
@@ -168,5 +162,18 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     @Override
     public void onProviderDisabled(@NonNull String provider) {
         LocationListener.super.onProviderDisabled(provider);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // save the username locally
+        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+
+        if (!sharedPref.contains("username")) {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("username", randomName);
+            editor.apply();
+        }
     }
 }

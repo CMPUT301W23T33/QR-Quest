@@ -1,14 +1,12 @@
 package com.example.qrquest;
 
 public class QRCode {
-
-    // QR Code's attributes
     private double score;
     private String name;
     private double latitude;
     private double longitude;
 
-    // QR Code's modifiers
+    // Constructors
     public QRCode(){}
 
     // We can hash QR Code here

@@ -7,6 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+/**
+ * This Activity is used to host fragment navigation.
+ * Its fragments consist of CreateAccountFragment, StartFragment.
+ * @author Thea Nguyen
+ */
 public class StartActivity extends AppCompatActivity {
 
     @Override
