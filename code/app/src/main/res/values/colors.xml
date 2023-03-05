@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
     <color name="thistle">#CDB4DB</color>
+    <color name="thistle_fade">#88CDB4DB</color>
     <color name="pale_dogwood">#F7D1CD</color>
     <color name="fairy_tale">#E8C2CA</color>
     <color name="rose_quartz">#B392AC</color>
