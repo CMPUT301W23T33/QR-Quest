@@ -61,7 +61,7 @@
             android:layout_below="@id/edit_profile_name"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:hint="dogwood2506@gmail.com"
+            android:hint="@string/example_email"
             android:textColorHint="@color/thistle">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -74,7 +74,7 @@
             android:layout_below="@id/edit_profile_email_address"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
-            android:hint="(999) - 999 - 999"
+            android:hint="@string/_999_999_999"
             android:textColorHint="@color/thistle">
 
         </com.google.android.material.textfield.TextInputEditText>
@@ -101,7 +101,8 @@
             android:layout_marginBottom="40dp"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:src="@drawable/qr_logo">
+            android:src="@drawable/qr_logo"
+            android:contentDescription="@string/app_name">
 
         </ImageView>
 
@@ -121,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="false"
-                android:text="Unsaved Changes!"
+                android:text="@string/unsaved_changes"
                 android:textAppearance="@style/small"
                 android:textColor="@color/thistle">
 
@@ -150,7 +151,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
-            android:text="QR QUEST"
+            android:text="@string/app_name"
             android:textColor="@color/thistle">
 
         </com.google.android.material.textview.MaterialTextView>

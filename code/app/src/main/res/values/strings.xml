@@ -12,4 +12,7 @@
     <string name="top_user_profile_description">Display top profile</string>
     <string name="single_button_description">Single</string>
     <string name="qr_code_picture_description">Display a picture of QR Code</string>
+    <string name="unsaved_changes">Unsaved Changes!</string>
+    <string name="_999_999_999">(999) - 999 - 999</string>
+    <string name="example_email">dogwood2506@gmail.com</string>
 </resources>
