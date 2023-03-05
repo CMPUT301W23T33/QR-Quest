@@ -30,6 +30,15 @@
         <item name="fontFamily">@font/poppins_semi_bold</item>
     </style>
 
+    <style name="Heading.4.Invisible" parent="">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="fontFamily">@font/poppins_semi_bold</item>
+        <item name="android:visibility">invisible</item>
+        <item name="android:focusable">false</item>
+        <item name="android:clickable">false</item>
+    </style>
+
     <style name="body" parent="">
         <item name="android:textSize">24sp</item>
         <item name="android:textAllCaps">false</item>
@@ -81,6 +90,18 @@
         <item name="shapeAppearance">@style/ShapeAppearance</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
+    </style>
+
+    <style name="Button.Save.Unclickable" parent="Widget.Material3.Button.TextButton">
+        <item name="backgroundTint">@color/black</item>
+        <item name="android:textColor">@color/chinese_violet</item>
+        <item name="android:paddingStart">36dp</item>
+        <item name="android:paddingEnd">36dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="strokeColor">@color/chinese_violet</item>
+        <item name="strokeWidth">1dp</item>
     </style>
 
     <style name="Button.Elevated.Primary" parent="Widget.Material3.Button.ElevatedButton.Icon">
@@ -149,6 +170,18 @@
         <item name="android:background">@drawable/rect_shape</item>
         <item name="android:textColor">@color/thistle</item>
         <item name="android:gravity">start</item>
+    </style>
+
+    <style name="Text.Display.Invisible" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_marginStart">48dp</item>
+        <item name="android:layout_marginEnd">48dp</item>
+        <item name="android:background">@drawable/rect_shape</item>
+        <item name="android:textColor">@color/thistle</item>
+        <item name="android:gravity">start</item>
+        <item name="android:visibility">invisible</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
     </style>
 
     <style name="Profile.Display" parent="">

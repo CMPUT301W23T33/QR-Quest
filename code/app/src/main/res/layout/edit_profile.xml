@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/black">
 
@@ -80,6 +79,7 @@
 
         </com.google.android.material.textfield.TextInputEditText>
 
+<!--        Change style to "@style/Button.Save.Unclickable" to make it unclickable-->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_profile_button_save"
             style="@style/Button.Save"
@@ -88,12 +88,8 @@
             android:layout_below="@id/edit_profile_phone_number"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/black"
             android:text="@string/save_button_description"
-            android:textAppearance="@style/small"
-            android:textColor="@color/chinese_violet"
-            app:strokeColor="@color/chinese_violet"
-            app:strokeWidth="1dp">
+            android:textAppearance="@style/small">
 
         </com.google.android.material.button.MaterialButton>
 
@@ -109,18 +105,17 @@
 
         </ImageView>
 
+<!--        Change style to "@style/Text.Display.Invisible" to make it disappear-->
         <LinearLayout
             android:id="@+id/edit_profile_alert"
-            style="@style/Text.Display"
+            style="@style/Text.Display.Invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
-            android:clickable="false"
             android:orientation="horizontal"
-            android:padding="4dp"
-            android:visibility="invisible">
+            android:padding="4dp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -146,6 +141,7 @@
 
         </LinearLayout>
 
+<!--        Change style to "@style/Heading.4.Invisible" to make it disappear-->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/edit_profile_qr_quest"
             style="@style/Heading.4"
