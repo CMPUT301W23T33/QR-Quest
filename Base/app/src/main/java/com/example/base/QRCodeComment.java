@@ -28,8 +28,8 @@ public class QRCodeComment {
      * @param comment: the comment made by the player
      */
     public QRCodeComment(String username, String comment){
-        this.username = username;
-        this.comment = comment;
+        setUsername(username);
+        setComment(comment);
     }
 
     /**
@@ -46,6 +46,22 @@ public class QRCodeComment {
      */
     public String getComment(){
         return this.comment;
+    }
+
+    /**
+     * This method sets the username for the one who made the comment
+     * @param username: the username of the player
+     */
+    private void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * This method sets the comment content made by the player
+     * @param comment: the comment made by the player
+     */
+    private void setComment(String comment) {
+        this.comment = comment;
     }
 
 }

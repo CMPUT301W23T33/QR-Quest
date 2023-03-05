@@ -16,12 +16,12 @@ public class Info {
     private String uniqueIdentifier;
 
     /**
-     * This member represents the hashed name of the QR Code
+     * This member represents the unhashed name of the QR Code
      */
     private String qrCode;
 
     /**
-     * This member represents the unhashed name of the QR Code
+     * This member represents the hashed name of the QR Code
      */
     private String hashedQRCode;
 

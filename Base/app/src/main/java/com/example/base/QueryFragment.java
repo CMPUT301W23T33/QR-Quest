@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.AggregateQuerySnapshot;
+import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -97,10 +100,10 @@ public class QueryFragment extends Fragment {
             public void onClick(View v) {
 //                addQRtoExistingUI();
 //                addQRtoNewUI();
-//                queryHighestScoringQRCode();
+                queryHighestScoringQRCode(43.73);
 //                queryRegionalHighestScoringQRCode("CANADA");
 //                queryHasScanned();
-                queryTotalQRCodeScore();
+//                queryTotalQRCodeScore();
 //                queryPlayerQRCodeHistory("UI1");
 //                queryQRCodeComments("QRCode3");
             }
@@ -234,21 +237,31 @@ public class QueryFragment extends Fragment {
     }
 
     // Query for the highest scoring QR Code rank
-    private void queryHighestScoringQRCode(){
-        firebaseFirestore.collection("main").orderBy("score", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void queryHighestScoringQRCode(double highestScore){
+
+        // Querying for the database for the list in descending order
+        firebaseFirestore.collection("main").orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
+                    ArrayList<Rank> rankings = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()){
                         if (document.exists()){
-                            vm.addQueryString((Double) document.get("score"));
+                            vm.addQueryString(document.get("score", Double.class));
+                            rankings.add(new Rank(document.get("username", String.class), document.get("score", Double.class), highestScore));
                         }
                     }
                     adapter.notifyDataSetChanged();
+                    for (Rank ranking : rankings){
+                        Log.d("Rank Index", String.format("%d. %s: %f", ranking.getRank(), ranking.getUsername(), ranking.getScore()));
+                        Toast.makeText(requireContext(), String.format("%d. %s: %f", ranking.getRank(), ranking.getUsername(), ranking.getScore()), Toast.LENGTH_SHORT).show();
+                    }
+                    Log.d("Highest Scoring QR Code Rank", String.format("%d: %f", rankings.get(0).getQueryRank(), rankings.get(0).getQueryScore()));
                 }
             }
         });
+
     }
 
     // Query for the regional highest scoring QR Code rank
