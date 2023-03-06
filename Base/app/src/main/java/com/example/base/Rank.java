@@ -2,118 +2,83 @@ package com.example.base;
 
 /**
  * This class defines the ranking of players
- * Call ArrayList<Rank> to use this class
+ * Call ArrayList<> of classes that inherit this class to use -> one of HighestScoreRank, RegionalHighestScoreRank, QRCodeNumberRank, TotalScoreRank
+ * E.g: ArrayList<TotalScoreRank>
  * @author Dang Viet Anh Dinh
  */
 public class Rank {
 
-    private int rank;
-    private String username;
-    private double score;
-    private static double queryScore;
-    private static int queryRank;
-    private static double scoreThreshold = 0;
-    private static int rankCursor = 1;
-    private static int cache = 1;
+    /**
+     * This member represents the identifier of the item (player's username or QR Code name)
+     */
+    private String identifier;
 
+    /**
+     * This member represents the rank of the item
+     */
+    private int rank;
+
+    /**
+     * This member represents the value of the item
+     */
+    private double value;
+
+    /**
+     * This method defines the default rank of an item
+     */
     public Rank(){}
 
-    public Rank(String username, double score, double queryScore){
-        setUsername(username);
-        setScore(score);
-        setupThreshold(queryScore);
-        if (score == getScoreThreshold()){
-            rankCursorIdled();
-        }
-        else{
-            rankCursorIncremented();
-        }
-        if (getScore() == getQueryScore()){
-            setQueryRank();
-        }
+    public Rank(String identifier, double value){
+        setIdentifier(identifier);
+        setValue(value);
     }
 
+    /**
+     * This method retrieves the identifier of the item
+     * @return
+     */
+    public String getIdentifier(){
+        return this.identifier;
+    }
+
+    /**
+     * This method retrieves the rank of the item
+     * @return the rank of the item
+     */
     public int getRank() {
         return this.rank;
     }
 
-    public String getUsername() {
-        return this.username;
+    /**
+     * This method retrieves the value of the item
+     * @return the value of the item
+     */
+    public double getValue() {
+        return this.value;
     }
 
-    public double getScore() {
-        return this.score;
+    /**
+     * This methods sets the identifier for the item
+     * @param identifier: the identifier of the item
+     */
+    private void setIdentifier(String identifier){
+        this.identifier = identifier;
     }
 
-    public double getQueryScore(){
-        return queryScore;
-    }
-
-    public int getQueryRank(){
-        return queryRank;
-    }
-
-    private void setRank(int rank) {
+    /**
+     * This method sets the rank for the item
+     * @param rank: the rank of the item
+     */
+    protected void setRank(int rank) {
         this.rank = rank;
     }
 
-    private void setUsername(String username) {
-        this.username = username;
-    }
-
-    private void setScore(double score) {
-        this.score = score;
-    }
-
-    private void setQueryScore(double score){
-        queryScore = score;
-    }
-
-    private void setQueryRank(){
-        queryRank = getRank();
-    }
-
-    private double getScoreThreshold() {
-        return scoreThreshold;
-    }
-
-    private void setScoreThreshold(){
-        scoreThreshold = getScore();
-    }
-
-    private int getRankCursor() {
-        return rankCursor;
-    }
-
-    private void resetRankCursor(int newRankCursor){
-        rankCursor = newRankCursor;
-    }
-
-    private int getCache() {
-        return cache;
-    }
-
-    private void resetCache(int newCache){
-        cache = newCache;
-    }
-
-    private void setupThreshold(double queryScore){
-        if (getScoreThreshold() == 0){
-            setScoreThreshold();
-            setQueryScore(queryScore);
-        }
-    }
-
-    private void rankCursorIncremented(){
-        setRank(getCache());
-        resetRankCursor(getCache() + 1);
-        resetCache(getRankCursor());
-        setScoreThreshold();
-    }
-
-    private void rankCursorIdled(){
-        setRank(getRankCursor());
-        resetCache(getCache() + 1);
+    /**
+     * This method sets the value for the item
+     * @param value: the value of the item
+     */
+    private void setValue(double value) {
+        this.value = value;
     }
 
 }

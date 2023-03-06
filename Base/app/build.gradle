@@ -35,6 +35,7 @@ dependencies {
     def lifecycle_version = "2.5.1"
     def room_version = "2.5.0"
     def nav_version = "2.5.3"
+    def arch_version = "2.1.0"
     def paging_version = "3.1.1"
     def camerax_version = "1.2.1"
     def work_version = "2.8.0"
@@ -42,10 +43,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     // (Java only)
-    implementation "androidx.work:work-runtime:$work_version"
+//    implementation "androidx.work:work-runtime:$work_version"
 
     // Sliding pane layout for adaptive layout
-    implementation "androidx.slidingpanelayout:slidingpanelayout:1.2.0"
+//    implementation "androidx.slidingpanelayout:slidingpanelayout:1.2.0"
 
     // CameraX core library using the camera2 implementation
     // The following line is optional, as the core library is included indirectly by camera-camera2
@@ -60,7 +61,7 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:${camerax_version}"
 
-    implementation "androidx.paging:paging-runtime:$paging_version"
+//    implementation "androidx.paging:paging-runtime:$paging_version"
     implementation 'com.google.android.material:material:1.8.0'
 
     // Java language implementation
@@ -78,7 +79,11 @@ dependencies {
     // Saved state module for ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
     // Annotation processor
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+//    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    // alternately - if using Java8, use the following instead of lifecycle-compiler
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    // optional - Test helpers for LiveData
+    testImplementation "androidx.arch.core:core-testing:$arch_version"
     // Java language implementation
     implementation "androidx.fragment:fragment:$fragment_version"
     // Import the BoM for the Firebase platform
@@ -90,7 +95,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
     implementation 'com.google.android.gms:play-services-auth-api-phone-license:12.0.1'
-    implementation 'com.google.firebase:firebase-firestore:24.4.3'
+    implementation 'com.google.firebase:firebase-firestore:24.4.4'
     // Add the dependency for the Cloud Storage library
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-storage'

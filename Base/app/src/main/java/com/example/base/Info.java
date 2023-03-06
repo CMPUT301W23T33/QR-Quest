@@ -2,18 +2,12 @@ package com.example.base;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * This class defines QR Codes in relation with players
  * @author Dang Viet Anh Dinh
  */
 public class Info {
-
-    /**
-     * This member represents the unique identifier of the player
-     */
-    private String uniqueIdentifier;
 
     /**
      * This member represents the unhashed name of the QR Code
@@ -67,38 +61,16 @@ public class Info {
 
     /**
      * This method defines an existing QR Code in the database comprised with its associated player
-     * @param comment: the comment by the player
-     * @param latitude: the latitude of the QR Code
-     * @param longitude: the longitude of the QR Code
-     * @param qrCode: the unhashed name of the QR Code
-     * @param score: the score of the QR Code
-     * @param uniqueIdentifier: the unique identifier of the player
-     * @param username: the username of the player
-     */
-    public Info(String comment, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String uniqueIdentifier, String username){
-        setComment(comment);
-        setLatitude(latitude);
-        setLongitude(longitude);
-        setQrCode(qrCode);
-        setRegion(region);
-        setScore(score);
-        setTimeStamp(timeStamp);
-        setUniqueIdentifier(uniqueIdentifier);
-        setUsername(username);
-    }
-
-    /**
-     * This method defines a new QR Code comprised with its associated player
+     * Use this constructor when getting existing Info from
      * @param comment: the comment by the player
      * @param hashedQRCode: the hashed name of the QR Code
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
      * @param qrCode: the unhashed name of the QR Code
      * @param score: the score of the QR Code
-     * @param uniqueIdentifier: the unique identifier of the player
      * @param username: the username of the player
      */
-    public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String uniqueIdentifier, String username){
+    public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String username){
         setComment(comment);
         setHashedQRCode(hashedQRCode);
         setLatitude(latitude);
@@ -107,24 +79,27 @@ public class Info {
         setRegion(region);
         setScore(score);
         setTimeStamp(timeStamp);
-        setUniqueIdentifier(uniqueIdentifier);
         setUsername(username);
     }
 
     /**
-     * This methods retrieves the unique identifier of the player
-     * @return the unique identifier of the player
+     * This method defines a new QR Code comprised with its associated player
+     * @param comment: the comment by the player
+     * @param latitude: the latitude of the QR Code
+     * @param longitude: the longitude of the QR Code
+     * @param qrCode: the unhashed name of the QR Code
+     * @param score: the score of the QR Code
+     * @param username: the username of the player
      */
-    public String getUniqueIdentifier() {
-        return this.uniqueIdentifier;
-    }
-
-    /**
-     * This method sets the unique identifier for the player
-     * @param uniqueIdentifier: the unique identifier of the player
-     */
-    public void setUniqueIdentifier(String uniqueIdentifier) {
-        this.uniqueIdentifier = uniqueIdentifier;
+    public Info(String comment, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String username){
+        setComment(comment);
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setQrCode(qrCode);
+        setRegion(region);
+        setScore(score);
+        setTimeStamp(timeStamp);
+        setUsername(username);
     }
 
     /**
@@ -280,13 +255,12 @@ public class Info {
 
     /**
      * This method retrieves the location of the image of the QR Code
-     * @param locale: the original geographical region when the QR Code was uploaded
      * @return the absolute path to the image of the QR Code in the database
      */
-    public String getImagePath(Locale locale){
-        // If we ever need to specific the locale, just create a switch on the region string
-        String time = new SimpleDateFormat("MM_dd_yyyy_hh_mm_ss", locale).format(getTimeStamp());
-        return "Images/" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/unhashed
+    public String getImagePath(){
+        String time = new SimpleDateFormat("MM_dd_yyyy_hh_mm_ss").format(getTimeStamp());
+        return "Images/" + getUsername() + "_" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/unhashed
+        // E.g: getImagePath() -> "username1_QRCode1_03_06_2023_04_20_00.jpg"
     }
 
     // In the future we may need (some) method(s) for comparing the QR Code

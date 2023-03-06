@@ -20,8 +20,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.AggregateQuerySnapshot;
-import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,7 +36,7 @@ public class QueryFragment extends Fragment {
     Button back, query, customQuery;
     RecyclerView recyclerView;
     DisplayAdapter adapter;
-    PlayerViewModel vm;
+    ApplicationViewModel vm;
     private FirebaseFirestore firebaseFirestore;
     private CollectionReference collectionReference1, collectionReference2;
 
@@ -82,7 +80,7 @@ public class QueryFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         // Get the view model under the scope of the activity
-        vm = new ViewModelProvider(requireActivity()).get(PlayerViewModel.class);
+        vm = new ViewModelProvider(requireActivity()).get(ApplicationViewModel.class);
         vm.populateQueryData();
         vm.getQueryDataset().observe(requireActivity(), strings -> {
             adapter.submitList(strings);
@@ -183,10 +181,9 @@ public class QueryFragment extends Fragment {
         String hashedQRCode = qrCode;
         double score = 5.321;
         Date timeStamp = new Date();
-        String uniqueIdentifier = "UI2";
-        String username = "username2";
-        Info info = new Info(comment, hashedQRCode, latitude, longitude, qrCode, regionCANADA, score, timeStamp, uniqueIdentifier, username);
-        String documentName = uniqueIdentifier + "_" + qrCode;
+        String username = "UI2";
+        Info info = new Info(comment, hashedQRCode, latitude, longitude, qrCode, regionCANADA, score, timeStamp, username);
+        String documentName = username + "_" + qrCode;
         firebaseFirestore.collection("main").document(documentName).set(info).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -199,7 +196,7 @@ public class QueryFragment extends Fragment {
 
         // Modify "Player" collection
         // Must check if the new QR Code score is the new highest score or not, but I'm lazy
-        firebaseFirestore.collection("Player").document(uniqueIdentifier).update(
+        firebaseFirestore.collection("Player").document(username).update(
                 "hasScanned", FieldValue.increment(1),
                 "score", FieldValue.increment(info.getScore())).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -224,15 +221,14 @@ public class QueryFragment extends Fragment {
         double score = 105.643;
         String newRegion = "US";
         Date timeStamp = new Date();
-        String uniqueIdentifier = "UI4";
-        String username = "username4";
-        Info info = new Info(comment, hashedQRCode, latitude, longitude, qrCode, newRegion, score, timeStamp, uniqueIdentifier, username);
-        String documentName = uniqueIdentifier + "_" + qrCode;
+        String username = "UI4";
+        Info info = new Info(comment, hashedQRCode, latitude, longitude, qrCode, newRegion, score, timeStamp, username);
+        String documentName = username + "_" + qrCode;
         firebaseFirestore.collection("main").document(documentName).set(info);
 
         // Create a new document in "Player" collection
-        Player player = new Player(1, score, newRegion, score, info.getUniqueIdentifier(), info.getUsername());
-        firebaseFirestore.collection("Player").document(uniqueIdentifier).set(player);
+        Player player = new Player(1, score, newRegion, score, info.getUsername(), info.getUsername());
+        firebaseFirestore.collection("Player").document(username).set(player);
 
     }
 
@@ -245,19 +241,20 @@ public class QueryFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    ArrayList<Rank> rankings = new ArrayList<>();
+                    ArrayList<HighestScoreRank> rankings = new ArrayList<>();
                     for (QueryDocumentSnapshot document : task.getResult()){
                         if (document.exists()){
                             vm.addQueryString(document.get("score", Double.class));
-                            rankings.add(new Rank(document.get("username", String.class), document.get("score", Double.class), highestScore));
+                            rankings.add(new HighestScoreRank(document.get("username", String.class), document.get("score", Double.class), highestScore));
                         }
                     }
                     adapter.notifyDataSetChanged();
-                    for (Rank ranking : rankings){
-                        Log.d("Rank Index", String.format("%d. %s: %f", ranking.getRank(), ranking.getUsername(), ranking.getScore()));
-                        Toast.makeText(requireContext(), String.format("%d. %s: %f", ranking.getRank(), ranking.getUsername(), ranking.getScore()), Toast.LENGTH_SHORT).show();
+                    for (HighestScoreRank ranking : rankings){
+                        Log.d("Rank Index", String.format("%d. %s: %f", ranking.getRank(), ranking.getIdentifier(), ranking.getValue()));
+                        Toast.makeText(requireContext(), String.format("%d. %s: %f", ranking.getRank(), ranking.getIdentifier(), ranking.getValue()), Toast.LENGTH_SHORT).show();
                     }
-                    Log.d("Highest Scoring QR Code Rank", String.format("%d: %f", rankings.get(0).getQueryRank(), rankings.get(0).getQueryScore()));
+                    Log.d("Highest Scoring QR Code Rank", String.format("%d: %f", rankings.get(0).getQueryRank(highestScore), highestScore));
+                    resetThreshold(rankings.get(0));
                 }
             }
         });
@@ -360,6 +357,22 @@ public class QueryFragment extends Fragment {
                 }
             }
         });
+    }
+
+    // Reset ranking index for re-usability
+    private void resetThreshold(Rank itemList){
+        if (itemList instanceof HighestScoreRank) {
+            HighestScoreRank hsr = (HighestScoreRank) itemList;
+            hsr.resetThreshold();
+        }
+        else if (itemList instanceof TotalScoreRank){
+            TotalScoreRank tsr = (TotalScoreRank) itemList;
+            tsr.resetThreshold();
+        }
+        else{
+            QRCodeNumberRank qrcnr = (QRCodeNumberRank) itemList;
+            qrcnr.resetThreshold();
+        }
     }
 
 }

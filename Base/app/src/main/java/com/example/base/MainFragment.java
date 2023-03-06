@@ -17,14 +17,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,7 +40,7 @@ public class MainFragment extends Fragment {
     Button next, signOut, removeAccount, addItem, removeItem;
     FirebaseUser firebaseUser;
     FirebaseAuth firebaseAuth;
-    PlayerViewModel playerViewModel;
+    ApplicationViewModel applicationViewModel;
 
     // Retrieving credential data after signing in
     private final ActivityResultLauncher<Intent> signingIn = registerForActivityResult(new FirebaseAuthUIActivityResultContract(), new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
@@ -100,16 +98,16 @@ public class MainFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getLayoutPosition();
-                playerViewModel.removeAtPosition(position);
+                applicationViewModel.removeAtPosition(position);
                 adapter.notifyDataSetChanged();
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         // Get the view model under the scope of the activity
-        playerViewModel = new ViewModelProvider(requireActivity()).get(PlayerViewModel.class);
-        playerViewModel.populateData();
-        playerViewModel.getDataset().observe(requireActivity(), strings -> {
+        applicationViewModel = new ViewModelProvider(requireActivity()).get(ApplicationViewModel.class);
+        applicationViewModel.populateData();
+        applicationViewModel.getDataset().observe(requireActivity(), strings -> {
             adapter.submitList(strings);
         } );
 
@@ -117,7 +115,7 @@ public class MainFragment extends Fragment {
         addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerViewModel.addString();
+                applicationViewModel.addString();
                 adapter.notifyDataSetChanged();
             }
         });
@@ -126,7 +124,7 @@ public class MainFragment extends Fragment {
         removeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                playerViewModel.removeString();
+                applicationViewModel.removeString();
                 adapter.notifyDataSetChanged();
             }
         });

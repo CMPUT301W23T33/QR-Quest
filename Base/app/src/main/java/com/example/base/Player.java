@@ -7,9 +7,9 @@ package com.example.base;
 public class Player {
 
     /**
-     * This member represents the unique identifier of the player
+     * This member represents the email address (contact information) of the player
      */
-    private String uniqueIdentifier;
+    private String emailAddress;
 
     /**
      * This member represents the username of the player
@@ -47,32 +47,32 @@ public class Player {
      * @param highestScore: the highest QR Code score of the player
      * @param region: the region of the player
      * @param score: the total QR Code score of the player
-     * @param uniqueIdentifier: the unique identifier of the player
+     * @param emailAddress: the email address of the player
      * @param username: the username of the player
      */
-    public Player(int hasScanned, double highestScore, String region, double score, String uniqueIdentifier, String username){
+    public Player(int hasScanned, double highestScore, String region, double score, String emailAddress, String username){
         setHasScanned(hasScanned);
         setHighestScore(highestScore);
         setRegion(region);
         setScore(score);
-        setUniqueIdentifier(uniqueIdentifier);
+        setEmailAddress(emailAddress);
         setUsername(username);
     }
 
     /**
-     * This method retrieves the unique identifier of the player
-     * @return the unique identifier of the player
+     * This method retrieves the email address of the player
+     * @return the email address of the player
      */
-    public String getUniqueIdentifier() {
-        return this.uniqueIdentifier;
+    public String getEmailAddress() {
+        return this.emailAddress;
     }
 
     /**
-     * This method sets the unique identifier for the player
-     * @param uniqueIdentifier: the unique identifier of the player
+     * This method sets the email address for the player
+     * @param emailAddress: the email address of the player
      */
-    public void setUniqueIdentifier(String uniqueIdentifier) {
-        this.uniqueIdentifier = uniqueIdentifier;
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     /**

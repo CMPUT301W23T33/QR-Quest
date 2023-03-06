@@ -46,7 +46,7 @@ public class AddWordFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         // Get the view model under the scope of the activity
-        PlayerViewModel playerViewModel = new ViewModelProvider(requireActivity()).get(PlayerViewModel.class);
+        ApplicationViewModel applicationViewModel = new ViewModelProvider(requireActivity()).get(ApplicationViewModel.class);
 
         // Set up Firestore database
         firebaseFirestore = FirebaseFirestore.getInstance();

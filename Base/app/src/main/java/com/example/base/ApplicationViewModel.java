@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
-public class PlayerViewModel extends AndroidViewModel {
+public class ApplicationViewModel extends AndroidViewModel {
 
     private Repository repository;
     // Throwaway
@@ -24,7 +24,7 @@ public class PlayerViewModel extends AndroidViewModel {
 //    private MutableLiveData<LinkedList<Player>> scoreRank;
 //    private MutableLiveData<LinkedList<Player>> scannedRank;
 
-    public PlayerViewModel(@NonNull Application application) {
+    public ApplicationViewModel(@NonNull Application application) {
         super(application);
         this.repository = Repository.getInstance();
     }

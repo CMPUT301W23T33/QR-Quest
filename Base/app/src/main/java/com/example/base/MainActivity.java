@@ -1,19 +1,12 @@
 package com.example.base;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.os.Environment;
-
-import java.io.File;
-import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static PlayerViewModel playerViewModel;
+    private static ApplicationViewModel applicationViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

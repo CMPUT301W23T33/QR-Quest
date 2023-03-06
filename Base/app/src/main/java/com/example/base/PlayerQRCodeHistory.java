@@ -52,7 +52,7 @@ public class PlayerQRCodeHistory {
      * This method sets the hashed name for the QR Code
      * @param qrCode: the hashed QR Code name
      */
-    public void setQrCode(String qrCode) {
+    private void setQrCode(String qrCode) {
         this.qrCode = qrCode;
     }
 
@@ -60,7 +60,8 @@ public class PlayerQRCodeHistory {
      * This method sets the score for the QR Code
      * @param score: the score of the QR Code
      */
-    public void setScore(double score) {
+    private void setScore(double score) {
         this.score = score;
     }
+
 }
