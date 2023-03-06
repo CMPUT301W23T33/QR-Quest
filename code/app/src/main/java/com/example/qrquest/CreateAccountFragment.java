@@ -46,6 +46,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     private Player newPlayer;
     private CollectionReference playerRef;
     private String randomName;
+    private int createAccount = 0;
     private CreateAccountFragmentBinding binding;
 
     @Nullable
@@ -72,7 +73,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         // save the username locally
         SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
 
-        if (!sharedPref.contains("username") && !sharedPref.contains("uniqueIdentifier")) {
+        if (!sharedPref.contains("username") && createAccount == 1) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("username", randomName);
             editor.putString("uniqueIdentifier", randomName);
@@ -99,6 +100,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
             // nice button (primary button)
             binding.buttonElevatedPrimary.setOnClickListener(v -> {
+                createAccount = 1;
                 newPlayer.setUsername(randomName);
                 newPlayer.setUsername(randomName);
                 playerRef.document(newPlayer.getUsername())
