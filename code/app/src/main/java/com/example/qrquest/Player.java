@@ -1,88 +1,159 @@
 package com.example.qrquest;
 
-import java.util.ArrayList;
-
+/**
+ * This class defines new players (end-users)
+ * @author Dang Viet Anh Dinh
+ */
 public class Player {
 
-    // Player's attributes
+    /**
+     * This member represents the email address (contact information) of the player
+     */
+    private String emailAddress;
+
+    /**
+     * This member represents the username of the player
+     */
     private String username;
-    private String uniqueIdentifier;
+
+    /**
+     * This member represents the region of the player
+     */
     private String region;
-    private float score = 0;
-    private float highestScore = 0;
-    private int hasScanned = 0;
 
+    /**
+     * This member represents the number of QR Codes the player has scanned
+     */
+    private int hasScanned;
 
-    // Constructors
+    /**
+     * This member represents the highest QR Codes score of the player
+     */
+    private double highestScore;
+
+    /**
+     * This member represents the total score of the player
+     */
+    private double score;
+
+    /**
+     * This method defines a default new player profile
+     */
     public Player(){}
 
-    // Defining a new player profile (Missing username, region)
-    public Player(String username, String uniqueIdentifier){
-        setUsername(username);
-        setUniqueIdentifier(uniqueIdentifier);
-        setScore(0);
-        setHighestScore(0);
-        setHasScanned(0);
-    }
-
-    // Loading an existing player profile
-    public Player(String username, String uniqueIdentifier, float score, float highestScore,
-                  int hasScanned, String region) {
-        setUsername(username);
-        setUniqueIdentifier(uniqueIdentifier);
-        setScore(score);
-        setHighestScore(highestScore);
+    /**
+     * This method defines a new player profile with basic attributes
+     * @param hasScanned: the number of QR Code scanned by the player
+     * @param highestScore: the highest QR Code score of the player
+     * @param region: the region of the player
+     * @param score: the total QR Code score of the player
+     * @param emailAddress: the email address of the player
+     * @param username: the username of the player
+     */
+    public Player(int hasScanned, double highestScore, String region, double score, String emailAddress, String username){
         setHasScanned(hasScanned);
+        setHighestScore(highestScore);
         setRegion(region);
+        setScore(score);
+        setEmailAddress(emailAddress);
+        setUsername(username);
     }
 
-    public String getRegion() {
-        return region;
+    /**
+     * This method retrieves the email address of the player
+     * @return the email address of the player
+     */
+    public String getEmailAddress() {
+        return this.emailAddress;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    /**
+     * This method sets the email address for the player
+     * @param emailAddress: the email address of the player
+     */
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
+    /**
+     * This method retrieves the username of the player
+     * @return the username of the player
+     */
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
+    /**
+     * This method sets the username for the player
+     * @param username: the username of the player
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getUniqueIdentifier() {
-        return uniqueIdentifier;
+    /**
+     * This method retrieves the region of the player
+     * @return the region of the player
+     */
+    public String getRegion() {
+        return this.region;
     }
 
-    public void setUniqueIdentifier(String uniqueIdentifier) {
-        this.uniqueIdentifier = uniqueIdentifier;
+    /**
+     * This method sets the region for the player
+     * @param region: the region of the player
+     */
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public float getScore() {
-        return score;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
-    }
-
+    /**
+     * This method retrieves the number of scanned QR Codes by the player
+     * @return the number of scanned QR Codes by the player
+     */
     public int getHasScanned() {
-        return hasScanned;
+        return this.hasScanned;
     }
 
+    /**
+     * This method sets the number of scanned QR Codes by the player
+     * @param hasScanned: the number of scanned QR Codes by the player
+     */
     public void setHasScanned(int hasScanned) {
         this.hasScanned = hasScanned;
     }
 
-
-    public float getHighestScore() {
-        return highestScore;
+    /**
+     * This method retrieves the highest QR Code score of the player
+     * @return the highest QR Code score of the player
+     */
+    public double getHighestScore() {
+        return this.highestScore;
     }
 
-    public void setHighestScore(float highestScore) {
+    /**
+     * This method sets the highest QR Code score for the player
+     * @param highestScore: the highest QR Code score for the player
+     */
+    public void setHighestScore(double highestScore) {
         this.highestScore = highestScore;
     }
+
+    /**
+     * This method retrieves the total score of the player
+     * @return the total score of the player
+     */
+    public double getScore() {
+        return this.score;
+    }
+
+    /**
+     * This method sets the total score for the player
+     * @param score: the total score of the player
+     */
+    public void setScore(double score) {
+        this.score = score;
+    }
+
 }
 
