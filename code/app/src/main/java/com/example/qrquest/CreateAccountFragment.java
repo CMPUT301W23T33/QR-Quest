@@ -100,8 +100,8 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             // nice button (primary button)
             binding.buttonElevatedPrimary.setOnClickListener(v -> {
                 newPlayer.setUsername(randomName);
-                newPlayer.setUniqueIdentifier(randomName);
-                playerRef.document(newPlayer.getUniqueIdentifier())
+                newPlayer.setUsername(randomName);
+                playerRef.document(newPlayer.getUsername())
                         .set(newPlayer)
                         .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
                         .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
