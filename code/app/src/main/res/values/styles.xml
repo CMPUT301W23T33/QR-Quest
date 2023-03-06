@@ -238,6 +238,23 @@
         <item name="android:paddingTop">80dp</item>
         <item name="android:paddingBottom">8dp</item>
     </style>
+    <!--Main Screen Layout-->
+    <style name="Theme.BottomSheet.Navigation" parent="Widget.Material3.BottomSheet">
+        <item name="android:background">@drawable/rounded_top_corners</item>
+        <item name="android:backgroundTint">@color/chinese_violet</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="Theme.BottomSheet.Navigation.Icon" parent="">
+        <item name="android:scaleX">1.25</item>
+        <item name="android:scaleY">1.25</item>
+        <item name="tint">@color/thistle</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
 
     <!--Create account layout-->
     <!--Back arrow-->

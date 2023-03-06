@@ -12,6 +12,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your theme here. -->
-        <item name="colorOnSurfaceVariant">@color/thistle_fade</item>
+        <item name="colorSurface">@color/chinese_violet</item>
+        <item name="colorOnSurfaceVariant">@color/thistle</item>
     </style>
 </resources>
