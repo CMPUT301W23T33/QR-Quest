@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/qr_code_picture_description"
-            android:src="@drawable/qr_logo"
+            android:src="@drawable/qr_logo_small"
             android:padding="4dp"
             app:layout_constraintTop_toTopOf="@id/qr_code_display"
             app:layout_constraintBottom_toBottomOf="@id/qr_code_display"
@@ -39,14 +39,14 @@
                 android:id="@+id/qr_code_display_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="QR CODE #1"
+                android:text="@string/qr_code_1"
                 android:textColor="@color/pale_dogwood"
                 android:textAppearance="@style/body" />
             <TextView
                 android:id="@+id/qr_code_display_points"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2506 Pts"
+                android:text="@string/_2506_pts"
                 android:layout_gravity="bottom"
                 android:textColor="@color/thistle"
                 android:textAppearance="@style/body" />

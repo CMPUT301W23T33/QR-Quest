@@ -42,6 +42,16 @@ public class Player {
     public Player(){}
 
     /**
+     * This method defines a new player profile with only the username
+     * @param username: a unique string represented player's username
+     */
+    public Player(String username) {
+        this.username = username;
+        this.hasScanned = 0;
+        this.highestScore = 0;
+        this.score = 0;
+    }
+    /**
      * This method defines a new player profile with basic attributes
      * @param hasScanned: the number of QR Code scanned by the player
      * @param highestScore: the highest QR Code score of the player
@@ -51,12 +61,13 @@ public class Player {
      * @param username: the username of the player
      */
     public Player(int hasScanned, double highestScore, String region, double score, String emailAddress, String username){
-        setHasScanned(hasScanned);
-        setHighestScore(highestScore);
-        setRegion(region);
-        setScore(score);
-        setEmailAddress(emailAddress);
-        setUsername(username);
+        this.hasScanned = hasScanned;
+        this.highestScore = highestScore;
+        this.region = region;
+        this.score = score;
+        this.emailAddress = emailAddress;
+        this.username = username;
+
     }
 
     /**
