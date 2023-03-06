@@ -71,7 +71,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     public void onPause() {
         super.onPause();
         // save the username locally
-        SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp",Context.MODE_PRIVATE);
 
         if (!sharedPref.contains("username") && createAccount == 1) {
             SharedPreferences.Editor editor = sharedPref.edit();
