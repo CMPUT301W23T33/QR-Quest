@@ -46,6 +46,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     private Player newPlayer;
     private CollectionReference playerRef;
     private String randomName;
+    private int createAccount = 0;
     private CreateAccountFragmentBinding binding;
 
     @Nullable
@@ -72,10 +73,9 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
         // save the username locally
         SharedPreferences sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE);
 
-        if (!sharedPref.contains("username") && !sharedPref.contains("uniqueIdentifier")) {
+        if (!sharedPref.contains("username") && createAccount == 1) {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("username", randomName);
-            editor.putString("uniqueIdentifier", randomName);
             editor.apply();
         }
     }
@@ -94,14 +94,14 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             newPlayer = new Player();
 
             // generate unique name
-            randomName = UUID.randomUUID().toString().substring(0, 8);
+            randomName = UUID.randomUUID().toString().substring(0, 15);
             binding.nameText.setText(randomName);
 
             // nice button (primary button)
             binding.buttonElevatedPrimary.setOnClickListener(v -> {
+                createAccount = 1;
                 newPlayer.setUsername(randomName);
-                newPlayer.setUniqueIdentifier(randomName);
-                playerRef.document(newPlayer.getUniqueIdentifier())
+                playerRef.document(newPlayer.getUsername())
                         .set(newPlayer)
                         .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
                         .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
@@ -112,7 +112,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
             // another button (secondary button) (re-generate)
             binding.buttonElevatedSecondary.setOnClickListener(v -> {
-                randomName = UUID.randomUUID().toString().substring(0, 8);
+                randomName = UUID.randomUUID().toString().substring(0, 15);
                 binding.nameText.setText(randomName);
             });
         }

@@ -6,8 +6,8 @@ public class Player {
 
     // Player's attributes
     private String username;
-    private String uniqueIdentifier;
     private String region;
+    private String email;
     private float score = 0;
     private float highestScore = 0;
     private int hasScanned = 0;
@@ -17,23 +17,22 @@ public class Player {
     public Player(){}
 
     // Defining a new player profile (Missing username, region)
-    public Player(String username, String uniqueIdentifier){
-        setUsername(username);
-        setUniqueIdentifier(uniqueIdentifier);
-        setScore(0);
-        setHighestScore(0);
-        setHasScanned(0);
+    public Player(String username){
+        this.username = username;
+        this.score = 0;
+        this.hasScanned = 0;
+        this.highestScore = 0;
     }
 
     // Loading an existing player profile
-    public Player(String username, String uniqueIdentifier, float score, float highestScore,
-                  int hasScanned, String region) {
-        setUsername(username);
-        setUniqueIdentifier(uniqueIdentifier);
-        setScore(score);
-        setHighestScore(highestScore);
-        setHasScanned(hasScanned);
-        setRegion(region);
+    public Player(String username, float score, float highestScore,
+                  int hasScanned, String region, String email) {
+        this.username = username;
+        this.score = score;
+        this.highestScore = highestScore;
+        this.hasScanned = hasScanned;
+        this.region = region;
+        this.email = email;
     }
 
     public String getRegion() {
@@ -50,14 +49,6 @@ public class Player {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getUniqueIdentifier() {
-        return uniqueIdentifier;
-    }
-
-    public void setUniqueIdentifier(String uniqueIdentifier) {
-        this.uniqueIdentifier = uniqueIdentifier;
     }
 
     public float getScore() {
@@ -83,6 +74,14 @@ public class Player {
 
     public void setHighestScore(float highestScore) {
         this.highestScore = highestScore;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 
