@@ -105,6 +105,9 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
                         .set(newPlayer)
                         .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
                         .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
+
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
             });
 
             // another button (secondary button) (re-generate)

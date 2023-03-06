@@ -34,4 +34,6 @@
     <string name="score_example">2506</string>
     <string name="history">HISTORY</string>
     <string name="sort">sort</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="search">search</string>
 </resources>
