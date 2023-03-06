@@ -94,7 +94,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
             newPlayer = new Player();
 
             // generate unique name
-            randomName = UUID.randomUUID().toString().substring(0, 8);
+            randomName = UUID.randomUUID().toString().substring(0, 15);
             binding.nameText.setText(randomName);
 
             // nice button (primary button)
@@ -109,7 +109,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
 
             // another button (secondary button) (re-generate)
             binding.buttonElevatedSecondary.setOnClickListener(v -> {
-                randomName = UUID.randomUUID().toString().substring(0, 8);
+                randomName = UUID.randomUUID().toString().substring(0, 15);
                 binding.nameText.setText(randomName);
             });
         }
