@@ -47,6 +47,7 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
     private CollectionReference playerRef;
     private String randomName;
     private int createAccount = 0;
+    private int permissionListener = 0;
     private CreateAccountFragmentBinding binding;
 
     @Nullable
@@ -112,6 +113,12 @@ public class CreateAccountFragment extends Fragment implements LocationListener 
                 randomName = UUID.randomUUID().toString().substring(0, 15);
                 binding.nameText.setText(randomName);
             });
+        } else {
+            permissionListener++;
+            if (permissionListener == 2) {
+                requireActivity().finish();
+                System.exit(0);
+            }
         }
     });
 
