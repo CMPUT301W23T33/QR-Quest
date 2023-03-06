@@ -26,7 +26,7 @@ public class StartActivity extends AppCompatActivity {
         // NavController navController = navHostFragment.getNavController();
 
         // retrieve user data if any
-        SharedPreferences sb = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sb = getSharedPreferences("sp", Context.MODE_PRIVATE);
         if (sb.contains("username")) {
             Intent intent = new Intent(StartActivity.this, MainActivity.class);
             startActivity(intent);
