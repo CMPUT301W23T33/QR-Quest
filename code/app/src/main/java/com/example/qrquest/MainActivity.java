@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -42,7 +41,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private GoogleMap map;
     LocationManager manager;
-
     FirebaseFirestore db;
     String username;
 
@@ -62,66 +60,50 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
-
         // initialize db
         db = FirebaseFirestore.getInstance();
 
         // get username from Shared Preferences
         SharedPreferences sharedPref = getSharedPreferences("sp", Context.MODE_PRIVATE);
         username = sharedPref.getString("username", "");
-
     }
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        map = googleMap;
-        try {
-            boolean success = map.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.style_json));
-
-            if (!success) {
-                Log.e("STYLE", "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e("STYLE", "Can't find style. Error: ", e);
-        }
-    }
-
 
     @SuppressLint("MissingPermission")
-    ActivityResultLauncher<String[]> locationPermissionRequest =
-            registerForActivityResult(new ActivityResultContracts
+    ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts
                             .RequestMultiplePermissions(), result -> {
-                        Boolean fineLocationGranted = result.getOrDefault(
-                                Manifest.permission.ACCESS_FINE_LOCATION, false);
-                        Boolean coarseLocationGranted = result.getOrDefault(
-                                Manifest.permission.ACCESS_COARSE_LOCATION,false);
-                        if (fineLocationGranted != null && fineLocationGranted
-                        || coarseLocationGranted != null && coarseLocationGranted) {
-                            checkLocationEnabled();
+        Boolean fineLocationGranted = result.getOrDefault(
+                Manifest.permission.ACCESS_FINE_LOCATION, false);
+        Boolean coarseLocationGranted = result.getOrDefault(
+                Manifest.permission.ACCESS_COARSE_LOCATION,false);
 
-                            // setup map
-                            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                    .findFragmentById(R.id.map);
-                            assert mapFragment != null;
-                            mapFragment.getMapAsync(this);
-                            if (map != null) {
-                                map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_json));
-                            }
 
-                            // setup location manager
-                            manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        if ((fineLocationGranted != null && fineLocationGranted)
+        || (coarseLocationGranted != null && coarseLocationGranted)) {
+            checkLocationEnabled();
 
-                        } else {
-                            moveTaskToBack(true);
-                            android.os.Process.killProcess(android.os.Process.myPid());
-                            System.exit(1);
-                        }
-                    }
-            );
+            // setup location manager
+            manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+        } else {
+            // erase local memories
+            SharedPreferences sp = getSharedPreferences("sp", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.clear();
+            editor.commit();
+
+            // erase the account in firestore
+            db.collection("Player").document(username)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> Log.d("DELETE", "DocumentSnapshot successfully deleted!"))
+                    .addOnFailureListener(e -> Log.w("DELETE", "Error deleting document", e));
+
+            // terminate the app
+            moveTaskToBack(true);
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+        }
+    });
 
     public BitmapDescriptor getMarkerIcon(String color) {
         float[] hsv = new float[3];
@@ -154,6 +136,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        map = googleMap;
+        try {
+            boolean success = map.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.style_json));
+            if (!success) {
+                Log.e("STYLE", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("STYLE", "Can't find style. Error: ", e);
+        }
+    }
+
+    @Override
     public void onLocationChanged(@NonNull Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
@@ -168,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             throw new RuntimeException(e);
         }
 
-        // set region for users
+        // set region of the user
         db.collection("Player").document(username)
                 .update("region", addresses.get(0).getAdminArea())
                 .addOnSuccessListener(unused -> Log.d("Update region", "Successfully updated"))
                 .addOnFailureListener(e -> Log.d("Update region", "Error updating document"));
 
-        // set QR codes
+        // set markers for nearby QR codes
         db.collection("QR Code").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot doc : task.getResult()) {
@@ -196,8 +193,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
-
-
         manager.removeUpdates(this);
     }
 

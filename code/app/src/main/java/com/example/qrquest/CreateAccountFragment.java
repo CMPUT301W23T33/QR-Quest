@@ -42,9 +42,6 @@ public class CreateAccountFragment extends Fragment {
         binding = CreateAccountFragmentBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        // next button
-        binding.buttonBack.setOnClickListener(v ->
-                findNavController(view).navigate(R.id.action_createAccountFragment_to_startFragment));
 
         // database
         db = FirebaseFirestore.getInstance();
@@ -52,8 +49,12 @@ public class CreateAccountFragment extends Fragment {
         newPlayer = new Player();
 
         // generate unique name
-        randomName = UUID.randomUUID().toString().substring(0, 15);
+        randomName = UUID.randomUUID().toString().substring(0, 12);
         binding.nameText.setText(randomName);
+
+        // back button
+        binding.buttonBack.setOnClickListener(v ->
+                findNavController(view).navigate(R.id.action_createAccountFragment_to_startFragment));
 
         // nice button (primary button)
         binding.buttonElevatedPrimary.setOnClickListener(v -> {
@@ -61,8 +62,8 @@ public class CreateAccountFragment extends Fragment {
             newPlayer.setUsername(randomName);
             playerRef.document(newPlayer.getUsername())
                     .set(newPlayer)
-                    .addOnSuccessListener(unused -> Log.d("TEST", "Added document successfully"))
-                    .addOnFailureListener(e -> Log.d("TEST", "Error adding document"));
+                    .addOnSuccessListener(unused -> Log.d("SET", "Added document successfully"))
+                    .addOnFailureListener(e -> Log.d("SET", "Error adding document"));
 
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
@@ -70,7 +71,7 @@ public class CreateAccountFragment extends Fragment {
 
         // another button (secondary button) (re-generate)
         binding.buttonElevatedSecondary.setOnClickListener(v -> {
-            randomName = UUID.randomUUID().toString().substring(0, 15);
+            randomName = UUID.randomUUID().toString().substring(0, 12);
             binding.nameText.setText(randomName);
         });
 
