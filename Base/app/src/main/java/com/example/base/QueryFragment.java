@@ -251,7 +251,7 @@ public class QueryFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                     for (HighestScoreRank ranking : rankings){
                         Log.d("Rank Index", String.format("%d. %s: %f", ranking.getRank(), ranking.getIdentifier(), ranking.getValue()));
-                        Toast.makeText(requireContext(), String.format("%d. %s: %f", ranking.getRank(), ranking.getIdentifier(), ranking.getValue()), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(requireContext(), String.format("%d. %s: %f", ranking.getRank(), ranking.getIdentifier(), ranking.getValue()), Toast.LENGTH_SHORT).show();
                     }
                     Log.d("Highest Scoring QR Code Rank", String.format("%d: %f", rankings.get(0).getQueryRank(highestScore), highestScore));
                     resetThreshold(rankings.get(0));
@@ -319,7 +319,7 @@ public class QueryFragment extends Fragment {
 
     // Query for Player's QR Code history
     private void queryPlayerQRCodeHistory(String uniqueIdentifier){
-        firebaseFirestore.collection("main").whereEqualTo("uniqueIdentifier", uniqueIdentifier).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firebaseFirestore.collection("main").whereEqualTo("username", uniqueIdentifier).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
