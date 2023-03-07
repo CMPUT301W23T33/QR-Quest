@@ -38,6 +38,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class represents the main screen of the app. It prompts for users' location permission and
+ * displays a map if granted.
+ */
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     private GoogleMap map;
     LocationManager manager;
@@ -105,12 +109,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     });
 
+    /**
+     * This method turns a string of hex color into a hsv color, which is applicable for changing the
+     * markers' color on the map.
+     * @param color a string of hexadecimal color (#000000)
+     * @return a HSV color for map marker
+     */
     public BitmapDescriptor getMarkerIcon(String color) {
         float[] hsv = new float[3];
         Color.colorToHSV(Color.parseColor(color), hsv);
         return BitmapDescriptorFactory.defaultMarker(hsv[0]);
     }
 
+    /**
+     * This method checks if the location settings of the user is enabled or not.
+     */
     private void checkLocationEnabled() {
         LocationManager manager1 = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean GPSEnabled = false;
@@ -168,8 +181,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // set region of the user
         db.collection("Player").document(username)
                 .update("region", addresses.get(0).getAdminArea())
-                .addOnSuccessListener(unused -> Log.d("Update region", "Successfully updated"))
-                .addOnFailureListener(e -> Log.d("Update region", "Error updating document"));
+                .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
+                .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
 
         // set markers for nearby QR codes
         db.collection("QR Code").get().addOnCompleteListener(task -> {
