@@ -31,11 +31,14 @@ public class StartActivityTest {
     public ActivityScenarioRule<StartActivity> activityRule =
             new ActivityScenarioRule<>(StartActivity.class);
 
+    ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
+
     @Test
     /**
      * Tests whether the app switches from StartFragment to StartActivity upon button press
      */
     public void CheckContinueButton() {
+        ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click()); // comes up as error as theres no button in MainActivity
         onView(withId(R.id.createAccountFragment)).check(matches(isDisplayed()));
     }
@@ -45,6 +48,7 @@ public class StartActivityTest {
      * Tests whether the back button on StartActivity
      */
     public void CheckBackButton() {
+        ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click());
         onView(withId(R.id.button_back)).perform(click());
     }
@@ -55,6 +59,7 @@ public class StartActivityTest {
      */
     public void CheckUsernameGeneration() {
         //By default, should generate unique username without having to click "Another"
+        ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click());
         onView(withId(R.id.name_text)).check(matches(not(withText(""))));
         //.. unfinished, need to test if names are unique
