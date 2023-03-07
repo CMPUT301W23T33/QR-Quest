@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -27,9 +28,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.List;
@@ -118,6 +123,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
             );
 
+    public BitmapDescriptor getMarkerIcon(String color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(Color.parseColor(color), hsv);
+        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
+    }
+
     private void checkLocationEnabled() {
         LocationManager manager1 = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         boolean GPSEnabled = false;
@@ -145,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onLocationChanged(@NonNull Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
         // find the region
         List<Address> addresses;
@@ -162,6 +173,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .update("region", addresses.get(0).getAdminArea())
                 .addOnSuccessListener(unused -> Log.d("Update region", "Successfully updated"))
                 .addOnFailureListener(e -> Log.d("Update region", "Error updating document"));
+
+        // set QR codes
+        db.collection("QR Code").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    double latitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
+                    double longitude = Double.parseDouble(String.valueOf(doc.get("longitude")));
+                    float[] list = new float[1];
+                    Location.distanceBetween(location.getLatitude(),
+                            location.getLongitude(),
+                            latitude, longitude, list);
+
+                    // distance radius within 20km (nearby)
+                    if (list[0] < 20000) {
+                        LatLng latLng1 = new LatLng(latitude, longitude);
+                        map.addMarker(new MarkerOptions()
+                                .position(latLng1)
+                                .title(String.valueOf(doc.get("name")))
+                                .icon(getMarkerIcon("#CDB4DB")));
+                    }
+                }
+            }
+        });
+
 
         manager.removeUpdates(this);
     }
