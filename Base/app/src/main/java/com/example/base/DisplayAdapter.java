@@ -19,7 +19,7 @@ public class DisplayAdapter extends ListAdapter<String, DisplayViewHolder>{
         holder.bind(current);
     }
 
-    protected DisplayAdapter(@NonNull DiffUtil.ItemCallback diffCallback) {
+    protected DisplayAdapter(@NonNull DiffUtil.ItemCallback<String> diffCallback) {
         super(diffCallback);
     }
 
