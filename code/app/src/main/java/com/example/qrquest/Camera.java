@@ -155,11 +155,6 @@ public class Camera extends Fragment {
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
 
-        // There is a bug with the rotation degree of the preview use case
-        // On physical devices, preview and image turn out normally, but on emulator, the preview use case is rotated by -90 degrees
-        // Throwaway, rotate the image saved to vertical -> There can be a bug with the image capture use case
-        imageCapture.setTargetRotation(Surface.ROTATION_90);
-
         // Add image analysis use case to analyze image
         imageAnalysis = new ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
