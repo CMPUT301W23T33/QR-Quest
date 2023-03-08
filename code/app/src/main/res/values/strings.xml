@@ -25,6 +25,8 @@
     <string name="text_create_account">Create Account</string>
     <string name="text_choose_name">Please choose a name!</string>
     <string name="text_name_generator">Name generator:</string>
+
+    <!--View/Edit Profile Screen-->
     <string name="unsaved_changes">Unsaved Changes!</string>
     <string name="_999_999_999">(999) – 999 – 999</string>
     <string name="example_email">dogwood2506@gmail.com</string>
@@ -34,4 +36,8 @@
     <string name="score_example">2506</string>
     <string name="history">HISTORY</string>
     <string name="sort">sort</string>
+
+    <!--Main Screen-->
+    <string name="leaderboard">leaderboard</string>
+    <string name="search">search</string>
 </resources>

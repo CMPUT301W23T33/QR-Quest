@@ -95,7 +95,7 @@
             android:layout_marginBottom="40dp"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            android:src="@drawable/qr_logo"
+            android:src="@drawable/qr_logo_small"
             android:contentDescription="@string/app_name">
 
         </ImageView>
