@@ -7,7 +7,7 @@ import java.util.Date;
  * This class defines QR Codes in relation with players
  * @author Dang Viet Anh Dinh
  */
-public class Info extends com.example.base.QRCode {
+public class Info extends QRCode {
 
     /**
      * This member represents a comment for the QR Code
