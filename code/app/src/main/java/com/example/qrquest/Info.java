@@ -7,17 +7,7 @@ import java.util.Date;
  * This class defines QR Codes in relation with players
  * @author Dang Viet Anh Dinh
  */
-public class Info {
-
-    /**
-     * This member represents the unhashed name of the QR Code
-     */
-    private String qrCode;
-
-    /**
-     * This member represents the hashed name of the QR Code
-     */
-    private String hashedQRCode;
+public class Info extends com.example.base.QRCode {
 
     /**
      * This member represents a comment for the QR Code
@@ -40,21 +30,6 @@ public class Info {
     private Date timeStamp;
 
     /**
-     * This member represents the value of the longitude of the QR Code
-     */
-    private double score;
-
-    /**
-     * This member represents the value of the latitude of the QR Code
-     */
-    private double latitude;
-
-    /**
-     * This member represents the value of the longitude of the QR Code
-     */
-    private double longitude;
-
-    /**
      * This method defines a default QR Code
      */
     public Info() {}
@@ -71,13 +46,9 @@ public class Info {
      * @param username: the username of the player
      */
     public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String username){
+        super(hashedQRCode, qrCode, score, latitude, longitude);
         setComment(comment);
-        setHashedQRCode(hashedQRCode);
-        setLatitude(latitude);
-        setLongitude(longitude);
-        setQrCode(qrCode);
         setRegion(region);
-        setScore(score);
         setTimeStamp(timeStamp);
         setUsername(username);
     }
@@ -92,53 +63,10 @@ public class Info {
      * @param username: the username of the player
      */
     public Info(String comment, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String username){
-        setComment(comment);
-        setLatitude(latitude);
-        setLongitude(longitude);
-        setQrCode(qrCode);
+        super(qrCode, score, latitude, longitude);
         setRegion(region);
-        setScore(score);
         setTimeStamp(timeStamp);
         setUsername(username);
-    }
-
-    /**
-     * This method retrieves the unhashed name of the QR Code
-     * @return the unhashed name of the QR Code
-     */
-    public String getQrCode() {
-        return this.qrCode;
-    }
-
-    /**
-     * This method set the unhashed name for the QR Code and performs QR Code hashing
-     * @param qrCode: the unhashed name of the QR Code
-     */
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
-    }
-
-    /**
-     * This method retrieves the hashed name of the QR Code
-     * @return the hashed name of the QR Code
-     */
-    public String getHashedQRCode() {
-        return this.hashedQRCode;
-    }
-
-    /**
-     * This method sets the hashed name (if provided) for the QR Code
-     * @param hashedQRCode: the hashed name of the QR Code
-     */
-    public void setHashedQRCode(String hashedQRCode){
-        this.hashedQRCode = hashedQRCode;
-    }
-
-    /**
-     * This method hashes the raw name of the QR Code
-     */
-    public void hashQRCode(){
-
     }
 
     /**
@@ -203,54 +131,6 @@ public class Info {
      */
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
-    }
-
-    /**
-     * This method retrieves the score of the QR Code
-     * @return the score of the QR Code
-     */
-    public double getScore() {
-        return this.score;
-    }
-
-    /**
-     * This method sets the score for the QR Code
-     * @param score: the score of the QR Code
-     */
-    public void setScore(double score) {
-        this.score = score;
-    }
-
-    /**
-     * This method retrieves the latitude of the QR Code
-     * @return the latitude of the QR Code
-     */
-    public double getLatitude() {
-        return this.latitude;
-    }
-
-    /**
-     * This method sets the latitude for the QR Code
-     * @param latitude: the latitude of the QR Code
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     * This method retrieves the longitude of the QR Code
-     * @return the longitude of the QR Code
-     */
-    public double getLongitude() {
-        return this.longitude;
-    }
-
-    /**
-     * This method sets the longitude for the QR Code
-     * @param longitude: the longitude of a geolocation
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     /**

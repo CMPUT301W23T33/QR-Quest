@@ -46,6 +46,10 @@ import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
+/**
+ * This class defines all activities related to using camera
+ * @author: Dang Viet Anh Dinh
+ */
 public class Camera extends Fragment {
 
     private PreviewView previewView;
