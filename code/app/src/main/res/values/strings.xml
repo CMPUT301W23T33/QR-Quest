@@ -40,4 +40,7 @@
     <!--Main Screen-->
     <string name="leaderboard">leaderboard</string>
     <string name="search">search</string>
+
+    <!--API KEY-->
+    <string name="API_key">AIzaSyAy6eUw2krdD9YaS9ERxJ-iH2ZhQll9wqs</string>
 </resources>
