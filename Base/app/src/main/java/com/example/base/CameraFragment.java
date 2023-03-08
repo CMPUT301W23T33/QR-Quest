@@ -6,10 +6,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.Image;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
+import androidx.annotation.RequiresApi;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
@@ -26,7 +28,9 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.Navigation;
 
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -45,8 +49,10 @@ import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -61,6 +67,8 @@ public class CameraFragment extends Fragment {
         .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
         .build();
 
+    ArrayList<String> barCodeRawValues = new ArrayList<>();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +78,6 @@ public class CameraFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
-
 
         previewView = view.findViewById(R.id.viewFinder);
         takePhoto = view.findViewById(R.id.image_capture_button);
@@ -124,7 +131,6 @@ public class CameraFragment extends Fragment {
     private void requestPermission(){
         ActivityCompat.requestPermissions(requireActivity(),
                 new String[]{android.Manifest.permission.CAMERA,
-//                        android.Manifest.permission.RECORD_AUDIO,
                         android.Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 10);
@@ -146,6 +152,7 @@ public class CameraFragment extends Fragment {
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
 
+        // There is a bug with the rotation degree of the preview use case
         // Add preview use case to view the camera
         Preview preview = new Preview.Builder().build();
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -154,6 +161,9 @@ public class CameraFragment extends Fragment {
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
                 .build();
+
+        // Throwaway, rotate the image saved to vertical -> There can be a bug with the image capture use case
+        imageCapture.setTargetRotation(Surface.ROTATION_90);
 
         // Add image analysis use case to analyze image
         imageAnalysis = new ImageAnalysis.Builder()
@@ -178,8 +188,20 @@ public class CameraFragment extends Fragment {
                                 String rawValue = barcode.getRawValue();
                                 String displayValue = barcode.getDisplayValue();
 
-                                Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(requireActivity(), displayValue, Toast.LENGTH_SHORT).show();
+                                // The output steam is expanded so fast that there need to be constraints to not interfere
+                                // in the application activity
+                                // Currently working on a nicer ways around the API!
+                                // ArrayList<String> barCodeRawValues is a throwaway
+                                // We can just use whatever we have first, put it in the view model (we can drop it later)
+                                // and then navigate to the next fragment
+                                if (barCodeRawValues.size() == 0){
+                                    barCodeRawValues.add(rawValue);
+                                    Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
+                                }
+                                if (!Objects.equals(rawValue, barCodeRawValues.get(barCodeRawValues.size() - 1))){
+                                    barCodeRawValues.add(rawValue);
+                                    Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
+                                }
 
                             }
                         }
