@@ -43,4 +43,9 @@
 
     <!--API KEY-->
     <string name="API_key">AIzaSyAy6eUw2krdD9YaS9ERxJ-iH2ZhQll9wqs</string>
+    <string name="qr_detected">QR Detected</string>
+    <string name="qr_detected_bonus">A QR code has been found</string>
+    <string name="name">NAME</string>
+    <string name="abcd_451_26">ABCD#451!~26</string>
+    <string name="_10000_pts">10000 Pts</string>
 </resources>
