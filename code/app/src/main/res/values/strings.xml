@@ -43,9 +43,19 @@
 
     <!--API KEY-->
     <string name="API_key">AIzaSyAy6eUw2krdD9YaS9ERxJ-iH2ZhQll9wqs</string>
+
+    <!--Detected Screen-->
     <string name="qr_detected">QR Detected</string>
     <string name="qr_detected_bonus">A QR code has been found</string>
     <string name="name">NAME</string>
     <string name="abcd_451_26">ABCD#451!~26</string>
     <string name="_10000_pts">10000 Pts</string>
+
+    <!--Add a picture/location Screen-->
+    <string name="add_a_picture">Add a picture?</string>
+    <string name="add_picture_bonus">Open the camera to take one</string>
+    <string name="add_a_location">Add a location?</string>
+    <string name="add_location_bonus">We will record your location</string>
+    <string name="sorry">Sorry…</string>
+    <string name="sure">Sure</string>
 </resources>
