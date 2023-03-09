@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    //Different expresso versions?
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // Expresso Testing
@@ -50,9 +51,10 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
-    def fragment_version = "1.5.5"
 
-    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+    // These cause app to not run tests
+    //def fragment_version = "1.5.5"
+    //debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
 
 
     // firebase import
