@@ -58,4 +58,10 @@
     <string name="add_location_bonus">We will record your location</string>
     <string name="sorry">Sorry…</string>
     <string name="sure">Sure</string>
+
+    <!--Edit QR Screen-->
+    <string name="location">LOCATION</string>
+    <string name="latitude_longitude">(102, 122)</string>
+    <string name="comment">COMMENT</string>
+    <string name="comment_more">…</string>
 </resources>
