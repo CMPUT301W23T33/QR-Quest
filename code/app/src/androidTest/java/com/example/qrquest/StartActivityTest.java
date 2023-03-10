@@ -15,27 +15,20 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-//manually added
-//import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner; // deprecated?
+
 
 /**
  * This Test class is used to test Starting Screen fragment(s) navigation.
  * It tests fragments CreateAccountFragment, StartFragment.
- * Issue/Bug #1: Currently not opening StartActivity, but instead MainActivity
  * @author Abinand Nanthananthan
  */
-@RunWith(AndroidJUnit4.class) // not sure if needed, needed to run the FragmentScenario
+@RunWith(AndroidJUnit4.class)
 public class StartActivityTest {
     // Because of SharedPreferences, have to uninstall App to do these testings //////
 
-    // Test Method #1
-    //Testing it with ActivityScenarioRule: Issue: Displays MainActivity rather than StartActivity.
-    // goes to MainActivity For some reason ("hello world" page), even though specified StartActivity
     @Rule
     public ActivityScenarioRule<StartActivity> activityRule =
             new ActivityScenarioRule<>(StartActivity.class);
-    //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
-    //ActivityScenario<StartActivity> activityScenario = activityRule.getScenario();
 
     @Test
     /**
@@ -43,45 +36,16 @@ public class StartActivityTest {
      */
     public void CheckContinueButton() {
         // Because of SharedPreferences, have to uninstall App to do these testings
-        //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
         ActivityScenario<StartActivity> activityScenario = activityRule.getScenario();
-        //activityScenario.moveToState(Lifecycle.State.STARTED);
-        onView(withId(R.id.button_next)).perform(click()); // comes up as error as theres no button in MainActivity
-        onView(withId(R.id.createAccountFragment)).check(matches(isDisplayed()));
-
-        /*
-        ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
-        scenario.onActivity(activity -> {
-            onView(withId(R.id.button_next)).perform(click());
-            onView(withId(R.id.createAccountFragment)).check(matches(isDisplayed()));
-        });
-         */
+        onView(withId(R.id.button_next)).perform(click());
+        onView(withId(R.id.createAccountFragmentView)).check(matches(isDisplayed()));
     }
-    // Test Method #2
-    // Testing it with FragmentScenario: Issue: Dependency causes Test to not launch
-    // Issue #2: java.lang.RuntimeException: Failed to instantiate test runner class androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-//    @Rule
-//    public FragmentScenario<StartFragment> scenario = FragmentScenario.launchInContainer(StartFragment.class);
-//    @Test
-//    /**
-//     * Tests whether the fragments switch
-//     */
-//    public void testSwitchToNextFragment() {
-//        //FragmentScenario<StartFragment> scenario1 = scenario
-//        onView(withId(R.id.button_next)).perform(click());
-//        onView(withId(R.id.createAccountFragment)).check(matches(isDisplayed()));
-//    }
-
-    // Test Method #3
-    // Testing it using FragmentManager/SupportFragmentManager?
-    //...
 
     @Test
     /**
      * Tests whether the back button on StartActivity
      */
     public void CheckBackButton() {
-        //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
         ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click());
         onView(withId(R.id.button_back)).perform(click());
@@ -91,12 +55,14 @@ public class StartActivityTest {
      * Tests if a unique username is generated
      */
     public void CheckUsernameGeneration() {
-        //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
         //By default, should generate unique username without having to click "Another"
         ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click());
-        onView(withId(R.id.name_text)).check(matches(not(withText(""))));
-        //.. unfinished, need to test if names are unique
+        onView(withId(R.id.button_elevated_secondary)).perform((click()));
+        onView(withId(R.id.name_text)).check(matches(not(withText(" "))));
+        onView((withId(R.id.button_elevated_primary))).perform(click());
+        // test username/Firestore testing in Database testing class
+
     }
 
 
