@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.Image;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
@@ -19,48 +18,45 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-
 import android.view.LayoutInflater;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
 /**
- * This class defines all activities related to using camera
- * @author: Dang Viet Anh Dinh
+ * This class defines the camera screen
+ * @author Dang Viet Anh Dinh
  */
 public class Camera extends Fragment {
 
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
-    private Button buttonCaptureImage, buttonBack;
+    private FloatingActionButton buttonCaptureImage;
+    private ImageButton buttonBack;
     private ImageCapture imageCapture;
     private ImageAnalysis imageAnalysis;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
             .build();
-
+    private long start, end;
     ArrayList<String> barCodeRawValues = new ArrayList<>();
 
     @Override
@@ -70,8 +66,7 @@ public class Camera extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.camera, container, false);
+        View view = inflater.inflate(R.layout.camera_screen, container, false);
 
         previewView = view.findViewById(R.id.camera_preview_view);
         buttonCaptureImage = view.findViewById(R.id.camera_button_capture_image);
@@ -104,11 +99,11 @@ public class Camera extends Fragment {
             }
         });
 
-        // Finish using camera and navigate back to add_word_fragment
+        // Finish using camera and navigate back to the previous activity
         buttonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                requireActivity().finish();
             }
         });
 
@@ -173,32 +168,37 @@ public class Camera extends Fragment {
                     Task<List<Barcode>> result = scanner.process(inputImage).addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
                         @Override
                         public void onSuccess(List<Barcode> barcodes) {
-                            for (Barcode barcode : barcodes){
+                            for (Barcode barcode : barcodes) {
 
                                 String rawValue = barcode.getRawValue();
                                 String displayValue = barcode.getDisplayValue();
 
-                                // The output steam is expanded so fast that there need to be constraints to not interfere
+                                // The output steam is expanded so rapidly that there need to be constraints to not interfere
                                 // in the application activity
                                 // Currently working on a nicer ways around the API!
-                                // ArrayList<String> barCodeRawValues is a throwaway
+                                // ArrayList<String> barCodeRawValues is a placeholder for the QR Code to be added to the view model
+                                // for other fragments to use -> We can use just String in case when the list gets too large
                                 // We can just use whatever we have first, put it in the view model (we can drop it later)
                                 // and then navigate to the next fragment
-                                if (barCodeRawValues.size() == 0){
-                                    barCodeRawValues.add(rawValue);
-                                    Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
-                                }
-                                if (!Objects.equals(rawValue, barCodeRawValues.get(barCodeRawValues.size() - 1))){
+                                if (barCodeRawValues.size() == 0) {
+                                    start = System.currentTimeMillis();
                                     barCodeRawValues.add(rawValue);
                                     Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
                                 }
 
+                                // Wait for at least 3 seconds before allowing another qr code to be scanned
+                                end = System.currentTimeMillis();
+                                if (end - start >= 3000) {
+                                    start = System.currentTimeMillis();
+                                    barCodeRawValues.add(rawValue);
+                                    Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(requireActivity(), "Image processed failed!" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireContext(), "Image processed failed!" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }).addOnCompleteListener(new OnCompleteListener<List<Barcode>>() {
                         @Override
@@ -224,12 +224,14 @@ public class Camera extends Fragment {
         String timestamp = String.valueOf(date.getTime());
         String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
 
-        // Photo is saved at /storage/emulated/0/Android/data/com.example.base/cache/Pictures (absolute path)
-        // Go to Files -> Device -> Android -> data -> com.example.base -> cache -> Pictures
+        // Photo is saved at /storage/emulated/0/Android/data/com.example.qrquest/cache/Pictures (absolute path)
+        // Go to Files -> Android -> data -> com.example.qrquest -> cache -> Pictures
         File photoFile = new File(photoFilePath);
         imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(), getExecutor(), new ImageCapture.OnImageSavedCallback() {
+            // Save image to app storage (and navigate to the next screen if needed)
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                // Navigate if needed (currently wait for the integration of other fragment)
                 Toast.makeText(requireActivity(), "Photo has been saved successfully", Toast.LENGTH_SHORT).show();
             }
             @Override
