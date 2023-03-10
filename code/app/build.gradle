@@ -43,11 +43,12 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     //debugImplementation 'androidx.fragment:fragment-testing:1.5.5'
     testImplementation 'junit:junit:4.13.2'
+    //androidTestImplementation 'junit:junit:4.13.2' // new
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     //Different expresso versions?
     //androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    // Expresso Testing
+    // Expresso Testing androidTest
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'

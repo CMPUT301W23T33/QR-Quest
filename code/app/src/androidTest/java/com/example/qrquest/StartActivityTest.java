@@ -6,20 +6,17 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.hamcrest.CoreMatchers.not;
 
-//import androidx.fragment.app.testing.FragmentScenario;
-//import androidx.fragment.app.testing.FragmentScenario;
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+//manually added
+//import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner; // deprecated?
 
 /**
  * This Test class is used to test Starting Screen fragment(s) navigation.
@@ -29,6 +26,8 @@ import org.junit.runner.RunWith;
  */
 @RunWith(AndroidJUnit4.class) // not sure if needed, needed to run the FragmentScenario
 public class StartActivityTest {
+    // Because of SharedPreferences, have to uninstall App to do these testings //////
+
     // Test Method #1
     //Testing it with ActivityScenarioRule: Issue: Displays MainActivity rather than StartActivity.
     // goes to MainActivity For some reason ("hello world" page), even though specified StartActivity
@@ -43,7 +42,10 @@ public class StartActivityTest {
      * Tests whether the app switches from StartFragment to StartActivity upon button press
      */
     public void CheckContinueButton() {
+        // Because of SharedPreferences, have to uninstall App to do these testings
+        //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
         ActivityScenario<StartActivity> activityScenario = activityRule.getScenario();
+        //activityScenario.moveToState(Lifecycle.State.STARTED);
         onView(withId(R.id.button_next)).perform(click()); // comes up as error as theres no button in MainActivity
         onView(withId(R.id.createAccountFragment)).check(matches(isDisplayed()));
 
@@ -79,6 +81,7 @@ public class StartActivityTest {
      * Tests whether the back button on StartActivity
      */
     public void CheckBackButton() {
+        //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
         ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click());
         onView(withId(R.id.button_back)).perform(click());
@@ -88,6 +91,7 @@ public class StartActivityTest {
      * Tests if a unique username is generated
      */
     public void CheckUsernameGeneration() {
+        //ActivityScenario<StartActivity> scenario = ActivityScenario.launch(StartActivity.class);
         //By default, should generate unique username without having to click "Another"
         ActivityScenario<StartActivity> scenario = activityRule.getScenario();
         onView(withId(R.id.button_next)).perform(click());
