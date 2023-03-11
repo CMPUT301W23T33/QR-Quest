@@ -62,4 +62,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:31.2.0')
     implementation 'com.google.firebase:firebase-firestore:24.4.4'
     implementation 'com.google.firebase:firebase-analytics'
+
+    // viewPager2
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 }
