@@ -1,35 +1,40 @@
 package com.example.qrquest;
 
-import com.google.android.gms.common.util.Hex;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import com.google.common.hash.Hashing;
 import java.util.Random;
-
 public class HashQRCode {
-//    String hexString = "4a616e652031393634";
-//    byte[] byteArray = android.util.HexDump.hexStringToByteArray(hexString);
-//    MessageDigest digest = MessageDigest.getInstance("SHA-256")
-    public static void main(String[] args)
-    {
 
-        // The cursor will after GFG1
-        // will at the start
-        // of the next line
-        System.out.println(get64LeastSignificantBitsForVersion1());
+    // Array of names to choose from
+    private static final String[] nameArray = {"Alice", "Bob", "Charlie", "David", "Emily", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Katie", "Laura", "Mallory", "Nancy", "Oscar", "Peggy", "Quentin", "Ralph", "Steve", "Trent", "Ursula", "Victor", "Wendy", "Xander", "Yvonne", "Zelda", "Adam", "Beth", "Cindy", "Derek", "Erica", "Fiona", "George", "Hannah", "Isaac", "Jackie", "Karen", "Lenny", "Mia", "Nate", "Olivia", "Pete", "Quinn", "Rachel", "Samantha", "Tina", "Vince", "Wade", "Ximena", "Yara"};
 
-        // This will be printed at the
-        // start of the next line
-        System.out.println(get64LeastSignificantBitsForVersion1());
-    }
+    // Function to generate a unique human-readable name for a QR code
+    public static String generateQRCodeName(String hexString) {
+        // Convert the hex string to a byte array
+        byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
-    private static long get64LeastSignificantBitsForVersion1() {
-        Random random = new Random();
-        long random63BitLong = random.nextLong() & 0x3FFFFFFFFFFFFFFFL;
-        long variant3BitFlag = 0x8000000000000000L;
-        return random63BitLong | variant3BitFlag;
-    }
+        // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
+        String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
-        public HashQRCode() throws NoSuchAlgorithmException {
+        // Generate a random name
+        StringBuilder nameBuilder = new StringBuilder();
+        Random random = new Random(hashString.charAt(0));
+        for (int i = 0; i < 3; i++) {
+            int nameIndex = Math.abs(random.nextInt()) % nameArray.length;
+            nameBuilder.append(nameArray[nameIndex]);
         }
+
+        // Truncate the hash to the first three bytes
+        String truncatedHashString = hashString.substring(0, 6);
+
+        // Convert the truncated hash to an integer and take the absolute value
+        int truncatedHashInt = Math.abs(Integer.parseInt(truncatedHashString, 16));
+
+        // Generate a 6-digit number using the truncated hash integer
+        truncatedHashInt = truncatedHashInt % 1000000;
+
+        // Concatenate the random name and the 6-digit number to form the final QR code name
+        return nameBuilder.toString() + String.format("%06d", truncatedHashInt);
+    }
 }
