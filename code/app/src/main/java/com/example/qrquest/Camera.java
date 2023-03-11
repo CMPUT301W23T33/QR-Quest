@@ -17,6 +17,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,7 @@ import java.util.concurrent.Executor;
 public class Camera extends Fragment {
 
     private CameraScreenBinding binding;
+    private View view;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private ImageCapture imageCapture;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
@@ -63,7 +66,7 @@ public class Camera extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = CameraScreenBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+        view = binding.getRoot();
 
         // Create the camera provider instance
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(requireActivity());
@@ -89,6 +92,7 @@ public class Camera extends Fragment {
             @Override
             public void onClick(View v) {
                 takePhoto();
+                //Navigation.findNavController(view).navigate(R.id.action_camera_to_QRDetectedFragment);
             }
         });
 
@@ -178,6 +182,7 @@ public class Camera extends Fragment {
                                     start = System.currentTimeMillis();
                                     barCodeRawValues.add(rawValue);
                                     Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
+
                                 }
 
                                 // Wait for at least 3 seconds before allowing another qr code to be scanned
@@ -225,7 +230,6 @@ public class Camera extends Fragment {
             // Save image to app storage (and navigate to the next screen if needed)
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                // Navigate if needed (currently wait for the integration of other fragment)
                 Toast.makeText(requireActivity(), "Photo has been saved successfully", Toast.LENGTH_SHORT).show();
             }
             @Override

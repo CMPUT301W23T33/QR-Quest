@@ -9,5 +9,13 @@
         android:id="@+id/camera"
         android:name="com.example.qrquest.Camera"
         android:label="camera_screen"
-        tools:layout="@layout/camera_screen" />
+        tools:layout="@layout/camera_screen" >
+        <action
+            android:id="@+id/action_camera_to_QRDetectedFragment"
+            app:destination="@id/QRDetectedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/QRDetectedFragment"
+        android:name="com.example.qrquest.QRDetectedFragment"
+        android:label="QRDetectedFragment" />
 </navigation>
