@@ -22,9 +22,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
 
-import com.example.qrquest.databinding.ActivityMainBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -75,12 +73,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Camera button
         FloatingActionButton button_camera = findViewById(R.id.button_camera_1);
-        button_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
-                startActivity(intent);
-            }
+        button_camera.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+            startActivity(intent);
         });
     }
 
