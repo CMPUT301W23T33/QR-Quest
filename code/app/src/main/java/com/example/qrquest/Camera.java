@@ -13,7 +13,6 @@ import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -21,13 +20,13 @@ import androidx.lifecycle.LifecycleOwner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.example.qrquest.databinding.CameraScreenBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -47,12 +46,9 @@ import java.util.concurrent.Executor;
  */
 public class Camera extends Fragment {
 
-    private PreviewView previewView;
+    private CameraScreenBinding binding;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
-    private FloatingActionButton buttonCaptureImage;
-    private ImageButton buttonBack;
     private ImageCapture imageCapture;
-    private ImageAnalysis imageAnalysis;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
             .build();
@@ -65,12 +61,9 @@ public class Camera extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.camera_screen, container, false);
-
-        previewView = view.findViewById(R.id.camera_preview_view);
-        buttonCaptureImage = view.findViewById(R.id.camera_button_capture_image);
-        buttonBack = view.findViewById(R.id.camera_button_back);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = CameraScreenBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // Create the camera provider instance
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(requireActivity());
@@ -92,7 +85,7 @@ public class Camera extends Fragment {
         }
 
         // Take a photo and save to project
-        buttonCaptureImage.setOnClickListener(new View.OnClickListener() {
+        binding.cameraButtonCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePhoto();
@@ -100,7 +93,7 @@ public class Camera extends Fragment {
         });
 
         // Finish using camera and navigate back to the previous activity
-        buttonBack.setOnClickListener(new View.OnClickListener() {
+        binding.cameraButtonBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 requireActivity().finish();
@@ -143,7 +136,7 @@ public class Camera extends Fragment {
 
         // Add preview use case to view the camera
         Preview preview = new Preview.Builder().build();
-        preview.setSurfaceProvider(previewView.getSurfaceProvider());
+        preview.setSurfaceProvider(binding.cameraPreviewView.getSurfaceProvider());
 
         // Add image capture use case to capture image
         imageCapture = new ImageCapture.Builder()
@@ -151,7 +144,7 @@ public class Camera extends Fragment {
                 .build();
 
         // Add image analysis use case to analyze image
-        imageAnalysis = new ImageAnalysis.Builder()
+        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build();
 
