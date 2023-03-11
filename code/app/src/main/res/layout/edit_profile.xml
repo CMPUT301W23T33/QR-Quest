@@ -33,11 +33,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_margin="32dp"
             android:contentDescription="@string/user_profile_description"
-            android:scaleX="2"
-            android:scaleY="2"
-            android:src="@drawable/baseline_person_24">
+            android:src="@drawable/baseline_person_big">
 
         </ImageView>
 
@@ -92,10 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@id/edit_profile_qr_quest"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40dp"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:src="@drawable/qr_logo_small"
+            android:src="@drawable/qr_logo_big"
+            android:layout_marginBottom="16dp"
             android:contentDescription="@string/app_name">
 
         </ImageView>

@@ -238,6 +238,21 @@
         <item name="android:paddingTop">80dp</item>
         <item name="android:paddingBottom">8dp</item>
     </style>
+
+    <style name="Theme.TopSheetDialog" parent="Widget.Material3.BottomSheet">
+        <item name="android:background">@drawable/rounded_bottom_corners</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <style name="Theme.BottomSheetDialog.Small" parent="Widget.Material3.BottomSheet">
+        <item name="android:background">@drawable/rounded_top_corners_small</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+    </style>
+
     <!--Main Screen Layout-->
     <style name="Theme.BottomSheet.Navigation" parent="Widget.Material3.BottomSheet">
         <item name="android:background">@drawable/rounded_navigation_bar</item>
