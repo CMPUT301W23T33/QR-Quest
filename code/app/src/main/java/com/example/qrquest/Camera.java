@@ -37,13 +37,13 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
 /**
  * This class defines the camera screen
  * @author Dang Viet Anh Dinh
+ * @author Thea Nguyen
  */
 public class Camera extends Fragment {
 
@@ -214,7 +214,9 @@ public class Camera extends Fragment {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 Navigation.findNavController(view).navigate(R.id.action_camera_to_QRDetectedFragment);
-                Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
+
+                // PASSING THE RAW VALUE HERE (WOULD BE NICE IF WE CAN IMPLEMENT VIEW-MODEL)
+
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
