@@ -171,7 +171,7 @@ public class Camera extends Fragment {
                             for (Barcode barcode : barcodes) {
 
                                 String rawValue = barcode.getRawValue();
-                                String displayValue = barcode.getDisplayValue();
+                                //String displayValue = barcode.getDisplayValue();
 
                                 // The output steam is expanded so rapidly that there need to be constraints to not interfere
                                 // in the application activity
@@ -222,7 +222,7 @@ public class Camera extends Fragment {
         }
         Date date = new Date();
         String timestamp = String.valueOf(date.getTime());
-        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
+        String photoFilePath = photoDir.getAbsolutePath() + "/" + timestamp + ".jpg";
 
         // Photo is saved at /storage/emulated/0/Android/data/com.example.qrquest/cache/Pictures (absolute path)
         // Go to Files -> Android -> data -> com.example.qrquest -> cache -> Pictures
