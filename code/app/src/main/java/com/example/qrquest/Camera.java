@@ -119,12 +119,13 @@ public class Camera extends Fragment {
     }
 
     // Create an executor on the main thread
+    @NonNull
     private Executor getExecutor() {
         return ContextCompat.getMainExecutor(requireActivity());
     }
 
     // Set up camera
-    private void startCameraX(ProcessCameraProvider cameraProvider) {
+    private void startCameraX(@NonNull ProcessCameraProvider cameraProvider) {
 
         // Unbind all previous settings
         cameraProvider.unbindAll();

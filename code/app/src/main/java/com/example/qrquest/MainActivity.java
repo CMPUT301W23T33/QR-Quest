@@ -22,7 +22,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
 
+import com.example.qrquest.databinding.ActivityMainBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -43,16 +46,15 @@ import java.util.List;
  * displays a map if granted.
  */
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
-    private GoogleMap map;
-    LocationManager manager;
     FirebaseFirestore db;
-    String username;
+    private GoogleMap map;
+    private LocationManager manager;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         locationPermissionRequest.launch(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -70,6 +72,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // get username from Shared Preferences
         SharedPreferences sharedPref = getSharedPreferences("sp", Context.MODE_PRIVATE);
         username = sharedPref.getString("username", "");
+
+        // Camera button
+        FloatingActionButton button_camera = findViewById(R.id.button_camera_1);
+        button_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CameraActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @SuppressLint("MissingPermission")
