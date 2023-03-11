@@ -19,7 +19,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +48,11 @@ import java.util.concurrent.Executor;
 public class Camera extends Fragment {
 
     private CameraScreenBinding binding;
+    private View view;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private ImageCapture imageCapture;
     private long start, end;
+    private String rawValue;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
             .build();
@@ -57,7 +61,7 @@ public class Camera extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = CameraScreenBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
+        view = binding.getRoot();
 
         // Create the camera provider instance
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(requireActivity());
@@ -165,24 +169,22 @@ public class Camera extends Fragment {
                                     ColorStateList.valueOf(Color.parseColor("#735D78")));
                         }
 
-                        String rawValue = "";
-                        if (barcodes.size() > 0)
+                        rawValue = "";
+                        if (barcodes.size() > 0) {
                             rawValue = barcodes.get(barcodes.size() - 1).getRawValue();
+                            Log.d("Scanning", rawValue);
+                        }
 
                         // Duration between duration of each qr code scanned
                         if (barCodeRawValues.size() == 0) {
                             start = System.currentTimeMillis();
                             barCodeRawValues.add(rawValue);
-                            if (!Objects.equals(rawValue, ""))
-                                Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
-
                         }
                         // Wait for >= 3 seconds before allowing another qr code to be scanned
                         end = System.currentTimeMillis();
-                        if (end - start >= 3000 && !Objects.equals(rawValue, "")) {
+                        if (end - start >= 3000) {
                             start = System.currentTimeMillis();
                             barCodeRawValues.add(rawValue);
-                            Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnFailureListener(e -> binding.cameraButtonCaptureImage.setEnabled(false))
@@ -211,7 +213,8 @@ public class Camera extends Fragment {
                 getExecutor(), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Toast.makeText(requireActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                Navigation.findNavController(view).navigate(R.id.action_camera_to_QRDetectedFragment);
+                Toast.makeText(requireActivity(), rawValue, Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
