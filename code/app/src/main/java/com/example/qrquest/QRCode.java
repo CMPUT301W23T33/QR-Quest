@@ -1,5 +1,7 @@
 package com.example.qrquest;
 
+import java.io.Serializable;
+
 /**
  * This class defines QR Codes
  */
@@ -11,7 +13,7 @@ public class QRCode {
     private String hashedQRCode;
 
     /**
-     * This member represents the unhashed name of the QR Code
+     * This member represents the un-hashed name of the QR Code
      */
     private String qrCode;
 
@@ -38,7 +40,7 @@ public class QRCode {
     /**
      * This method defines an existing QR Code in the database
      * @param hashedQRCode: the hashed name of the QR Code
-     * @param qrCode: the unhashed name of the QR Code
+     * @param qrCode: the un-hashed name of the QR Code
      * @param score: the score of the QR Code
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
@@ -53,7 +55,7 @@ public class QRCode {
 
     /**
      * This method defines a new QR Code
-     * @param qrCode: the unhashed name of the QR Code
+     * @param qrCode: the un-hashed name of the QR Code
      * @param score: the score of the QR Code
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
@@ -67,16 +69,16 @@ public class QRCode {
     }
 
     /**
-     * This method retrieves the unhashed name of the QR Code
-     * @return the unhashed name of the QR Code
+     * This method retrieves the un-hashed name of the QR Code
+     * @return the un-hashed name of the QR Code
      */
     public String getQrCode() {
         return this.qrCode;
     }
 
     /**
-     * This method set the unhashed name for the QR Code and performs QR Code hashing
-     * @param qrCode: the unhashed name of the QR Code
+     * This method set the un-hashed name for the QR Code and performs QR Code hashing
+     * @param qrCode: the un-hashed name of the QR Code
      */
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;

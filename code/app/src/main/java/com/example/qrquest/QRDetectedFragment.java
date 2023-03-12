@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +22,10 @@ public class QRDetectedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentQrDetectedBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+
+        Bundle bundle = getArguments();
+        assert bundle != null;
+        String rawValue = bundle.getString("rawValue");
 
         return view;
     }

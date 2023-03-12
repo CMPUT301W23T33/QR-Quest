@@ -18,7 +18,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -206,7 +205,7 @@ public class Camera extends Fragment {
             }
         });
         // Bind all these use cases to the camera
-        cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageCapture, imageAnalysis);
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalysis);
     }
 
     /**
@@ -228,10 +227,9 @@ public class Camera extends Fragment {
                 getExecutor(), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Navigation.findNavController(view).navigate(R.id.action_camera_to_QRDetectedFragment);
-
-                // PASSING THE RAW VALUE HERE (WOULD BE NICE IF WE CAN IMPLEMENT VIEW-MODEL)
-
+                Bundle bundle = new Bundle();
+                bundle.putString("rawValue", rawValue);
+                Navigation.findNavController(view).navigate(R.id.action_camera_to_QRDetectedFragment, bundle);
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
