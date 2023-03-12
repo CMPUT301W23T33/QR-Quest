@@ -1,35 +1,28 @@
 package com.example.qrquest;
 
-
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.qrquest.databinding.FragmentEditQrBinding;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class EditQRFragment extends Fragment {
-
-    ViewPager2 viewPager2;
-    TabLayout tabLayout;
     ArrayList<VPItem> arrayList;
     FragmentEditQrBinding binding;
 
     String qrName;
     String uri;
     int qrScore;
+    int items = 2;
     double latitude;
     double longitude;
 
@@ -62,11 +55,17 @@ public class EditQRFragment extends Fragment {
         }
 
         // Set up viewPager2
-        int[] images = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
-
-
-        arrayList = new ArrayList<>();
-        for (int image : images) arrayList.add(new VPItem(image));
+        if (uri != null) {
+            String[] imageURIs = {uri};
+            arrayList = new ArrayList<>();
+            for (String imageURI : imageURIs) arrayList.add(new VPItem(imageURI));
+        }
+        // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
+        else {
+            int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
+             arrayList = new ArrayList<>();
+             for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
+        }
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
