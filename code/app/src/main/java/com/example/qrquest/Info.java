@@ -45,7 +45,7 @@ public class Info extends QRCode {
      * @param score: the score of the QR Code
      * @param username: the username of the player
      */
-    public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String username){
+    public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, int score, Date timeStamp, String username){
         super(hashedQRCode, qrCode, score, latitude, longitude);
         setComment(comment);
         setRegion(region);
@@ -62,7 +62,7 @@ public class Info extends QRCode {
      * @param score: the score of the QR Code
      * @param username: the username of the player
      */
-    public Info(String comment, double latitude, double longitude, String qrCode, String region, double score, Date timeStamp, String username){
+    public Info(String comment, double latitude, double longitude, String qrCode, String region, int score, Date timeStamp, String username){
         super(qrCode, score, latitude, longitude);
         setRegion(region);
         setTimeStamp(timeStamp);

@@ -2,9 +2,8 @@ package com.example.qrquest;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
@@ -18,10 +17,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +32,8 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -48,20 +45,20 @@ import java.util.concurrent.Executor;
 public class Camera extends Fragment {
 
     private CameraScreenBinding binding;
-    private View view;
+    private View cameraFragmentView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private ImageCapture imageCapture;
-    private long start, end;
     private String rawValue;
+    Bundle bundle;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
             .build();
-    ArrayList<String> barCodeRawValues = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = CameraScreenBinding.inflate(inflater, container, false);
-        view = binding.getRoot();
+        cameraFragmentView = binding.getRoot();
+        bundle = getArguments();
 
         // Create the camera provider instance
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(requireActivity());
@@ -82,16 +79,25 @@ public class Camera extends Fragment {
             requestPermission();
         }
 
-        binding.cameraButtonCaptureImage.setEnabled(false);
-
         // Take a photo and save to project
         binding.cameraButtonCaptureImage.setOnClickListener(v -> takePhoto());
 
         // Finish using camera and navigate back to the previous activity
         binding.cameraButtonBack.setOnClickListener(v -> requireActivity().finish());
 
-        return view;
+        return cameraFragmentView;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // check camera use (take raw value || take object picture)
+        bundle = getArguments();
+        if (bundle == null)
+            binding.bottomSheet.setVisibility(View.INVISIBLE);
+        else
+            binding.bottomSheet.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -139,7 +145,7 @@ public class Camera extends Fragment {
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
 
-        // Add preview use case to view the camera
+        // Add preview use case to cameraFragmentView the camera
         Preview preview = new Preview.Builder().build();
         preview.setSurfaceProvider(binding.cameraPreviewView.getSurfaceProvider());
 
@@ -159,45 +165,24 @@ public class Camera extends Fragment {
             @ExperimentalGetImage
             public void analyze(@NonNull ImageProxy image) {
                 Image mediaImage = image.getImage();
-                if (mediaImage != null){
+                if (mediaImage != null) {
                     InputImage inputImage = InputImage.fromMediaImage(mediaImage,
                             image.getImageInfo().getRotationDegrees());
                     BarcodeScanner scanner = BarcodeScanning.getClient(options);
 
                     scanner.process(inputImage).addOnSuccessListener(barcodes -> {
                         // if a barcode is detected, then enable camera button
-                        if (barcodes.size() > 0) {
-                            binding.cameraButtonCaptureImage.setEnabled(true);
-                            binding.cameraButtonCaptureImage.setBackgroundTintList(
-                                    ColorStateList.valueOf(Color.parseColor("#CDB4DB")));
-                            binding.cameraButtonCaptureImage.setImageTintList(
-                                    ColorStateList.valueOf(Color.parseColor("#CDB4DB")));
-                        }
-                        // else, disable camera button
-                        else {
-                            binding.cameraButtonCaptureImage.setEnabled(false);
-                            binding.cameraButtonCaptureImage.setBackgroundTintList(
-                                    ColorStateList.valueOf(Color.parseColor("#735D78")));
-                            binding.cameraButtonCaptureImage.setImageTintList(
-                                    ColorStateList.valueOf(Color.parseColor("#735D78")));
-                        }
-
                         rawValue = "";
                         if (barcodes.size() > 0) {
                             rawValue = barcodes.get(barcodes.size() - 1).getRawValue();
-                            Log.d("Scanning", rawValue);
-                        }
+                            if (bundle == null) {
+                                Bundle bundle1 = new Bundle();
+                                bundle1.putString("rawValue", rawValue);
 
-                        // Duration between duration of each qr code scanned
-                        if (barCodeRawValues.size() == 0) {
-                            start = System.currentTimeMillis();
-                            barCodeRawValues.add(rawValue);
-                        }
-                        // Wait for >= 3 seconds before allowing another qr code to be scanned
-                        end = System.currentTimeMillis();
-                        if (end - start >= 3000) {
-                            start = System.currentTimeMillis();
-                            barCodeRawValues.add(rawValue);
+                                Navigation.findNavController(cameraFragmentView)
+                                        .navigate(R.id.action_camera_to_QRDetectedFragment, bundle1);
+                                imageAnalysis.clearAnalyzer();
+                            }
                         }
                     })
                     .addOnFailureListener(e -> binding.cameraButtonCaptureImage.setEnabled(false))
@@ -206,7 +191,7 @@ public class Camera extends Fragment {
             }
         });
         // Bind all these use cases to the camera
-        cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageCapture, imageAnalysis);
+        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalysis);
     }
 
     /**
@@ -228,10 +213,12 @@ public class Camera extends Fragment {
                 getExecutor(), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Navigation.findNavController(view).navigate(R.id.action_camera_to_QRDetectedFragment);
+                Toast.makeText(requireActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("uri", stringUri);
 
-                // PASSING THE RAW VALUE HERE (WOULD BE NICE IF WE CAN IMPLEMENT VIEW-MODEL)
-
+                Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_promptLocationFragment, bundle2);
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
