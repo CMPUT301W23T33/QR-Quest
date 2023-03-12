@@ -62,7 +62,7 @@
             android:text="@string/name"
             android:textAppearance="@style/small"
             android:textColor="@color/thistle"
-            android:layout_weight="0.25"
+            android:layout_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -74,9 +74,10 @@
             android:textAppearance="@style/small"
             android:textColor="@color/white"
             android:textAlignment="textEnd"
-            android:layout_weight="1.75"
+            android:layout_weight="1"
             android:ellipsize="end"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:maxWidth="120dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -98,7 +99,7 @@
             android:text="@string/score"
             android:textAppearance="@style/small"
             android:textColor="@color/thistle"
-            android:layout_weight="0.25"
+            android:layout_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -110,7 +111,7 @@
             android:textAppearance="@style/small"
             android:textColor="@color/white"
             android:textAlignment="textEnd"
-            android:layout_weight="1.75"/>
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
