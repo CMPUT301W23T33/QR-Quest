@@ -3,6 +3,7 @@ package com.example.qrquest;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
@@ -16,10 +17,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +32,6 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -216,6 +214,11 @@ public class Camera extends Fragment {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 Toast.makeText(requireActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
+                Bundle bundle2 = new Bundle();
+                bundle2.putString("uri", stringUri);
+
+                Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_promptLocationFragment, bundle2);
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
