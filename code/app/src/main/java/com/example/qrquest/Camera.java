@@ -50,22 +50,17 @@ public class Camera extends Fragment {
     private View cameraFragmentView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private ImageCapture imageCapture;
-    private long start, end;
     private String rawValue;
-    private NavController controller;
-    Bundle bundle = new Bundle();
+    Bundle bundle;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
             .build();
-    ArrayList<String> barCodeRawValues = new ArrayList<>();
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = CameraScreenBinding.inflate(inflater, container, false);
         cameraFragmentView = binding.getRoot();
-//        controller = Navigation.findNavController(requireActivity(),R.id.nav_host_fragment_camera);
-//        NavDestination currentDestination = controller.getCurrentDestination();
-
+        bundle = getArguments();
 
         // Create the camera provider instance
         cameraProviderListenableFuture = ProcessCameraProvider.getInstance(requireActivity());
@@ -86,13 +81,6 @@ public class Camera extends Fragment {
             requestPermission();
         }
 
-        // check camera use (take raw value || take object picture)
-        if (bundle.getString("rawValue") == null)
-            binding.bottomSheet.setVisibility(View.INVISIBLE);
-        else
-            binding.bottomSheet.setVisibility(View.VISIBLE);
-
-
         // Take a photo and save to project
         binding.cameraButtonCaptureImage.setOnClickListener(v -> takePhoto());
 
@@ -101,6 +89,17 @@ public class Camera extends Fragment {
 
         return cameraFragmentView;
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // check camera use (take raw value || take object picture)
+        bundle = getArguments();
+        if (bundle == null)
+            binding.bottomSheet.setVisibility(View.INVISIBLE);
+        else
+            binding.bottomSheet.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -168,7 +167,7 @@ public class Camera extends Fragment {
             @ExperimentalGetImage
             public void analyze(@NonNull ImageProxy image) {
                 Image mediaImage = image.getImage();
-                if (mediaImage != null){
+                if (mediaImage != null) {
                     InputImage inputImage = InputImage.fromMediaImage(mediaImage,
                             image.getImageInfo().getRotationDegrees());
                     BarcodeScanner scanner = BarcodeScanning.getClient(options);
@@ -178,9 +177,14 @@ public class Camera extends Fragment {
                         rawValue = "";
                         if (barcodes.size() > 0) {
                             rawValue = barcodes.get(barcodes.size() - 1).getRawValue();
-                            bundle.putString("rawValue", rawValue);
-                            Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_QRDetectedFragment, bundle);
-                            imageAnalysis.clearAnalyzer();
+                            if (bundle == null) {
+                                Bundle bundle1 = new Bundle();
+                                bundle1.putString("rawValue", rawValue);
+
+                                Navigation.findNavController(cameraFragmentView)
+                                        .navigate(R.id.action_camera_to_QRDetectedFragment, bundle1);
+                                imageAnalysis.clearAnalyzer();
+                            }
                         }
                     })
                     .addOnFailureListener(e -> binding.cameraButtonCaptureImage.setEnabled(false))
@@ -211,6 +215,7 @@ public class Camera extends Fragment {
                 getExecutor(), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                Toast.makeText(requireActivity(), "Saved", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {

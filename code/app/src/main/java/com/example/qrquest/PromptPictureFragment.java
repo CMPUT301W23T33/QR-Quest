@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,13 +23,26 @@ public class PromptPictureFragment extends Fragment {
         binding = FragmentPromptBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        binding.buttonSorry.setOnClickListener(new View.OnClickListener() {
+        // get the raw value of the QR code
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String raw = bundle.getString("rawValue");
+            Toast.makeText(requireActivity(), raw, Toast.LENGTH_SHORT).show();
+        }
+
+        binding.buttonSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_camera);
+                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_camera, bundle);
             }
         });
 
+        binding.buttonSorry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_promptLocationFragment);
+            }
+        });
 
 
         return view;

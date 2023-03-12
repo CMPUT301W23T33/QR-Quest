@@ -31,24 +31,24 @@ public class QRDetectedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentQrDetectedBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-//        Utilities utilities = new Utilities();
+        Utilities utilities = new Utilities();
 
-//        // get the raw value of the QR code
-//        Bundle bundle = getArguments();
-//        assert bundle != null;
-//        rawValue = bundle.getString("rawValue");
-//
-//        // display the hashed name
-//        String qrName = utilities.hashName(rawValue);
-//        binding.qrNameDisplay.setText(qrName);
-//
-//        // display the hashed score
-//        int qrScore = utilities.hashScore(rawValue);
-//        binding.qrScoreDisplay.setText(String.valueOf(qrScore));
-//
-//        // next button
-//        binding.buttonNext.setOnClickListener(v -> Navigation.findNavController(view)
-//                .navigate(R.id.action_QRDetectedFragment_to_promptPictureFragment));
+        // get the raw value of the QR code
+        Bundle bundle = getArguments();
+        assert bundle != null;
+        rawValue = bundle.getString("rawValue");
+
+        // display the hashed name
+        String qrName = utilities.hashName(rawValue);
+        binding.qrNameDisplay.setText(qrName);
+
+        // display the hashed score
+        int qrScore = utilities.hashScore(rawValue);
+        binding.qrScoreDisplay.setText(String.valueOf(qrScore));
+
+        // next button
+        binding.buttonNext.setOnClickListener(v -> Navigation.findNavController(view)
+                .navigate(R.id.action_QRDetectedFragment_to_promptPictureFragment, bundle));
 
         return view;
     }
