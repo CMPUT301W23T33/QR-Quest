@@ -1,6 +1,5 @@
 package com.example.qrquest;
 
-import java.io.Serializable;
 
 /**
  * This class defines QR Codes
@@ -20,7 +19,7 @@ public class QRCode {
     /**
      * This member represents the value of the longitude of the QR Code
      */
-    private double score;
+    private int score;
 
     /**
      * This member represents the value of the latitude of the QR Code
@@ -45,7 +44,7 @@ public class QRCode {
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
      */
-    public QRCode(String hashedQRCode, String qrCode, double score, double latitude, double longitude){
+    public QRCode(String hashedQRCode, String qrCode, int score, double latitude, double longitude){
         setHashedQRCode(hashedQRCode);
         setQrCode(qrCode);
         setScore(score);
@@ -60,7 +59,7 @@ public class QRCode {
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
      */
-    public QRCode(String qrCode, double score, double latitude, double longitude){
+    public QRCode(String qrCode, int score, double latitude, double longitude){
         hashQRCode();
         setQrCode(qrCode);
         setScore(score);
@@ -119,7 +118,7 @@ public class QRCode {
      * This method sets the score for the QR Code
      * @param score: the score of the QR Code
      */
-    public void setScore(double score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
