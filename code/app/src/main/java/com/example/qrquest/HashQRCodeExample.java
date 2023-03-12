@@ -37,11 +37,11 @@ public class HashQRCodeExample {
         return nameBuilder.toString();
     }
 
+    // Function to generate a score based on the hash of the qr code
     public static double generateQRScore(String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
         double score = 0;
-
         for (int i = 0; i < byteArray.length; i++) {
             score += byteArray[i];
         }
