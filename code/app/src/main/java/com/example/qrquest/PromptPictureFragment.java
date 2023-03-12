@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.qrquest.databinding.FragmentPromptBinding;
 
@@ -24,7 +25,7 @@ public class PromptPictureFragment extends Fragment {
         binding.buttonSorry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_camera);
             }
         });
 

@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_promptPictureFragment_to_promptLocationFragment"
             app:destination="@id/promptLocationFragment" />
+        <action
+            android:id="@+id/action_promptPictureFragment_to_camera"
+            app:destination="@id/camera" />
     </fragment>
     <fragment
         android:id="@+id/promptLocationFragment"
