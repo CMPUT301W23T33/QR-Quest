@@ -36,4 +36,16 @@ public class HashQRCodeExample {
 
         return nameBuilder.toString();
     }
+
+    public static double generateQRScore(String hexString) {
+        byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
+
+        double score = 0;
+
+        for (int i = 0; i < byteArray.length; i++) {
+            score += byteArray[i];
+        }
+
+        return score;
+    }
 }
