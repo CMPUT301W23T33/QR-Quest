@@ -74,7 +74,9 @@
             android:textAppearance="@style/small"
             android:textColor="@color/white"
             android:textAlignment="textEnd"
-            android:layout_weight="1.75"/>
+            android:layout_weight="1.75"
+            android:ellipsize="end"
+            android:maxLines="1"/>
     </LinearLayout>
 
     <LinearLayout

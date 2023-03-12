@@ -13,69 +13,48 @@ import java.util.Random;
  * @author Zijing Lu
  * @author Jay Pasrija
  * @author Michael Wolowyk
- * @author Thea Nguyen
- */
+ * */
 public class Utilities {
 
-    /**
-     * This method hashes a name from the raw value of the qr code.
-     * @param hexString a string
-     * @return a hashed string
-     */
-    // hash the name
+    // Dictionaries of words to choose from
+    private final String[][] DICTIONARIES = {
+            {"Freezing", "Magma"},
+            {"Spirit", "Spark"},
+            {"ing", "ling"},
+            {"Tiny", "Huge"},
+            {"Common", "Legendary"},
+            {"Monster", "Beast"}
+    };
+
+    // Function to generate a unique human-readable name for a QR code
+    @NonNull
     public String hashName(@NonNull String hexString) {
-
-        String[] adj = {"Last", "Lush", "Dry", "Mere", "Bad", "Big", "Cute", "Fair", "True", "Odd",
-                "Nice", "Wet", "Lame", "Nine", "Good", "Wiry", "Soft", "Free", "Busy", "Huge", "Gray",
-                "Glib", "Mute", "Like", "Bent", "Damp", "Zany", "Flat", "Thin", "Four", "Wary", "Sore",
-                "Oval", "Rare", "Cold", "Rich", "Ripe", "Ajar", "Past", "Dear", "New", "Able", "Gamy",
-                "Left", "Mad", "Pink", "Red", "Next", "Neat","Slim"};
-
-        String[] name = {"Army", "Oven", "Wife", "User", "Tale", "Food", "Song", "Meat", "Bird", "Fact",
-                "Beer", "Meal", "Goal", "Debt", "Year", "Girl", "Week", "Exam", "Lady", "Soup","Data",
-                "Cell", "Poem", "Area", "News", "Loss", "Bath", "Math", "City", "Role", "Road", "Hall",
-                "Dirt", "Wood", "Gene", "King", "Mode", "Gate", "Hair", "Love", "Menu", "Lake", "Mood",
-                "Idea", "Unit", "Mall", "Town", "Disk", "Desk", "Poet"};
-
-        // convert the hex string to a byte array
+        // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
-        // compute SHA-256 hash of the byte array
+        // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
         String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
-        // generate a random name
+        // Generate a name using the first 6 bits of the hash
         StringBuilder nameBuilder = new StringBuilder();
-        Random random = new Random(hashString.charAt(0));
-        for (int i = 0; i < 3; i++) {
-            int index = Math.abs(random.nextInt()) % adj.length;
-            if (i == 0 || i == 1)
-                nameBuilder.append(adj[index]);
-            else
-                nameBuilder.append(name[index]);
+        for (int i = 0; i < 6; i++) {
+            int dictionaryIndex = i % DICTIONARIES.length;
+            String[] dictionary = DICTIONARIES[dictionaryIndex];
+            int wordIndex = (hashString.charAt(i) & 0x01) % dictionary.length;
+            nameBuilder.append(dictionary[wordIndex]);
         }
 
-        // truncate the hash to the first three bytes
-        String truncatedHashString = hashString.substring(0, 6);
-
-        // convert the truncated hash to an integer and take the absolute value
-        int truncatedHashInt = Math.abs(Integer.parseInt(truncatedHashString, 16));
-
-        // generate a 6-digit number from the truncated hash integer
-        truncatedHashInt %= 1000000;
-
-        return nameBuilder.toString() + truncatedHashInt;
+        return nameBuilder.toString();
     }
 
-    /**
-     * This method hashes a score from the raw value of the qr code
-     * @param hexString a string
-     * @return a hashed integer
-     */
+    // Function to generate a score based on the hash of the qr code
     public int hashScore(@NonNull String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
+
         int score = 0;
-        for (byte b : byteArray)
+        for (byte b : byteArray) {
             score += b;
+        }
         return score;
     }
 }
