@@ -73,8 +73,8 @@
     <style name="Button.Secondary" parent="Widget.Material3.FloatingActionButton.Secondary">
         <item name="android:backgroundTint">@color/black</item>
         <item name="borderWidth">2dp</item>
-        <item name="backgroundTint">@color/thistle</item>
-        <item name="tint">@color/thistle</item>
+        <item name="backgroundTint">@color/chinese_violet</item>
+        <item name="tint">@color/chinese_violet</item>
         <item name="maxImageSize">28dp</item>
         <item name="android:scaleType">centerInside</item>
         <item name="android:clickable">true</item>
