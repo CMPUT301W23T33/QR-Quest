@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.qrquest.databinding.FragmentPromptBinding;
 
@@ -29,17 +30,30 @@ public class PromptLocationFragment extends Fragment {
         binding.addPictureTitle.setText(R.string.add_a_location);
         binding.addPictureBonus.setText(R.string.add_location_bonus);
 
-        // get bundle
+        // get bundle (contain picture URI)
         Bundle bundle = getArguments();
 
         // get latitude, longitude
-        LocationManager lm = (LocationManager)requireActivity().getSystemService(Context.LOCATION_SERVICE);
-        @SuppressLint("MissingPermission")
-        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
+        binding.buttonSure.setOnClickListener(v -> {
+            LocationManager lm = (LocationManager)requireActivity().getSystemService(Context.LOCATION_SERVICE);
+            @SuppressLint("MissingPermission")
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
 
-        Toast.makeText(requireActivity(), String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+            // transfer (x, y)
+            if (bundle != null) {
+                bundle.putDouble("latitude", latitude);
+                bundle.putDouble("longitude", longitude);
+            }
+
+            // navigate
+            Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment);
+        });
+
+        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment));
+
+
 
         return view;
     }

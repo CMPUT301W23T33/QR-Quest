@@ -35,9 +35,9 @@ public class EditQRFragment extends Fragment {
         for (int image : images) arrayList.add(new VPItem(image));
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);
-        viewPager2.setAdapter(vpAdapter);
+        binding.pager.setAdapter(vpAdapter);
 
-        new TabLayoutMediator(tabLayout, viewPager2,
+        new TabLayoutMediator(binding.tabLayout, binding.pager,
                 (tab, position) -> tab.setText("")
         ).attach();
 

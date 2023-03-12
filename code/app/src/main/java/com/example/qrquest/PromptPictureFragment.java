@@ -40,7 +40,7 @@ public class PromptPictureFragment extends Fragment {
         binding.buttonSorry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_promptLocationFragment);
+                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_promptLocationFragment, bundle);
             }
         });
 
