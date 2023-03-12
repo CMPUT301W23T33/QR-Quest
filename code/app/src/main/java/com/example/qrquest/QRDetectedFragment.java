@@ -11,10 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentQrDetectedBinding;
-import com.google.common.hash.Hashing;
-
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
 
 /**
  * This class represents the QR Detected Screen. It also does hashing for a name, score, and a visual
@@ -48,6 +44,8 @@ public class QRDetectedFragment extends Fragment {
         // display the hashed score
         int qrScore = utilities.hashScore(rawValue);
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
+
+        // next button
 
         return view;
     }

@@ -33,7 +33,7 @@ public class Utilities {
 
         // generate a random name
         StringBuilder nameBuilder = new StringBuilder();
-        Random random = new Random();
+        Random random = new Random(hashString.charAt(0));
         for (int i = 0; i < 3; i++) {
             int index = Math.abs(random.nextInt()) % adj.length;
             if (i == 0 || i == 1)
