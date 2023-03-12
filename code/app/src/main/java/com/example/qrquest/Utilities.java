@@ -8,8 +8,20 @@ import com.google.common.hash.Hashing;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
+/**
+ * This class consists of different functions that are utilised in the project.
+ * @author Zijing Lu
+ * @author Jay Pasrija
+ * @author Michael Wolowyk
+ * @author Thea Nguyen
+ */
 public class Utilities {
 
+    /**
+     * This method hashes a name from the raw value of the qr code.
+     * @param hexString a string
+     * @return a hashed string
+     */
     // hash the name
     public String hashName(@NonNull String hexString) {
 
@@ -54,7 +66,11 @@ public class Utilities {
         return nameBuilder.toString() + truncatedHashInt;
     }
 
-    // hash the score
+    /**
+     * This method hashes a score from the raw value of the qr code
+     * @param hexString a string
+     * @return a hashed integer
+     */
     public int hashScore(@NonNull String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
         int score = 0;

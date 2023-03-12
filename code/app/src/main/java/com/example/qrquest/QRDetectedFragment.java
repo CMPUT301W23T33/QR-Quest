@@ -46,7 +46,6 @@ public class QRDetectedFragment extends Fragment {
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
 
         // next button
-
         return view;
     }
 }
