@@ -54,17 +54,17 @@ public class QRCode {
 
     /**
      * This method defines a new QR Code
-     * @param qrCode: the un-hashed name of the QR Code
+     * @param hashedQRCode: the un-hashed name of the QR Code
      * @param score: the score of the QR Code
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
      */
-    public QRCode(String qrCode, int score, double latitude, double longitude){
-        hashQRCode();
-        setQrCode(qrCode);
-        setScore(score);
-        setLatitude(latitude);
-        setLongitude(longitude);
+    public QRCode(String hashedQRCode, int score, double latitude, double longitude){
+        this.hashedQRCode = hashedQRCode;
+        this.qrCode = hashedQRCode;
+        this.score = score;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     /**

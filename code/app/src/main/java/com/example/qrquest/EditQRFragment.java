@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentEditQrBinding;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -18,11 +23,11 @@ import java.util.Locale;
 public class EditQRFragment extends Fragment {
     ArrayList<VPItem> arrayList;
     FragmentEditQrBinding binding;
-
+    FirebaseFirestore db;
+    CollectionReference qrCodeRef;
     String qrName;
     String uri;
     int qrScore;
-    int items = 2;
     double latitude;
     double longitude;
 
@@ -54,7 +59,7 @@ public class EditQRFragment extends Fragment {
             }
         }
 
-        // Set up viewPager2
+        // set up viewPager2
         if (uri != null) {
             String[] imageURIs = {uri};
             arrayList = new ArrayList<>();
@@ -74,6 +79,23 @@ public class EditQRFragment extends Fragment {
                 (tab, position) -> tab.setText("")
         ).attach();
 
+        // push to firestore db
+        db = FirebaseFirestore.getInstance();
+        qrCodeRef = db.collection("QR Code");
+
+        // check button
+        // MUST ADD THE IMAGE TAKEN BY USER HERE TO FIRESTORE STORAGE (SET WILL OVERWRITE THE
+        // EXISTING DATA)
+        binding.buttonCheck.setOnClickListener(v -> {
+            QRCode qrCode = new QRCode(qrName, qrScore, latitude, longitude);
+            qrCodeRef.document(qrCode.getHashedQRCode())
+                    .set(qrCode)
+                    .addOnSuccessListener(unused -> Log.d("SET", "Added document successfully"))
+                    .addOnFailureListener(e -> Log.d("SET", "Error adding document"));
+            requireActivity().finish();
+        });
+
+        binding.buttonClose.setOnClickListener(v -> requireActivity().finish());
         return view;
 
     }

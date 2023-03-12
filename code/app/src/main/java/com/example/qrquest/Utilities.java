@@ -3,9 +3,11 @@ package com.example.qrquest;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -44,7 +46,11 @@ public class Utilities {
             nameBuilder.append(dictionary[wordIndex]);
         }
 
-        return nameBuilder.toString();
+        String truncatedHashString = hashString.substring(6, 12);
+        int truncatedHashInt = Math.abs(Integer.parseInt(truncatedHashString, 16));
+        truncatedHashInt %= 10000;
+
+        return nameBuilder + String.format(Locale.CANADA, "%06d", truncatedHashInt);
     }
 
     // Function to generate a score based on the hash of the qr code
