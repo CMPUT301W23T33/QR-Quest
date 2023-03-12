@@ -15,7 +15,6 @@ import com.example.qrquest.databinding.FragmentQrDetectedBinding;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -43,13 +42,13 @@ public class QRDetectedFragment extends Fragment {
         assert bundle != null;
         rawValue = bundle.getString("rawValue");
 
-        // hash the name
+        // display the hashed name
         String qrName = hashName(rawValue);
-        Toast.makeText(requireActivity(), qrName, Toast.LENGTH_SHORT).show();
+        binding.nameTextDisplay.setText(qrName);
 
-        // hash the score
+        // display the hashed score
         int qrScore = hashScore(rawValue);
-        Toast.makeText(requireActivity(), String.valueOf(qrScore), Toast.LENGTH_SHORT).show();
+        binding.scoreTextDisplay.setText(String.valueOf(qrScore));
 
         return view;
     }
