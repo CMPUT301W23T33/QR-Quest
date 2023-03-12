@@ -9,6 +9,8 @@ public class HashQRCode {
     // Array of names to choose from
     private static final String[] nameArray = {"Alice", "Bob", "Charlie", "David", "Emily", "Frank", "Grace", "Heidi", "Ivan", "Judy", "Katie", "Laura", "Mallory", "Nancy", "Oscar", "Peggy", "Quentin", "Ralph", "Steve", "Trent", "Ursula", "Victor", "Wendy", "Xander", "Yvonne", "Zelda", "Adam", "Beth", "Cindy", "Derek", "Erica", "Fiona", "George", "Hannah", "Isaac", "Jackie", "Karen", "Lenny", "Mia", "Nate", "Olivia", "Pete", "Quinn", "Rachel", "Samantha", "Tina", "Vince", "Wade", "Ximena", "Yara"};
 
+    public HashQRCode() {};
+
     // Function to generate a unique human-readable name for a QR code
     public static String generateQRCodeName(String hexString) {
         // Convert the hex string to a byte array
