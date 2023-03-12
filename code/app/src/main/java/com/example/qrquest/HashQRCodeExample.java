@@ -8,12 +8,12 @@ public class HashQRCodeExample {
 
     // Dictionaries of words to choose from
     private static final String[][] DICTIONARIES = {
-            {"cool", "hot"},
-            {"Fro", "Glo"},
-            {"Mo", "Lo"},
-            {"Mega", "Ultra"},
-            {"Spectral", "Sonic"},
-            {"Crab", "Shark"}
+            {"Freezing", "Magma"},
+            {"Spirit", "Spark"},
+            {"ing", "ling"},
+            {"Tiny", "Huge"},
+            {"Common", "Legendary"},
+            {"Monster", "Beast"}
     };
 
 
