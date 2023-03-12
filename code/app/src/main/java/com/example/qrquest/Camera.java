@@ -94,13 +94,18 @@ public class Camera extends Fragment {
 
     }
 
-    // Check for camera access
+    /**
+     * This method checks for user's permission on using the camera.
+     * @return True if all necessary permissions for camera usage are granted, else False
+     */
     private boolean hasCameraPermission(){
         return ContextCompat.checkSelfPermission(requireActivity(),
                 android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 
-    // Request for camera and data access
+    /**
+     * This method requests permissions from users (if any)
+     */
     private void requestPermission(){
         ActivityCompat.requestPermissions(requireActivity(),
                 new String[]{android.Manifest.permission.CAMERA,
@@ -109,13 +114,21 @@ public class Camera extends Fragment {
                 10);
     }
 
-    // Create an executor on the main thread
+    /**
+     * This method creates an executor on the main thread.
+     * @return an executor on the main thread
+     */
     @NonNull
     private Executor getExecutor() {
         return ContextCompat.getMainExecutor(requireActivity());
     }
 
-    // Set up camera
+    /**
+     * This methods initializes the camera once all necessary permissions are granted. It also
+     * analyzes the picture to detect QR Codes (if any).
+     * @param cameraProvider A singleton which can be used to bind the lifecycle of cameras to
+     *                       any LifecycleOwner within an application's process
+     */
     private void startCameraX(@NonNull ProcessCameraProvider cameraProvider) {
 
         // Unbind all previous settings
@@ -196,7 +209,9 @@ public class Camera extends Fragment {
         cameraProvider.bindToLifecycle((LifecycleOwner) this, cameraSelector, preview, imageCapture, imageAnalysis);
     }
 
-    // Take photos and save them to the application local storage
+    /**
+     * This method takes the photos and save them to the application local storage.
+     */
     private void takePhoto() {
         File photoDir = new File(requireActivity().getExternalCacheDir() + "/Pictures");
         if (!photoDir.exists())
