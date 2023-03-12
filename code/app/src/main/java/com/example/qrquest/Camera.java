@@ -80,7 +80,6 @@ public class Camera extends Fragment {
         if (!hasCameraPermission()) {
             requestPermission();
         }
-
         binding.cameraButtonCaptureImage.setEnabled(false);
 
         // Take a photo and save to project

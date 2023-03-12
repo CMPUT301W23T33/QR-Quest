@@ -13,9 +13,28 @@
         <action
             android:id="@+id/action_camera_to_QRDetectedFragment"
             app:destination="@id/QRDetectedFragment" />
+        <action
+            android:id="@+id/action_camera_to_promptLocationFragment"
+            app:destination="@id/promptLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/QRDetectedFragment"
         android:name="com.example.qrquest.QRDetectedFragment"
-        android:label="QRDetectedFragment" />
+        android:label="QRDetectedFragment" >
+        <action
+            android:id="@+id/action_QRDetectedFragment_to_promptPictureFragment"
+            app:destination="@id/promptPictureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/promptPictureFragment"
+        android:name="com.example.qrquest.PromptPictureFragment"
+        android:label="PromptPictureFragment" >
+        <action
+            android:id="@+id/action_promptPictureFragment_to_promptLocationFragment"
+            app:destination="@id/promptLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/promptLocationFragment"
+        android:name="com.example.qrquest.PromptLocationFragment"
+        android:label="PromptLocationFragment" />
 </navigation>

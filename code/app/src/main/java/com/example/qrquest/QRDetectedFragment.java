@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import com.example.qrquest.databinding.FragmentQrDetectedBinding;
 
@@ -46,6 +47,9 @@ public class QRDetectedFragment extends Fragment {
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
 
         // next button
+        binding.buttonNext.setOnClickListener(v -> Navigation.findNavController(view)
+                .navigate(R.id.action_QRDetectedFragment_to_promptPictureFragment));
+
         return view;
     }
 }
