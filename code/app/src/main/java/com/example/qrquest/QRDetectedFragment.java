@@ -41,10 +41,12 @@ public class QRDetectedFragment extends Fragment {
         // display the hashed name
         String qrName = utilities.hashName(rawValue);
         binding.qrNameDisplay.setText(qrName);
+        bundle.putString("qrName", qrName);
 
         // display the hashed score
         int qrScore = utilities.hashScore(rawValue);
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
+        bundle.putInt("qrScore", qrScore);
 
         // next button
         binding.buttonNext.setOnClickListener(v -> Navigation.findNavController(view)

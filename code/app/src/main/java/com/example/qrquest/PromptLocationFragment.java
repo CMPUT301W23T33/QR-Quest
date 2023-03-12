@@ -30,8 +30,9 @@ public class PromptLocationFragment extends Fragment {
         binding.addPictureTitle.setText(R.string.add_a_location);
         binding.addPictureBonus.setText(R.string.add_location_bonus);
 
-        // get bundle (contain picture URI)
+        // get bundle (contain picture URI + raw value)
         Bundle bundle = getArguments();
+        assert bundle != null;
 
         // get latitude, longitude
         binding.buttonSure.setOnClickListener(v -> {
@@ -42,16 +43,14 @@ public class PromptLocationFragment extends Fragment {
             double latitude = location.getLatitude();
 
             // transfer (x, y)
-            if (bundle != null) {
-                bundle.putDouble("latitude", latitude);
-                bundle.putDouble("longitude", longitude);
-            }
+            bundle.putString("latitude", String.valueOf(latitude));
+            bundle.putString("longitude", String.valueOf(longitude));
 
             // navigate
-            Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment);
+            Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle);
         });
 
-        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment));
+        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
 
 
 

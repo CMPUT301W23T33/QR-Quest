@@ -39,6 +39,7 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         VPItem item = arrayList.get(position);
         holder.imageView.setImageResource(item.imageId);
+
     }
 
     @Override

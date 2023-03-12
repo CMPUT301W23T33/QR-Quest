@@ -214,10 +214,11 @@ public class Camera extends Fragment {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 Toast.makeText(requireActivity(), "Saved", Toast.LENGTH_SHORT).show();
-                String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("uri", stringUri);
 
+                String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
+                Bundle bundle2 = getArguments();
+                assert bundle2 != null;
+                bundle2.putString("uri", stringUri);
                 Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_promptLocationFragment, bundle2);
             }
             @Override

@@ -25,10 +25,6 @@ public class PromptPictureFragment extends Fragment {
 
         // get the raw value of the QR code
         Bundle bundle = getArguments();
-        if (bundle != null) {
-            String raw = bundle.getString("rawValue");
-            Toast.makeText(requireActivity(), raw, Toast.LENGTH_SHORT).show();
-        }
 
         binding.buttonSure.setOnClickListener(new View.OnClickListener() {
             @Override
