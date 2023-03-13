@@ -16,16 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.example.qrquest.databinding.ProfileScreenBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * This class defines the profile screen
@@ -35,6 +28,8 @@ public class ProfileFragment extends Fragment {
 
     MainViewModel viewModel;
     private FirebaseFirestore db;
+
+    ProfileScreenBinding binding;
     private QRHistoryAdapter adapter;
 
     @Override
@@ -45,17 +40,11 @@ public class ProfileFragment extends Fragment {
 
     @SuppressLint({"DefaultLocale", "NotifyDataSetChanged"})
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.profile_screen, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = ProfileScreenBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         RecyclerView recyclerView = view.findViewById(R.id.profile_screen_qr_codes);
-        TextView userScore = view.findViewById(R.id.profile_screen_score);
-        TextView userCodes = view.findViewById(R.id.profile_screen_code);
-        TextView userName = view.findViewById(R.id.profile_screen_name);
-        ImageButton buttonBack = view.findViewById(R.id.profile_screen_button_back);
-        ImageButton buttonSort = view.findViewById(R.id.profile_screen_button_sort);
-        ImageButton buttonEdit = view.findViewById(R.id.profile_screen_button_edit);
         adapter = new QRHistoryAdapter(new QRHistoryAdapter.historyDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
@@ -63,7 +52,7 @@ public class ProfileFragment extends Fragment {
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", "");
-        // String username = "UI5"; -> Testing
+        // String username = "UI5";
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -82,7 +71,7 @@ public class ProfileFragment extends Fragment {
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         // Set profile username
-        userName.setText(username);
+        binding.profileScreenName.setText(username);
 
         // Initialize view model
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
@@ -91,26 +80,26 @@ public class ProfileFragment extends Fragment {
         viewModel.setHistory(db, username);
 
         // Observe any changes to the history
-        viewModel.getHistory().observe(requireActivity(), qrCodeHistories -> {adapter.submitList(qrCodeHistories);});
+        viewModel.getHistory().observe(requireActivity(), qrCodeHistories -> adapter.submitList(qrCodeHistories));
 
         // Observe any changes to the user statistic
         viewModel.getUserInfo().observe(requireActivity(), integers -> {
-            userScore.setText(String.valueOf(integers.get(0)));
-            userCodes.setText(String.valueOf(integers.get(1)));
+            binding.profileScreenScore.setText(String.valueOf(integers.get(0)));
+            binding.profileScreenCode.setText(String.valueOf(integers.get(1)));
         });
 
         // Reverse sorting order
-        buttonSort.setOnClickListener(v -> {
+        binding.profileScreenButtonSort.setOnClickListener(v -> {
             viewModel.reverseHistory();
             adapter.notifyDataSetChanged();
         });
 
         // Navigate back to the main screen
-        buttonBack.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);});
+        binding.profileScreenButtonBack.setOnClickListener(v ->
+            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment));
 
         // Navigate to edit profile screen
-        buttonEdit.setOnClickListener(v ->{Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_editProfileFragment);});
+        binding.profileScreenButtonEdit.setOnClickListener(v ->Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_editProfileFragment));
 
         return view;
 

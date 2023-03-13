@@ -42,12 +42,12 @@ public class EditProfileFragment extends Fragment {
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", "");
-        // String username = "UI5";
+        //String username = "UI5";
 
         binding.editProfileName.setText(username);
 
         // Set user's phone number
-        //phoneNumber.setText(phoneNumber);
+        // phoneNumber.setText(phoneNumber);
 
         // Get and set user's email address
         db.collection("Player").whereEqualTo("username", username).get().addOnCompleteListener(task -> {
