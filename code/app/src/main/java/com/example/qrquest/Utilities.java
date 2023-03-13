@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Random;
+import java.util.Locale;
 
 /**
  * This class consists of different functions that are utilised in the project.
@@ -17,7 +17,7 @@ import java.util.Random;
 public class Utilities {
 
     // Dictionaries of words to choose from
-    private final String[][] DICTIONARIES = {
+    private static final String[][] DICTIONARIES = {
             {"Freezing", "Magma"},
             {"Spirit", "Spark"},
             {"ing", "ling"},
@@ -28,7 +28,7 @@ public class Utilities {
 
     // Function to generate a unique human-readable name for a QR code
     @NonNull
-    public String hashName(@NonNull String hexString) {
+    public static String hashName(@NonNull String hexString) {
         // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
@@ -44,13 +44,16 @@ public class Utilities {
             nameBuilder.append(dictionary[wordIndex]);
         }
 
-        return nameBuilder.toString();
+        String truncatedHashString = hashString.substring(6, 12);
+        int truncatedHashInt = Math.abs(Integer.parseInt(truncatedHashString, 16));
+        truncatedHashInt %= 10000;
+
+        return nameBuilder + String.format(Locale.CANADA, "%06d", truncatedHashInt);
     }
 
     // Function to generate a score based on the hash of the qr code
-    public int hashScore(@NonNull String hexString) {
+    public static int hashScore(@NonNull String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
-
         int score = 0;
         for (byte b : byteArray) {
             score += b;

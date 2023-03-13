@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +13,11 @@ import androidx.navigation.Navigation;
 
 import com.example.qrquest.databinding.FragmentPromptBinding;
 
+/**
+ * This class represents the Prompt Picture Screen and navigates the user back to the Camera Screen
+ * if the user wants to.
+ * @author Thea Nguyen
+ */
 public class PromptPictureFragment extends Fragment {
 
     FragmentPromptBinding binding;
@@ -25,24 +29,12 @@ public class PromptPictureFragment extends Fragment {
 
         // get the raw value of the QR code
         Bundle bundle = getArguments();
-        if (bundle != null) {
-            String raw = bundle.getString("rawValue");
-            Toast.makeText(requireActivity(), raw, Toast.LENGTH_SHORT).show();
-        }
 
-        binding.buttonSure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_camera, bundle);
-            }
-        });
+        binding.buttonSure.setOnClickListener(v -> Navigation.findNavController(view)
+                .navigate(R.id.action_promptPictureFragment_to_camera, bundle));
 
-        binding.buttonSorry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(view).navigate(R.id.action_promptPictureFragment_to_promptLocationFragment);
-            }
-        });
+        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view)
+                .navigate(R.id.action_promptPictureFragment_to_promptLocationFragment, bundle));
 
 
         return view;

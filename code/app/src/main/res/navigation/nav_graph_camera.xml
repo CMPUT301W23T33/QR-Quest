@@ -39,5 +39,13 @@
     <fragment
         android:id="@+id/promptLocationFragment"
         android:name="com.example.qrquest.PromptLocationFragment"
-        android:label="PromptLocationFragment" />
+        android:label="PromptLocationFragment" >
+        <action
+            android:id="@+id/action_promptLocationFragment_to_editQRFragment"
+            app:destination="@id/editQRFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editQRFragment"
+        android:name="com.example.qrquest.EditQRFragment"
+        android:label="EditQRFragment" />
 </navigation>

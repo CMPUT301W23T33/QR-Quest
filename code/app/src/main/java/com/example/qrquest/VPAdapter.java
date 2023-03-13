@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +31,18 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public VPAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vp_item, parent, false);
-        return new VPAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         VPItem item = arrayList.get(position);
-        holder.imageView.setImageResource(item.imageId);
+        if (item.imageUri == null)
+            holder.imageView.setImageResource(item.imageId);
+        else holder.imageView.setImageURI(Uri.parse(item.imageUri));
+
     }
 
     @Override
