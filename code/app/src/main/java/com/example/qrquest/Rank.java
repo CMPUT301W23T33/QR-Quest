@@ -21,14 +21,14 @@ public class Rank {
     /**
      * This member represents the value of the item
      */
-    private double value;
+    private int value;
 
     /**
      * This method defines the default rank of an item
      */
     public Rank(){}
 
-    public Rank(String identifier, double value){
+    public Rank(String identifier, int value){
         setIdentifier(identifier);
         setValue(value);
     }
@@ -53,7 +53,7 @@ public class Rank {
      * This method retrieves the value of the item
      * @return the value of the item
      */
-    public double getValue() {
+    public int getValue() {
         return this.value;
     }
 
@@ -77,7 +77,7 @@ public class Rank {
      * This method sets the value for the item
      * @param value: the value of the item
      */
-    private void setValue(double value) {
+    private void setValue(int value) {
         this.value = value;
     }
 

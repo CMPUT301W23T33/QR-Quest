@@ -31,6 +31,6 @@ public interface ReusableRank {
      * @param value: the item value
      * @return the rank of the item value or 0 if not found
      */
-    public int getQueryRank(double value);
+    public int getQueryRank(int value);
 
 }

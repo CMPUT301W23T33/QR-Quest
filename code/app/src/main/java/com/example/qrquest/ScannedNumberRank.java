@@ -37,7 +37,7 @@ public class ScannedNumberRank extends Rank implements ReusableRank {
      * @param value: the item value
      * @param queryValue: the queried value
      */
-    public ScannedNumberRank(String identifier, double value, double queryValue) {
+    public ScannedNumberRank(String identifier, int value, double queryValue) {
         super(identifier, value);
         setupThreshold();
         if (value == getScoreThreshold()){
@@ -57,7 +57,7 @@ public class ScannedNumberRank extends Rank implements ReusableRank {
      * @return: the rank of the queried value
      */
     @Override
-    public int getQueryRank(double score) {
+    public int getQueryRank(int score) {
         return queryRank;
     }
 
