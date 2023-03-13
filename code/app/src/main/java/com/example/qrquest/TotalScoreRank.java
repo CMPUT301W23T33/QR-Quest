@@ -1,88 +1,78 @@
 package com.example.qrquest;
 
+import java.util.ArrayList;
+
 /**
  * This class stores the item information in the leaderboard for the highest total score
- * @author: Dang Viet Anh Dinh
+ * @author Dang Viet Anh Dinh
  */
 public class TotalScoreRank extends Rank implements ReusableRank {
 
     /**
-     * This member represents the rank of the queried value in the leaderboard
-     */
-    private static int queryRank = 0;
-
-    /**
      * This member represents the threshold value to identify duplicate(s)
      */
-    private static double thresholdValue = 0;
+    private static int thresholdValue = 0;
 
     /**
      * This member represents the current rank
      */
-    private static int rankCursor = 1;
+    private static int rankCursor = 0;
 
     /**
      * This member represents the cached rank in the leaderboard in case of duplicate(s)
      */
-    private static int cache = 1;
+    private static int cache = 0;
 
     /**
-     * This method defines the default leaderboard item
+     * This member represents the distinct score in the leaderboard
      */
-    public TotalScoreRank(){}
+    private static ArrayList<Integer> scoreLeaderboard;
+
+    /**
+     * This member represents the rank of the distinct score in the leaderboard
+     */
+    private static ArrayList<Integer> rankLeaderboard;
+
 
     /**
      * This method defines the leaderboard item with its attributes, sets its rank and queried rank when matched
      * @param identifier: the identifier of the item (username, ...)
      * @param value: the item value
-     * @param queryValue: the queried value
      */
-    public TotalScoreRank(String identifier, double value, double queryValue) {
+    public TotalScoreRank(String identifier, int value){
         super(identifier, value);
-        setupThreshold();
+        setupLeaderboard();
         if (value == getScoreThreshold()){
             rankCursorIdled();
         }
         else{
             rankCursorIncremented();
         }
-        if (queryValue == getValue()){
-            setQueryRank();
-        }
     }
 
     /**
      * This method retrieves the rank of the queried value
      * @param score: the queried value
-     * @return: the rank of the queried value
+     * @return the rank of the queried value
      */
     @Override
-    public int getQueryRank(double score) {
-        return queryRank;
+    public int getQueryRank(int score) {
+        int index = scoreLeaderboard.indexOf(score);
+        if (index == -1){
+            return 0;
+        }
+        else{
+            return rankLeaderboard.get(index);
+        }
     }
 
     /**
      * This method resets any existing thresholds of the leaderboard
      */
     public void resetThreshold(){
-        resetQueryRank();
-        resetCache(1);
-        resetRankCursor(1);
+        resetCache(0);
+        resetRankCursor(0);
         resetThresholdValue();
-    }
-
-    /**
-     * This method reset the query rank back to 0
-     */
-    private void resetQueryRank(){
-        queryRank = 0;
-    }
-
-    /**
-     * This methods sets the query rank to the current item rank
-     */
-    private void setQueryRank(){
-        queryRank = getRank();
     }
 
     /**
@@ -94,9 +84,9 @@ public class TotalScoreRank extends Rank implements ReusableRank {
 
     /**
      * This method retrieves the current threshold value
-     * @return: the current threshold value
+     * @return the current threshold value
      */
-    private double getScoreThreshold() {
+    private int getScoreThreshold() {
         return thresholdValue;
     }
 
@@ -133,18 +123,19 @@ public class TotalScoreRank extends Rank implements ReusableRank {
 
     /**
      * This method (re)sets the cache with a new value corresponding to the current item of the leaderboard
-     * @param newCache
+     * @param newCache: the cache of the current item
      */
     private void resetCache(int newCache){
         cache = newCache;
     }
 
     /**
-     * This method sets up the thresholds for the leaderboard
+     * This method sets up the leaderboard
      */
-    private void setupThreshold(){
-        if (getScoreThreshold() == 0){
-            setThresholdValue();
+    private void setupLeaderboard(){
+        if (scoreLeaderboard == null){
+            scoreLeaderboard = new ArrayList<>();
+            rankLeaderboard = new ArrayList<>();
         }
     }
 
@@ -152,10 +143,12 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * This method updates the leaderboard when the rank cursor is incremented (no duplicates are found for the current item value)
      */
     private void rankCursorIncremented(){
-        setRank(getCache());
         resetRankCursor(getCache() + 1);
         resetCache(getRankCursor());
         setThresholdValue();
+        setRank(getCache());
+        scoreLeaderboard.add(getValue());
+        rankLeaderboard.add(getRank());
     }
 
     /**

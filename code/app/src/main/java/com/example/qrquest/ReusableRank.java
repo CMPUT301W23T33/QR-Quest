@@ -2,7 +2,7 @@ package com.example.qrquest;
 
 /**
  * This interface allows the ArrayList<> of Rank's children classes to be reusable
- * @author: Dang Viet Anh Dinh
+ * @author Dang Viet Anh Dinh
  */
 public interface ReusableRank {
 
@@ -31,6 +31,6 @@ public interface ReusableRank {
      * @param value: the item value
      * @return the rank of the item value or 0 if not found
      */
-    public int getQueryRank(double value);
+    public int getQueryRank(int value);
 
 }
