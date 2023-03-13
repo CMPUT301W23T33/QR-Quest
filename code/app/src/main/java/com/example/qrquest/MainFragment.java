@@ -78,6 +78,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         // initialize db
         db = FirebaseFirestore.getInstance();
 
+        // Initialize view model
+        MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
         // get username from Shared Preferences
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         username = sharedPref.getString("username", "");
@@ -85,6 +88,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         // Camera button
         FloatingActionButton button_camera = view.findViewById(R.id.button_camera_1);
         button_camera.setOnClickListener(v -> {
+
+            // Reset view model
+            if (!MainViewModel.getRefreshPermission()) {
+                viewModel.refreshHistory();
+            }
+
             Intent intent = new Intent(requireActivity(), CameraActivity.class);
             startActivity(intent);
         });

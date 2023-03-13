@@ -1,6 +1,8 @@
 package com.example.qrquest;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -57,6 +59,8 @@ public class MainRepository {
                             historyData.add(new QRCodeHistory(document.get("hashedQRCode", String.class), document.get("score", Integer.class)));
                         }
                     }
+                    history.setValue(historyData);
+
                     db.collection("Player").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -69,7 +73,6 @@ public class MainRepository {
                             }
                         }
                     });
-                    history.setValue(historyData);
                 }
             }
         });
@@ -80,6 +83,24 @@ public class MainRepository {
         String qrCode = this.historyData.get(position).getQrCode();
         updateDatabase(db, username, qrCode);
         updateScreen(position);
+    }
+
+    // Refresh data
+    public void refreshHistory(){
+        this.userInfoData.remove(1);
+        this.userInfoData.remove(0);
+        this.userInfoData.add(0);
+        this.userInfoData.add(0);
+        for (QRCodeHistory qrCodeHistory : this.historyData){
+            this.historyData.remove(qrCodeHistory);
+        }
+//        this.historyData = new ArrayList<>();
+//        this.userInfoData = new ArrayList<>();
+//        this.userInfoData.add(0);
+//        this.userInfoData.add(0);
+        this.history.setValue(this.historyData);
+        this.userInfo.setValue(this.userInfoData);
+        highestScore = 0;
     }
 
     // Reverse sorting order
@@ -143,6 +164,7 @@ public class MainRepository {
         db.collection("main").whereEqualTo("hashedQRCode", hashedQRCode).count().get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
+                Log.d("Score", String.valueOf(task.getResult().getCount() == 0));
                 if (task.isSuccessful()){
                     if (task.getResult().getCount() == 0){
                         db.collection("QR Code").document(hashedQRCode).delete();
