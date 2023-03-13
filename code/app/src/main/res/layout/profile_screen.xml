@@ -15,7 +15,7 @@
 
         <ImageButton
             android:layout_alignParentStart="true"
-            android:id="@+id/edit_profile_button_back"
+            android:id="@+id/profile_screen_button_back"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:contentDescription="@string/next_button_description"
@@ -72,77 +72,75 @@
 
         </com.google.android.material.textview.MaterialTextView>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/profile_screen_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_screen_name">
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="0.5"
                 android:id="@+id/profile_screen_score_text"
                 style="@style/small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/score"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/profile_screen_code_text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:textColor="@color/white">
 
             </com.google.android.material.textview.MaterialTextView>
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="0.5"
                 android:id="@+id/profile_screen_code_text"
                 style="@style/small"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/codes"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/profile_screen_score_text"
-                app:layout_constraintTop_toTopOf="parent">
+                android:textColor="@color/white">
 
             </com.google.android.material.textview.MaterialTextView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:id="@+id/profile_screen_figure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_screen_text">
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="0.5"
                 android:id="@+id/profile_screen_score"
                 style="@style/Heading.4"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/score_example"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/profile_screen_code"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:textColor="@color/white">
 
             </com.google.android.material.textview.MaterialTextView>
 
             <com.google.android.material.textview.MaterialTextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="0.5"
                 android:id="@+id/profile_screen_code"
                 style="@style/Heading.4"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/score_example"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/profile_screen_score"
-                app:layout_constraintTop_toTopOf="parent">
+                android:textColor="@color/white">
 
             </com.google.android.material.textview.MaterialTextView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
