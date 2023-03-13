@@ -143,6 +143,7 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <EditText
+            android:id="@+id/comment_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"

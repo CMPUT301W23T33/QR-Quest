@@ -1,21 +1,33 @@
 package com.example.qrquest;
 
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentEditQrBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -33,6 +45,10 @@ public class EditQRFragment extends Fragment {
     int qrScore;
     double latitude;
     double longitude;
+    String username, region, imagePath, comment;
+    boolean newHighest = false;
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
 
     @Nullable
     @Override
@@ -71,8 +87,8 @@ public class EditQRFragment extends Fragment {
         // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
         else {
             int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
-             arrayList = new ArrayList<>();
-             for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
+            arrayList = new ArrayList<>();
+            for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
         }
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);
@@ -89,12 +105,66 @@ public class EditQRFragment extends Fragment {
         // check button
         // MUST ADD THE IMAGE TAKEN BY USER HERE TO FIRESTORE STORAGE (SET WILL OVERWRITE THE
         // EXISTING DATA)
+
+        // Get basic info for updating the database
+        username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
+//        username = "UI5";
+        region = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("region", "");
+        String documentName = username + "_" + qrName;
+        Date date = new Date();
+
+        // Updating to the database
         binding.buttonCheck.setOnClickListener(v -> {
+
+            // Collection "QR Code"
             QRCode qrCode = new QRCode(qrName, qrScore, latitude, longitude);
+
             qrCodeRef.document(qrCode.getHashedQRCode())
                     .set(qrCode)
                     .addOnSuccessListener(unused -> Log.d("SET", "Added document successfully"))
                     .addOnFailureListener(e -> Log.d("SET", "Error adding document"));
+
+            // Collection "main"
+            comment = binding.commentText.getText().toString();
+            Info info = new Info(comment, latitude, longitude, qrName, region, qrScore, date, username);
+
+            Log.d("Document", documentName);
+            db.collection("main").document(documentName).set(info).addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    Log.d("main", "Successful!");
+                }
+            });
+
+            // Collection "Player"
+            db.collection("Player").document(username).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()){
+                    int highestScore = task.getResult().get("highestScore", Integer.class);
+                    if (qrScore > highestScore){
+                        newHighest = true;
+                    }
+                    updatePlayer();
+                }
+            });
+
+            // Firebase Storage
+//            File local = new File(imagePath);
+//            if (local.exists()){
+//                Uri uri = Uri.fromFile(local);
+//                firebaseStorage = FirebaseStorage.getInstance();
+//                storageReference = firebaseStorage.getReference();
+//                StorageReference image = storageReference.child("Images/" + uri.getLastPathSegment());
+//                UploadTask uploadTask = image.putFile(uri);
+//
+//                uploadTask.addOnCompleteListener(task -> {
+//                    if (task.isSuccessful()){
+//                        Log.d("Upload image", "Image uploaded successful!");
+//                    }
+//                });
+//            }
+//            else{
+//                Log.d("Image", "Image not saved correctly!");
+//            }
+
             requireActivity().finish();
         });
 
@@ -102,4 +172,29 @@ public class EditQRFragment extends Fragment {
         return view;
 
     }
+
+    private void updatePlayer(){
+        if (newHighest){
+            db.collection("Player").document(username)
+                    .update("score", FieldValue.increment(qrScore),
+                            "highestScore", qrScore,
+                            "hasScanned", FieldValue.increment(1))
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+                            Log.d("Player - newHighest", "Successful!");
+                        }
+                    });
+        }
+        else{
+            db.collection("Player").document(username)
+                    .update("score", FieldValue.increment(qrScore),
+                            "hasScanned", FieldValue.increment(1))
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+                            Log.d("Player", "Successful!");
+                        }
+                    });
+        }
+    }
+
 }

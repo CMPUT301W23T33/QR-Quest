@@ -213,9 +213,14 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
             throw new RuntimeException(e);
         }
 
+        String region = addresses.get(0).getAdminArea();
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+        editor.putString("region", region);
+        editor.apply();
+
         // set region of the user
         db.collection("Player").document(username)
-                .update("region", addresses.get(0).getAdminArea())
+                .update("region", region)
                 .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
                 .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
 
