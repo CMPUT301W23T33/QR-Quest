@@ -100,13 +100,6 @@ public class QRCode {
     }
 
     /**
-     * This method hashes the raw name of the QR Code
-     */
-    public void hashQRCode(){
-
-    }
-
-    /**
      * This method retrieves the score of the QR Code
      * @return the score of the QR Code
      */
