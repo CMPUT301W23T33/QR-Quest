@@ -14,7 +14,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
     /**
      * This member represents the threshold value to identify duplicate(s)
      */
-    private static double thresholdValue = 0;
+    private static int thresholdValue = 0;
 
     /**
      * This member represents the current rank
@@ -37,7 +37,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * @param value: the item value
      * @param queryValue: the queried value
      */
-    public TotalScoreRank(String identifier, double value, double queryValue) {
+    public TotalScoreRank(String identifier, int value, int queryValue) {
         super(identifier, value);
         setupThreshold();
         if (value == getScoreThreshold()){
@@ -56,8 +56,8 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * @param score: the queried value
      * @return: the rank of the queried value
      */
-    @Override
-    public int getQueryRank(double score) {
+
+    public int getQueryRank(int score) {
         return queryRank;
     }
 
@@ -81,7 +81,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
     /**
      * This methods sets the query rank to the current item rank
      */
-    private void setQueryRank(){
+    protected void setQueryRank(){
         queryRank = getRank();
     }
 
@@ -96,14 +96,14 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * This method retrieves the current threshold value
      * @return: the current threshold value
      */
-    private double getScoreThreshold() {
+    protected int getScoreThreshold() {
         return thresholdValue;
     }
 
     /**
      * This method sets the threshold value to be the current item value of the leaderboard
      */
-    private void setThresholdValue(){
+    protected void setThresholdValue(){
         thresholdValue = getValue();
     }
 
@@ -111,7 +111,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * This method retrieves the rank cursor
      * @return the rank cursor
      */
-    private int getRankCursor() {
+    protected int getRankCursor() {
         return rankCursor;
     }
 
@@ -119,7 +119,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * This method (re)sets the rank cursor with a new value corresponding to the current item of the leaderboard
      * @param newRankCursor: the new rank cursor
      */
-    private void resetRankCursor(int newRankCursor){
+    protected void resetRankCursor(int newRankCursor){
         rankCursor = newRankCursor;
     }
 
@@ -127,7 +127,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * This method retrieves the cache of the leaderboard
      * @return the cache of the leaderboard
      */
-    private int getCache() {
+    protected int getCache() {
         return cache;
     }
 
@@ -135,7 +135,7 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      * This method (re)sets the cache with a new value corresponding to the current item of the leaderboard
      * @param newCache
      */
-    private void resetCache(int newCache){
+    protected void resetCache(int newCache){
         cache = newCache;
     }
 

@@ -14,7 +14,7 @@ public class HighestScoreRank extends Rank implements ReusableRank {
     /**
      * This member represents the threshold value to identify duplicate(s)
      */
-    private static double thresholdValue = 0;
+    private static int thresholdValue = 0;
 
     /**
      * This member represents the current rank
@@ -37,7 +37,7 @@ public class HighestScoreRank extends Rank implements ReusableRank {
      * @param value: the item value
      * @param queryValue: the queried value
      */
-    public HighestScoreRank(String identifier, double value, double queryValue) {
+    public HighestScoreRank(String identifier, int value, int queryValue) {
         super(identifier, value);
         setupThreshold();
         if (value == getScoreThreshold()){
@@ -56,8 +56,7 @@ public class HighestScoreRank extends Rank implements ReusableRank {
      * @param score: the queried value
      * @return: the rank of the queried value
      */
-    @Override
-    public int getQueryRank(double score) {
+    public int getQueryRank(int score) {
         return queryRank;
     }
 
@@ -96,7 +95,7 @@ public class HighestScoreRank extends Rank implements ReusableRank {
      * This method retrieves the current threshold value
      * @return: the current threshold value
      */
-    private double getScoreThreshold() {
+    private int getScoreThreshold() {
         return thresholdValue;
     }
 

@@ -38,9 +38,9 @@ public class RankTesting {
     public void testValue() {
         Rank testRank = new Rank();
         assertEquals(0.0,testRank.getValue(),1);
-        testRank.setValue(23.22);
-        assertNotEquals(2.32,testRank.getValue());
-        assertEquals(23.30,testRank.getValue(),0.1);
+        testRank.setValue(230);
+        assertNotEquals(232,testRank.getValue());
+        assertEquals(230,testRank.getValue(),0.1);
     }
 
 
