@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationManager manager;
     private String username;
 
+    private Location currentLocation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
-
         // setup map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -172,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        currentLocation = location;
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
@@ -244,5 +246,36 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
         super.onPointerCaptureChanged(hasCapture);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (map != null)
+            map.clear();
+
+        if (currentLocation != null) {
+            db.collection("QR Code").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        double latitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
+                        double longitude = Double.parseDouble(String.valueOf(doc.get("longitude")));
+                        float[] list = new float[1];
+                        Location.distanceBetween(currentLocation.getLatitude(),
+                                currentLocation.getLongitude(),
+                                latitude, longitude, list);
+
+                        // distance radius within 20km (nearby)
+                        if (list[0] < 20000) {
+                            LatLng latLng1 = new LatLng(latitude, longitude);
+                            map.addMarker(new MarkerOptions()
+                                    .position(latLng1)
+                                    .title(String.valueOf(doc.get("name")))
+                                    .icon(getMarkerIcon("#CDB4DB")));
+                        }
+                    }
+                }
+            });
+        }
     }
 }
