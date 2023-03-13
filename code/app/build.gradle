@@ -2,6 +2,13 @@ plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
+    // new
+    //id 'java'
+
+}
+
+repositories {
+    mavenCentral()
 
 }
 
@@ -37,6 +44,8 @@ android {
 
 dependencies {
 
+    //testImplementation 'org.junit.jupiter:junit-jupiter'
+    //testImplementation 'org.junit.jupiter:junit-jupiter'
     def camerax_version = "1.2.1"
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
