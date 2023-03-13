@@ -110,7 +110,7 @@ public class QRCode {
      * This method retrieves the score of the QR Code
      * @return the score of the QR Code
      */
-    public double getScore() {
+    public int getScore() {
         return this.score;
     }
 

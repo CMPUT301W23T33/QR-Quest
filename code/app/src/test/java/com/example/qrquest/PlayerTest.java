@@ -1,11 +1,9 @@
 package com.example.qrquest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-
-
 import org.junit.Test;
 
 public class PlayerTest {
@@ -15,8 +13,9 @@ public class PlayerTest {
      */
     public void testEmailAddress() {
         Player testPlayer = new Player();
-        assertEquals(null,testPlayer.getEmailAddress());
+        assertNull(testPlayer.getEmailAddress());
         testPlayer.setEmailAddress("test@gmail.com");
+        assertNotEquals("real@gmail.com",testPlayer.getEmailAddress());
         assertSame("test@gmail.com",testPlayer.getEmailAddress());
     }
     @Test
@@ -25,10 +24,10 @@ public class PlayerTest {
      */
     public void testUsername() {
         Player testPlayer = new Player();
-        assertEquals(null,testPlayer.getEmailAddress());
+        assertNull(testPlayer.getEmailAddress());
         testPlayer.setEmailAddress("uniqueuser1");
         assertNotEquals("uniqueuser2",testPlayer.getEmailAddress());
-        assertEquals("uniqueuser1",testPlayer.getEmailAddress());
+        assertSame("uniqueuser1",testPlayer.getEmailAddress());
     }
 
     @Test
@@ -37,7 +36,7 @@ public class PlayerTest {
      */
     public void testPlayerRegion() {
         Player testPlayer = new Player();
-        assertEquals(null,testPlayer.getRegion());
+        assertNull(testPlayer.getRegion());
         testPlayer.setRegion("Canada");
         assertNotEquals("Brazil",testPlayer.getRegion());
         assertSame("Canada",testPlayer.getRegion());
@@ -61,10 +60,10 @@ public class PlayerTest {
      */
     public void testHighestScore() {
         Player testPlayer = new Player();
-        assertEquals(0.0,testPlayer.getHighestScore(),0);
-        testPlayer.setHighestScore(100.0);
-        assertNotEquals(99.0,testPlayer.getHighestScore());
-        assertSame(100.0,testPlayer.getHighestScore());
+        assertEquals(0,testPlayer.getHighestScore());
+        testPlayer.setHighestScore(100);
+        assertNotEquals(99,testPlayer.getHighestScore());
+        assertSame(100,testPlayer.getHighestScore());
     }
 
     @Test
@@ -73,10 +72,9 @@ public class PlayerTest {
      */
     public void testTotalScore() {
         Player testPlayer = new Player();
-        assertEquals(0.0,testPlayer.getScore(),0.0);
+        assertEquals(0,testPlayer.getScore());
         testPlayer.setScore(1234);
-        System.out.println(testPlayer.getScore());
-        assertNotEquals( 1233.0,testPlayer.getScore());
-        assertSame(Double.valueOf(1234),Double.valueOf(testPlayer.getScore()));
+        assertNotEquals( 1233,testPlayer.getScore());
+        assertEquals(1234, testPlayer.getScore());
     }
 }
