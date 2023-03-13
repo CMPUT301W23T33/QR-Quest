@@ -212,7 +212,6 @@ public class Camera extends Fragment {
                 getExecutor(), new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Toast.makeText(requireActivity(), "Saved", Toast.LENGTH_SHORT).show();
 
                 String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
                 Bundle bundle2 = getArguments();
@@ -222,8 +221,7 @@ public class Camera extends Fragment {
             }
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                Toast.makeText(requireActivity(),
-                        "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
