@@ -4,8 +4,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.google.rpc.Code;
-
 public class QRCodeTest {
 
     QRCode qrCode = new QRCode();
@@ -31,7 +29,7 @@ public class QRCodeTest {
     @Test
     public void getSetScoreTest() {
         int score = 2506;
-        assertEquals(0, qrCode.getScore(), 0);
+        assertEquals(0, qrCode.getScore());
         qrCode.setScore(score);
         assertEquals(score, qrCode.getScore());
     }

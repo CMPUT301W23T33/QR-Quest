@@ -29,12 +29,12 @@ public class Player {
     /**
      * This member represents the highest QR Codes score of the player
      */
-    private double highestScore;
+    private int highestScore;
 
     /**
      * This member represents the total score of the player
      */
-    private double score;
+    private int score;
 
     /**
      * This method defines a default new player profile
@@ -60,7 +60,7 @@ public class Player {
      * @param emailAddress: the email address of the player
      * @param username: the username of the player
      */
-    public Player(int hasScanned, double highestScore, String region, double score, String emailAddress, String username){
+    public Player(int hasScanned, int highestScore, String region, int score, String emailAddress, String username){
         this.hasScanned = hasScanned;
         this.score = score;
         this.highestScore = highestScore;
@@ -137,7 +137,7 @@ public class Player {
      * This method retrieves the highest QR Code score of the player
      * @return the highest QR Code score of the player
      */
-    public double getHighestScore() {
+    public int getHighestScore() {
         return this.highestScore;
     }
 
@@ -145,7 +145,7 @@ public class Player {
      * This method sets the highest QR Code score for the player
      * @param highestScore: the highest QR Code score for the player
      */
-    public void setHighestScore(double highestScore) {
+    public void setHighestScore(int highestScore) {
         this.highestScore = highestScore;
     }
 
@@ -153,7 +153,7 @@ public class Player {
      * This method retrieves the total score of the player
      * @return the total score of the player
      */
-    public double getScore() {
+    public int getScore() {
         return this.score;
     }
 
@@ -161,7 +161,7 @@ public class Player {
      * This method sets the total score for the player
      * @param score: the total score of the player
      */
-    public void setScore(double score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
