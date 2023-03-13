@@ -8,6 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+* This class defines the view holder for QR Code.
+*/
 public class QRHistoryViewHolder extends RecyclerView.ViewHolder {
 
     private final TextView QRName, QRScore;
