@@ -41,8 +41,8 @@ public class EditProfileFragment extends Fragment {
 
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
-//        String username = sharedPref.getString("username", "");
-        String username = "UI5";
+       String username = sharedPref.getString("username", "");
+//         String username = "UI5";
 
         binding.editProfileName.setText(username);
 
