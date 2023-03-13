@@ -6,6 +6,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
+/**
+ * This test class tests the QRCodeHistory class methods
+ * @author Abinand Nanthananthan
+ */
 public class QRCodeHistoryTesting {
     @Test
     /**

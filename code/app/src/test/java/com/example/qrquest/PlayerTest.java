@@ -6,6 +6,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import org.junit.Test;
 
+/**
+ * This test class tests the methods of the Player class
+ * @author Abinand Nanthananthan
+ */
 public class PlayerTest {
     @Test
     /**

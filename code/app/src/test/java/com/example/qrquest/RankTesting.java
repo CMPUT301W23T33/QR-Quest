@@ -7,6 +7,10 @@ import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
+/**
+ * This test class serves to test the Rank class methods
+ * @author Abinand Nanthananthan
+ */
 public class RankTesting {
     @Test
     /**

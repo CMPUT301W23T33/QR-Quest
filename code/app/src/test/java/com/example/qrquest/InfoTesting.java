@@ -8,6 +8,10 @@ import org.junit.Test;
 
 import java.util.Date;
 
+/**
+ * This test class tests the methods of the Info class
+ * @author Abinand Nanthananthan
+ */
 public class InfoTesting {
     @Test
     /**
