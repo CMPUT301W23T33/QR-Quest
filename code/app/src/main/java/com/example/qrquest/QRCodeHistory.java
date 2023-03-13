@@ -15,7 +15,7 @@ public class QRCodeHistory {
     /**
      * This member represents the value of the score of the QR Code
      */
-    private double score;
+    private int score;
 
     /**
      * This method defines a default compact QR Code
@@ -27,7 +27,7 @@ public class QRCodeHistory {
      * @param qrCode: the QR Code name
      * @param score: the QR Code score
      */
-    public QRCodeHistory(String qrCode, double score){
+    public QRCodeHistory(String qrCode, int score){
         setQrCode(qrCode);
         setScore(score);
     }
@@ -44,7 +44,7 @@ public class QRCodeHistory {
      * This method retrieves the score of the QR Code
      * @return the score of the QR Code
      */
-    public double getScore(){
+    public int getScore(){
         return this.score;
     }
 
@@ -52,7 +52,7 @@ public class QRCodeHistory {
      * This method sets the hashed name for the QR Code
      * @param qrCode: the hashed QR Code name
      */
-    private void setQrCode(String qrCode) {
+    protected void setQrCode(String qrCode) {
         this.qrCode = qrCode;
     }
 
@@ -60,7 +60,7 @@ public class QRCodeHistory {
      * This method sets the score for the QR Code
      * @param score: the score of the QR Code
      */
-    private void setScore(double score) {
+    protected void setScore(int score) {
         this.score = score;
     }
 
