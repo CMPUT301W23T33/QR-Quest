@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.ListAdapter;
 
 import java.util.Objects;
 
+/**
+* This class defines the adapter for displaying the QR Code history.
+*/
 public class QRHistoryAdapter extends ListAdapter<QRCodeHistory, QRHistoryViewHolder> {
 
     @NonNull
