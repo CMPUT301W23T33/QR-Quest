@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_camera"
+    app:startDestination="@id/camera">
+
+    <fragment
+        android:id="@+id/camera"
+        android:name="com.example.qrquest.Camera"
+        android:label="camera_screen"
+        tools:layout="@layout/camera_screen" >
+        <action
+            android:id="@+id/action_camera_to_QRDetectedFragment"
+            app:destination="@id/QRDetectedFragment" />
+        <action
+            android:id="@+id/action_camera_to_promptLocationFragment"
+            app:destination="@id/promptLocationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/QRDetectedFragment"
+        android:name="com.example.qrquest.QRDetectedFragment"
+        android:label="QRDetectedFragment" >
+        <action
+            android:id="@+id/action_QRDetectedFragment_to_promptPictureFragment"
+            app:destination="@id/promptPictureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/promptPictureFragment"
+        android:name="com.example.qrquest.PromptPictureFragment"
+        android:label="PromptPictureFragment" >
+        <action
+            android:id="@+id/action_promptPictureFragment_to_promptLocationFragment"
+            app:destination="@id/promptLocationFragment" />
+        <action
+            android:id="@+id/action_promptPictureFragment_to_camera"
+            app:destination="@id/camera" />
+    </fragment>
+    <fragment
+        android:id="@+id/promptLocationFragment"
+        android:name="com.example.qrquest.PromptLocationFragment"
+        android:label="PromptLocationFragment" />
+</navigation>
