@@ -57,9 +57,13 @@ public class MainViewModel extends AndroidViewModel {
         this.mainRepository.reverseHistory();
     }
 
-    // (Unfinished) reset updating permission
     public void refreshHistory(){
         refresh = true;
+        this.mainRepository.refreshHistory();
+    }
+
+    public static boolean getRefreshPermission(){
+        return refresh;
     }
 
 }
