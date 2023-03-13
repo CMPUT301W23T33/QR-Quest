@@ -42,13 +42,13 @@ import java.util.List;
 /**
  * This class represents the main screen of the app. It prompts for users' location permission and
  * displays a map if granted.
+ * @author Thea Nguyen
  */
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener {
     FirebaseFirestore db;
     private GoogleMap map;
     private LocationManager manager;
     private String username;
-
     private Location currentLocation;
 
     @Override

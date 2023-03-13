@@ -3,12 +3,10 @@ package com.example.qrquest;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.common.hash.Hashing;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Random;
 
 /**
  * This class consists of different functions that are utilised in the project.
@@ -56,7 +54,6 @@ public class Utilities {
     // Function to generate a score based on the hash of the qr code
     public int hashScore(@NonNull String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
-
         int score = 0;
         for (byte b : byteArray) {
             score += b;

@@ -3,7 +3,6 @@ package com.example.qrquest;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;

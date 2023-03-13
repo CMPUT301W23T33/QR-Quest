@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,10 @@ import androidx.navigation.Navigation;
 
 import com.example.qrquest.databinding.FragmentPromptBinding;
 
+/**
+ * This class represents the Prompt Location Screen and gets the geo-location of the scanned QR code.
+ * @author Thea Nguyen
+ */
 public class PromptLocationFragment extends Fragment {
 
     FragmentPromptBinding binding;
@@ -51,8 +54,6 @@ public class PromptLocationFragment extends Fragment {
         });
 
         binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
-
-
 
         return view;
     }

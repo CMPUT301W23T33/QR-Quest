@@ -11,8 +11,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentEditQrBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -20,6 +18,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * This class represents the Edit QR Screen and displays the hashed QR name, QR score, and QR
+ * geo-locations (if any). This class also lets the user comments on the scanned QR code.
+ * @author Thea Nguyen
+ */
 public class EditQRFragment extends Fragment {
     ArrayList<VPItem> arrayList;
     FragmentEditQrBinding binding;
