@@ -51,8 +51,8 @@ public class ProfileFragment extends Fragment {
 
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
-//        String username = sharedPref.getString("username", "");
-         String username = "UI5";
+       String username = sharedPref.getString("username", "");
+//          String username = "UI5";
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
