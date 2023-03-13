@@ -23,7 +23,7 @@
             android:value="@string/API_key" />
         <activity
             android:name=".CameraActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".StartFragment"
             android:exported="false" />
