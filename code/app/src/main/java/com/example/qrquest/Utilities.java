@@ -17,7 +17,7 @@ import java.util.Locale;
 public class Utilities {
 
     // Dictionaries of words to choose from
-    private final String[][] DICTIONARIES = {
+    private static final String[][] DICTIONARIES = {
             {"Freezing", "Magma"},
             {"Spirit", "Spark"},
             {"ing", "ling"},
@@ -28,7 +28,7 @@ public class Utilities {
 
     // Function to generate a unique human-readable name for a QR code
     @NonNull
-    public String hashName(@NonNull String hexString) {
+    public static String hashName(@NonNull String hexString) {
         // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
@@ -52,7 +52,7 @@ public class Utilities {
     }
 
     // Function to generate a score based on the hash of the qr code
-    public int hashScore(@NonNull String hexString) {
+    public static int hashScore(@NonNull String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
         int score = 0;
         for (byte b : byteArray) {
