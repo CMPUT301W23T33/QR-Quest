@@ -2,7 +2,7 @@ package com.example.qrquest;
 
 /**
  * This interface allows the ArrayList<> of Rank's children classes to be reusable
- * @author: Dang Viet Anh Dinh
+ * @author Dang Viet Anh Dinh
  */
 public interface ReusableRank {
 
