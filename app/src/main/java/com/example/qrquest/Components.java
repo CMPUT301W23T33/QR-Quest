@@ -8,6 +8,9 @@ import android.os.Bundle;
 
 import java.util.LinkedList;
 
+/**
+* This class is for testing.
+*/
 public class Components extends AppCompatActivity {
 
     @Override
