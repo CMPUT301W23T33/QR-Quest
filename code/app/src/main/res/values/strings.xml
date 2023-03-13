@@ -57,7 +57,7 @@
     <string name="add_a_picture">Add a picture?</string>
     <string name="add_picture_bonus">Open the camera to take one</string>
     <string name="add_a_location">Add a location?</string>
-    <string name="add_location_bonus">We will record your location</string>
+    <string name="add_location_bonus">Please wait. We are locating you!</string>
     <string name="sorry">Sorry…</string>
     <string name="sure">Sure</string>
 
