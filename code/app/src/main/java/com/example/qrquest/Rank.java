@@ -35,7 +35,7 @@ public class Rank {
 
     /**
      * This method retrieves the identifier of the item
-     * @return
+     * @return a string that identifies the item
      */
     public String getIdentifier(){
         return this.identifier;

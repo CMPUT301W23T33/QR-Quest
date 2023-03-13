@@ -2,6 +2,7 @@ package com.example.qrquest;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * This class defines QR Codes in relation with players
@@ -138,7 +139,7 @@ public class Info extends QRCode {
      * @return the absolute path to the image of the QR Code in the database
      */
     public String getImagePath(){
-        String time = new SimpleDateFormat("MM_dd_yyyy_hh_mm_ss").format(getTimeStamp());
+        String time = new SimpleDateFormat("MM_dd_yyyy_hh_mm_ss", Locale.CANADA).format(getTimeStamp());
         return "Images/" + getUsername() + "_" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/unhashed
         // E.g: getImagePath() -> "username1_QRCode1_03_06_2023_04_20_00.jpg"
     }
