@@ -70,5 +70,7 @@
     <string name="rank">25</string>
     <string name="leaderboard_name_example">Highest scoring QR Codes</string>
     <string name="rank_2">2</string>
+    <string name="rank_1">1</string>
+    <string name="rank_3">3</string>
 
 </resources>
