@@ -107,7 +107,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
             android:layout_toEndOf="@id/display_user_2"
             android:layout_toStartOf="@id/display_user_3"
             android:layout_below="@id/name_leaderboard"
