@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/thistle">
 
     <RelativeLayout
+        android:id="@+id/top_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_bottom_corners"
@@ -208,7 +210,19 @@
 
     </RelativeLayout>
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/user_display"
+        android:id="@+id/profile_screen_qr_codes"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_sheet"
+        app:layout_constraintBottom_toTopOf="@id/bottom_sheet"/>
+
     <LinearLayout
+        android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
