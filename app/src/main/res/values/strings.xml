@@ -68,5 +68,7 @@
     <!--Leaderboard Screen-->
     <string name="ex_name">Dogwood</string>
     <string name="rank">25</string>
+    <string name="leaderboard_name_example">Highest scoring QR Codes</string>
+    <string name="rank_2">2</string>
 
 </resources>

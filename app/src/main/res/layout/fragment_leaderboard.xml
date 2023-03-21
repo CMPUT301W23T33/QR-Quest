@@ -5,6 +5,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/thistle">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_bottom_corners"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/row_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/button_back"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:contentDescription="@string/back_button_description"
+                android:src="@drawable/baseline_arrow_back_24"
+                android:backgroundTint="@android:color/transparent"
+                android:scaleType="fitCenter"
+                app:tint="@color/thistle"/>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/transparent"
+                app:tabGravity="center"
+                app:tabBackground="@drawable/tab_selector"
+                app:tabIndicatorHeight="0dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/name_leaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/row_1"
+            android:text="@string/leaderboard_name_example"
+            android:textColor="@color/thistle"
+            android:textAppearance="@style/small"
+            android:textAlignment="center"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_below="@id/name_leaderboard">
+
+            <TextView
+                android:id="@+id/ranking_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rank_2"
+                android:textColor="@color/fairy_tale"
+                android:textAppearance="@style/Heading.4"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/profile_2"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/user_profile_description"
+                android:src="@drawable/baseline_person_24"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                style="@style/Profile.Display.Leaderboard.Top" />
+
+            <TextView
+                android:id="@+id/name_text_display_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ex_name"
+                android:textColor="@color/fairy_tale"
+                android:textAppearance="@style/body"
+                android:ellipsize="end"
+                android:maxWidth="120dp"
+                android:maxLines="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/score_text_display_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_example"
+                android:textColor="@color/fairy_tale"
+                android:textAppearance="@style/small"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +114,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/ranking"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/rank"
@@ -37,6 +133,7 @@
             style="@style/Profile.Display.Leaderboard" />
 
         <TextView
+            android:id="@+id/name_text_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ex_name"
@@ -48,6 +145,7 @@
             android:maxLines="1"/>
 
         <TextView
+            android:id="@+id/score_text_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/score_example"
