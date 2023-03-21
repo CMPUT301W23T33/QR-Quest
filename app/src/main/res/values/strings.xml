@@ -43,8 +43,6 @@
 
     <!--API KEY-->
     <string name="API_key">AIzaSyAy6eUw2krdD9YaS9ERxJ-iH2ZhQll9wqs</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Detected Screen-->
     <string name="qr_detected">QR Detected</string>
@@ -66,4 +64,9 @@
     <string name="latitude_longitude">(102, 122)</string>
     <string name="comment">COMMENT</string>
     <string name="comment_more">…</string>
+
+    <!--Leaderboard Screen-->
+    <string name="ex_name">Dogwood</string>
+    <string name="rank">25</string>
+
 </resources>

@@ -215,6 +215,12 @@
         <item name="tint">@color/chinese_violet</item>
     </style>
 
+    <style name="Profile.Display.Leaderboard" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_leaderboard</item>
+        <item name="tint">@color/thistle</item>
+    </style>
+
     <!--Search bar-->
     <style name="SearchLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>
