@@ -213,7 +213,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         tools:listitem="@layout/user_display"
-        android:id="@+id/profile_screen_qr_codes"
+        android:id="@+id/user_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
