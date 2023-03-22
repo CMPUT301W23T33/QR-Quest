@@ -15,43 +15,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:id="@+id/row_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/button_back"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:contentDescription="@string/back_button_description"
-                android:src="@drawable/baseline_arrow_back_24"
-                android:backgroundTint="@android:color/transparent"
-                android:scaleType="fitCenter"
-                app:tint="@color/thistle"/>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                app:tabGravity="center"
-                android:layout_weight="1"
-                app:tabBackground="@drawable/tab_selector"
-                app:tabIndicatorHeight="0dp"/>
-
-        </LinearLayout>
-
         <TextView
             android:id="@+id/name_leaderboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/row_1"
             android:text="@string/leaderboard_0"
             android:textColor="@color/thistle"
             android:textAppearance="@style/small"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:layout_marginTop="56dp"/>
 
         <LinearLayout
             android:id="@+id/display_user_2"

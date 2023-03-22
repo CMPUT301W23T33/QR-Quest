@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 import android.os.Bundle;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private static final int numPages = 4;
@@ -22,6 +26,17 @@ public class LeaderboardActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.pager);
         FragmentStateAdapter adapter = new ScreenSlidePagerAdapter(this);
         viewPager2.setAdapter(adapter);
+
+        // setup Tab Layout
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, viewPager2,
+                (tab, position) -> tab.setText("")
+        ).attach();
+
+        // button back
+        ImageButton buttonBack = findViewById(R.id.button_back);
+        buttonBack.setOnClickListener(v -> finish());
+
     }
 
     // setup pager adapter
