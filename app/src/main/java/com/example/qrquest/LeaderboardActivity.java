@@ -13,9 +13,13 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+/**
+ * This class represents the Leaderboard Screen of the app. It displays four fragments representing
+ * four different leaderboards using swipe (viewPager2 and TabLayout).
+ * @author Thea Nguyen
+ */
 public class LeaderboardActivity extends AppCompatActivity {
     private static final int numPages = 4;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +43,9 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     }
 
-    // setup pager adapter
+    /**
+     * This class acts as an adapter for the viewPager2.
+     */
     private static class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         public ScreenSlidePagerAdapter(@NonNull AppCompatActivity activity) {
             super(activity);

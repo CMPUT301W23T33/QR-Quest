@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentLeaderboardBinding;
 
+/**
+ * This class represents a leaderboard screen.
+ * @author Thea Nguyen
+ */
 public class LeaderboardFragment extends Fragment {
 
     FragmentLeaderboardBinding binding;
