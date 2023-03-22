@@ -27,8 +27,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
+import com.example.qrquest.databinding.FragmentMainBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,7 +38,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -56,19 +55,22 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
     private LocationManager manager;
     private String username;
 
+    FragmentMainBinding binding;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         locationPermissionRequest.launch(new String[]{
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION
         });
 
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
+        binding = FragmentMainBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
         // setup map
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -86,8 +88,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         username = sharedPref.getString("username", "");
 
         // Camera button
-        FloatingActionButton button_camera = view.findViewById(R.id.button_camera_1);
-        button_camera.setOnClickListener(v -> {
+        binding.buttonCamera1.setOnClickListener(v -> {
 
             // Reset view model
             if (!MainViewModel.getRefreshPermission()) {
@@ -98,9 +99,15 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
             startActivity(intent);
         });
 
+        // Leaderboard button
+        binding.buttonLeaderboard.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), LeaderboardActivity.class);
+            startActivity(intent);
+        });
+
+
         // Navigate to the profile screen
-        ImageButton button_profile = view.findViewById(R.id.profile);
-        button_profile.setOnClickListener(v -> {
+        binding.profile.setOnClickListener(v -> {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_profileFragment);
         });
 

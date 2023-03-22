@@ -33,10 +33,11 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
                 app:tabGravity="center"
+                android:layout_weight="1"
                 app:tabBackground="@drawable/tab_selector"
                 app:tabIndicatorHeight="0dp"/>
 

@@ -26,7 +26,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/my_profile">
 
     </ImageButton>
 
@@ -40,6 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         style="@style/Theme.BottomSheet.Navigation">
         <ImageButton
+            android:id="@+id/button_leaderboard"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="0.75"
@@ -51,6 +53,7 @@
             style="@style/Theme.BottomSheet.Navigation.Icon"/>
 
         <ImageButton
+            android:id="@+id/button_search"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="0.75"
