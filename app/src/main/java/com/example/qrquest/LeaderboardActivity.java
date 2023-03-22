@@ -1,7 +1,6 @@
 package com.example.qrquest;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,24 +22,6 @@ public class LeaderboardActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.pager);
         FragmentStateAdapter adapter = new ScreenSlidePagerAdapter(this);
         viewPager2.setAdapter(adapter);
-
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                Toast.makeText(LeaderboardActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                super.onPageScrollStateChanged(state);
-            }
-        });
     }
 
     // setup pager adapter
@@ -52,7 +33,14 @@ public class LeaderboardActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            return new LeaderboardFragment();
+            LeaderboardFragment fragment = new LeaderboardFragment();
+
+            // send position of leaderboards to change layouts + data accordingly
+            Bundle bundle = new Bundle();
+            bundle.putString("numLeaderboard", String.valueOf(position));
+            fragment.setArguments(bundle);
+
+            return fragment;
         }
 
         @Override

@@ -66,11 +66,14 @@
     <string name="comment_more">…</string>
 
     <!--Leaderboard Screen-->
-    <string name="ex_name">Dogwood</string>
-    <string name="rank">25</string>
-    <string name="leaderboard_name_example">Highest scoring QR Codes</string>
-    <string name="rank_2">2</string>
+    <string name="user_name_example">Dogwood</string>
+    <string name="user_rank_example">25</string>
     <string name="rank_1">1</string>
+    <string name="rank_2">2</string>
     <string name="rank_3">3</string>
+    <string name="leaderboard_0">Highest scoring QR Codes</string>
+    <string name="leaderboard_1">Highest scoring QR Codes (Region)</string>
+    <string name="leaderboard_2">Number of QR Codes owned</string>
+    <string name="leaderboard_3">Highest sum of QR Codes</string>
 
 </resources>
