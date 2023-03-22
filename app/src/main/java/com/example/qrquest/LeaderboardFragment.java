@@ -28,6 +28,10 @@ public class LeaderboardFragment extends Fragment {
             pos = bundle.getString("numLeaderboard", "");
         int intPos = Integer.parseInt(pos);
 
+        // general leaderboards
+        binding.buttonBack.setOnClickListener(v -> requireActivity().finish());
+
+
         // LEADERBOARD 0 -> the highest scoring QR codes
 
         // LEADERBOARD 1 -> highest scoring QR codes in a region
