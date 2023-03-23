@@ -1,6 +1,8 @@
 package com.example.qrquest;
 
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 
 import com.google.common.hash.Hashing;
@@ -73,9 +75,18 @@ public class Utilities {
      * @return
      *
      */
-    public static File visualRepresentation(@NonNull String hexString) {
+    public static Bitmap visualRepresentation(@NonNull String hexString) {
+        Bitmap image = Bitmap.createBitmap(1,1,Bitmap.Config.ARGB_8888); // need width and height
+        // Convert the hex string to a byte array
+        byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
+
+        // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
+        String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
 
-        return visualRepresentation;
+
+        // return image or set the view to the bitmap?
+        // viewpager2.setBitMap(image) ?
+        //return image;
     }
 }
