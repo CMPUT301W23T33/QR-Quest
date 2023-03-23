@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 
 import com.google.common.hash.Hashing;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
@@ -13,6 +14,7 @@ import java.util.Locale;
  * @author Zijing Lu
  * @author Jay Pasrija
  * @author Michael Wolowyk
+ * @author Abinand Nanthananthan
  * */
 public class Utilities {
 
@@ -25,6 +27,9 @@ public class Utilities {
             {"Common", "Legendary"},
             {"Monster", "Beast"}
     };
+
+    // Dictionary of characters to choose from for in the creation of visual representation
+    private static final String[][] characterDictionary = {};
 
     // Function to generate a unique human-readable name for a QR code
     @NonNull
@@ -59,5 +64,18 @@ public class Utilities {
             score += b;
         }
         return score;
+    }
+
+    /**
+     * Function that creates a visual representation of the QR Hash using ASCII characters,
+     * and using Bitmaps, returns it as an image
+     * @param hexString
+     * @return
+     *
+     */
+    public static File visualRepresentation(@NonNull String hexString) {
+
+
+        return visualRepresentation;
     }
 }
