@@ -22,6 +22,7 @@
         android:clickable="true"
         android:focusable="true"
         app:tint="@color/thistle"
+        android:elevation="1dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
