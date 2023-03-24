@@ -107,9 +107,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
 
 
         // Navigate to the profile screen
-        binding.profile.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_profileFragment);
-        });
+        binding.profile.setOnClickListener(v -> Navigation.findNavController(v)
+                .navigate(R.id.action_mainFragment_to_profileFragment));
 
         return view;
     }

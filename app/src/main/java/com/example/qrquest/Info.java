@@ -42,7 +42,7 @@ public class Info extends QRCode {
      * @param hashedQRCode: the hashed name of the QR Code
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
-     * @param qrCode: the unhashed name of the QR Code
+     * @param qrCode: the un-hashed name of the QR Code
      * @param score: the score of the QR Code
      * @param username: the username of the player
      */
@@ -59,13 +59,14 @@ public class Info extends QRCode {
      * @param comment: the comment by the player
      * @param latitude: the latitude of the QR Code
      * @param longitude: the longitude of the QR Code
-     * @param qrCode: the unhashed name of the QR Code
+     * @param qrCode: the un-hashed name of the QR Code
      * @param score: the score of the QR Code
      * @param username: the username of the player
      */
     public Info(String comment, double latitude, double longitude, String qrCode, String region, int score, Date timeStamp, String username){
         super(qrCode, score, latitude, longitude);
         setRegion(region);
+        setComment(comment);
         setTimeStamp(timeStamp);
         setUsername(username);
     }
@@ -140,7 +141,7 @@ public class Info extends QRCode {
      */
     public String getImagePath(){
         String time = new SimpleDateFormat("MM_dd_yyyy_hh_mm_ss", Locale.CANADA).format(getTimeStamp());
-        return "Images/" + getUsername() + "_" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/unhashed
+        return "Images/" + getUsername() + "_" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/un-hashed
         // E.g: getImagePath() -> "username1_QRCode1_03_06_2023_04_20_00.jpg"
     }
 
