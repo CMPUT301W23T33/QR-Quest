@@ -26,10 +26,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class ProfileFragment extends Fragment {
 
-    MainViewModel viewModel;
+    private MainViewModel viewModel;
     private FirebaseFirestore db;
-
-    ProfileScreenBinding binding;
+    private ProfileScreenBinding binding;
     private QRHistoryAdapter adapter;
 
     @Override
@@ -52,7 +51,6 @@ public class ProfileFragment extends Fragment {
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", "");
-//          String username = "UI5";
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -86,18 +84,16 @@ public class ProfileFragment extends Fragment {
         viewModel.getUserInfo().observe(requireActivity(), integers -> {
             binding.profileScreenScore.setText(String.valueOf(integers.get(0)));
             binding.profileScreenCode.setText(String.valueOf(integers.get(1)));
-            adapter.notifyDataSetChanged();
         });
 
         // Reverse sorting order
         binding.profileScreenButtonSort.setOnClickListener(v -> {
             viewModel.reverseHistory();
-            adapter.notifyDataSetChanged();
         });
 
         // Navigate back to the main screen
         binding.profileScreenButtonBack.setOnClickListener(v ->
-            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment));
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment));
 
         // Navigate to edit profile screen
         binding.profileScreenButtonEdit.setOnClickListener(v ->Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_editProfileFragment));

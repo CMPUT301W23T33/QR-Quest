@@ -87,28 +87,18 @@ public class MainRepository {
 
     // Refresh data
     public void refreshHistory(){
-        this.userInfoData.remove(1);
-        this.userInfoData.remove(0);
-        this.userInfoData.add(0);
-        this.userInfoData.add(0);
-        for (QRCodeHistory qrCodeHistory : this.historyData){
-            this.historyData.remove(qrCodeHistory);
-        }
-//        this.historyData = new ArrayList<>();
-//        this.userInfoData = new ArrayList<>();
-//        this.userInfoData.add(0);
-//        this.userInfoData.add(0);
-        this.history.setValue(this.historyData);
+        this.userInfoData.set(0, 0);
+        this.userInfoData.set(1, 0);
+        this.historyData.clear();
+        this.history.setValue(null);
         this.userInfo.setValue(this.userInfoData);
         highestScore = 0;
     }
 
     // Reverse sorting order
     public void reverseHistory(){
+        this.history.setValue(null);
         Collections.reverse(this.historyData);
-        this.historyData.add(new QRCodeHistory());
-        this.history.setValue(this.historyData);
-        this.historyData.remove(this.historyData.size() - 1);
         this.history.setValue(this.historyData);
     }
 
@@ -129,7 +119,7 @@ public class MainRepository {
     }
 
     // Update screen
-    private void updateScreen( int position){
+    private void updateScreen(int position){
         this.userInfoData.set(0, this.userInfoData.get(0) - this.historyData.get(position).getScore());
         this.userInfoData.set(1, this.userInfoData.get(1) - 1);
         this.historyData.remove(position);
