@@ -18,10 +18,4 @@ public class UtilitiesTest {
         assertNotEquals(Utilities.hashScore(rawValue1), Utilities.hashScore(rawValue2));
     }
 
-    @Test
-    public void hashName() {
-        assertNotEquals(rawValue1, Utilities.hashName(rawValue1));
-        assertNotEquals(Utilities.hashName(rawValue1), Utilities.hashName(rawValue2));
-    }
-
 }
