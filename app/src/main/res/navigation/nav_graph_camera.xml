@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/camera"
-        android:name="com.example.qrquest.Camera"
+        android:name="com.example.qrquest.CameraFragment"
         android:label="camera_screen"
         tools:layout="@layout/camera_screen" >
         <action

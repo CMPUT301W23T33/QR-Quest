@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 /**
  * This Activity is used to host fragment navigation.
  * Its fragments consist of CreateAccountFragment, StartFragment.
@@ -28,6 +32,11 @@ public class StartActivity extends AppCompatActivity {
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         assert navHostFragment != null;
+        try {
+            Utilities.readJSON(getBaseContext(), "words.json");
+        } catch (IOException | JSONException e) {
+            throw new RuntimeException(e);
+        }
         // NavController navController = navHostFragment.getNavController();
 
     }

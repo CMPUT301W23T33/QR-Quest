@@ -1,31 +1,22 @@
 package com.example.qrquest;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentEditQrBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -45,10 +36,10 @@ public class EditQRFragment extends Fragment {
     int qrScore;
     double latitude;
     double longitude;
-    String username, region, imagePath, comment;
+    String username;
+    String region;
+    String comment;
     boolean newHighest = false;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
 
     @Nullable
     @Override
@@ -138,32 +129,15 @@ public class EditQRFragment extends Fragment {
             // Collection "Player"
             db.collection("Player").document(username).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    int highestScore = task.getResult().get("highestScore", Integer.class);
+                    String strHighestScore =
+                            String.valueOf(task.getResult().get("highestScore", Integer.class));
+                    int highestScore = Integer.parseInt(strHighestScore);
                     if (qrScore > highestScore){
                         newHighest = true;
                     }
                     updatePlayer();
                 }
             });
-
-            // Firebase Storage
-//            File local = new File(imagePath);
-//            if (local.exists()){
-//                Uri uri = Uri.fromFile(local);
-//                firebaseStorage = FirebaseStorage.getInstance();
-//                storageReference = firebaseStorage.getReference();
-//                StorageReference image = storageReference.child("Images/" + uri.getLastPathSegment());
-//                UploadTask uploadTask = image.putFile(uri);
-//
-//                uploadTask.addOnCompleteListener(task -> {
-//                    if (task.isSuccessful()){
-//                        Log.d("Upload image", "Image uploaded successful!");
-//                    }
-//                });
-//            }
-//            else{
-//                Log.d("Image", "Image not saved correctly!");
-//            }
 
             requireActivity().finish();
         });

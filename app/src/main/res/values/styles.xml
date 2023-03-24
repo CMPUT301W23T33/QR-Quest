@@ -215,6 +215,30 @@
         <item name="tint">@color/chinese_violet</item>
     </style>
 
+    <style name="Profile.Display.Leaderboard" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_leaderboard</item>
+        <item name="tint">@color/thistle</item>
+    </style>
+
+    <style name="Profile.Display.Leaderboard.List" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_leaderboard_list</item>
+        <item name="tint">@color/chinese_violet</item>
+    </style>
+
+    <style name="Profile.Display.Leaderboard.Top.1" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_leaderboard_top_2</item>
+        <item name="tint">@color/fairy_tale</item>
+    </style>
+
+    <style name="Profile.Display.Leaderboard.Top.2" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_leaderboard_top_2</item>
+        <item name="tint">@color/fairy_tale</item>
+    </style>
+
     <!--Search bar-->
     <style name="SearchLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>

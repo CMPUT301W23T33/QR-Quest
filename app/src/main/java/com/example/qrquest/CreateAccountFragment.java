@@ -49,7 +49,7 @@ public class CreateAccountFragment extends Fragment {
         newPlayer = new Player();
 
         // generate unique name
-        randomName = UUID.randomUUID().toString().substring(0, 12);
+        randomName = Utilities.hashName(UUID.randomUUID().toString());
         binding.nameText.setText(randomName);
 
         // back button
@@ -71,7 +71,7 @@ public class CreateAccountFragment extends Fragment {
 
         // another button (secondary button) (re-generate)
         binding.buttonElevatedSecondary.setOnClickListener(v -> {
-            randomName = UUID.randomUUID().toString().substring(0, 12);
+            randomName = Utilities.hashName(UUID.randomUUID().toString());
             binding.nameText.setText(randomName);
         });
 
