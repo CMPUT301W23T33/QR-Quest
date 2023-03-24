@@ -41,7 +41,7 @@ import java.util.concurrent.Executor;
  * @author Dang Viet Anh Dinh
  * @author Thea Nguyen
  */
-public class Camera extends Fragment {
+public class CameraFragment extends Fragment {
 
     private CameraScreenBinding binding;
     private View cameraFragmentView;

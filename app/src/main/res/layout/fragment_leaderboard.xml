@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/thistle">
+
+    <RelativeLayout
+        android:id="@+id/top_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_bottom_corners"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/name_leaderboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/leaderboard_0"
+            android:textColor="@color/thistle"
+            android:textAppearance="@style/small"
+            android:textAlignment="center"
+            android:layout_marginTop="56dp"/>
+
+        <LinearLayout
+            android:id="@+id/display_user_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_below="@id/name_leaderboard"
+            android:layout_marginStart="16dp"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:id="@+id/ranking_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rank_2"
+                android:textColor="@color/fairy_tale"
+                android:textAppearance="@style/Heading.4"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/profile_2"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/user_profile_description"
+                android:src="@drawable/baseline_person_24"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                style="@style/Profile.Display.Leaderboard.Top.2" />
+
+            <TextView
+                android:id="@+id/name_text_display_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name_example"
+                android:textColor="@color/fairy_tale"
+                android:textAppearance="@style/small"
+                android:ellipsize="end"
+                android:maxWidth="120dp"
+                android:maxLines="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/score_text_display_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_example"
+                android:textColor="@color/fairy_tale"
+                android:textAppearance="@style/small"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/display_user_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/display_user_2"
+            android:layout_toStartOf="@id/display_user_3"
+            android:layout_below="@id/name_leaderboard"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/ranking_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rank_1"
+                android:textColor="@color/pale_dogwood"
+                android:textAppearance="@style/Heading.3"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/profile_1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:contentDescription="@string/user_profile_description"
+                android:src="@drawable/baseline_person_24"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                style="@style/Profile.Display.Leaderboard.Top.1" />
+
+            <TextView
+                android:id="@+id/name_text_display_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name_example"
+                android:textColor="@color/pale_dogwood"
+                android:textAppearance="@style/body"
+                android:ellipsize="end"
+                android:maxWidth="120dp"
+                android:maxLines="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/score_text_display_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_example"
+                android:textColor="@color/pale_dogwood"
+                android:textAppearance="@style/small"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/display_user_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/name_leaderboard"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:id="@+id/ranking_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rank_3"
+                android:textColor="@color/thistle"
+                android:textAppearance="@style/Heading.4"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/profile_3"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:contentDescription="@string/user_profile_description"
+                android:src="@drawable/baseline_person_24"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                style="@style/Profile.Display.Leaderboard" />
+
+            <TextView
+                android:id="@+id/name_text_display_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_name_example"
+                android:textColor="@color/thistle"
+                android:textAppearance="@style/small"
+                android:ellipsize="end"
+                android:maxWidth="120dp"
+                android:maxLines="1"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/score_text_display_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_example"
+                android:textColor="@color/thistle"
+                android:textAppearance="@style/small"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/user_display"
+        android:id="@+id/user_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_sheet"
+        app:layout_constraintBottom_toTopOf="@id/bottom_sheet"/>
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_top_corners_small"
+        android:backgroundTint="@color/black"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/ranking"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/user_rank_example"
+            android:textColor="@color/thistle"
+            android:textAppearance="@style/body"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="0.25"/>
+
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/user_profile_description"
+            android:src="@drawable/baseline_person_24"
+            android:layout_marginEnd="12dp"
+            style="@style/Profile.Display.Leaderboard" />
+
+        <TextView
+            android:id="@+id/name_text_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_example"
+            android:textColor="@color/thistle"
+            android:textAppearance="@style/body"
+            android:layout_weight="0.5"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/score_text_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_example"
+            android:textColor="@color/thistle"
+            android:textAppearance="@style/small"
+            android:layout_weight="0.5"
+            android:textAlignment="textEnd"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
