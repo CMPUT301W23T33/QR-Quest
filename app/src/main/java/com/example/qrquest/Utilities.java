@@ -2,6 +2,7 @@ package com.example.qrquest;
 
 
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 
 import androidx.annotation.NonNull;
 
@@ -30,9 +31,32 @@ public class Utilities {
             {"Monster", "Beast"}
     };
 
-    // Dictionary of characters to choose from for in the creation of visual representation
-    private static final String[][] characterDictionary = {};
+    // Dictionary of characters to choose from for in the creation of visual representation (testing for visual rep)
+    private static char[][] faceOptions = {
+            {'/','_'},
+            {},
+            {},
+            {},
+            {},
+            {}
+    };
 
+    // Dictionary containing the ASCII representation of the face visual representation
+    private static char[][] face = {
+            {' ', ' ', ' ', ' ', ' ', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_','_','_'},
+            {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+        {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '!', ' ', ' ', ' ', '!', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+        {' ', ' ', 'D', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '^', ' ', '^', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', 'D'},
+        {' ', ' ', ' ', ' ', ' ', '|',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '>', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+        {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '\\', ' ', ' ', ' ', ' ', '/', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+        {' ', ' ', ' ', ' ', ' ', '\\', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '/'}
+    };
+
+    /**
+     *
+     * @param hexString
+     * @return
+     */
     // Function to generate a unique human-readable name for a QR code
     @NonNull
     public static String hashName(@NonNull String hexString) {
@@ -58,6 +82,11 @@ public class Utilities {
         return nameBuilder + String.format(Locale.CANADA, "%06d", truncatedHashInt);
     }
 
+    /**
+     *
+     * @param hexString
+     * @return
+     */
     // Function to generate a score based on the hash of the qr code
     public static int hashScore(@NonNull String hexString) {
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
@@ -76,17 +105,28 @@ public class Utilities {
      *
      */
     public static Bitmap visualRepresentation(@NonNull String hexString) {
-        Bitmap image = Bitmap.createBitmap(1,1,Bitmap.Config.ARGB_8888); // need width and height
+        Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
+        Canvas canvas = new Canvas(image);
         // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
         // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
         String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
+        //<U_u>/
+        //(X-x)>
+
+        // Using the first 6 bits of the hash, modify the face dictionary to create a unique visual representation
+        for (int i = 0; i < 6; i++) {
+
+
+
+        }
+
 
 
         // return image or set the view to the bitmap?
-        // viewpager2.setBitMap(image) ?
-        //return image;
+        // vp_item.setBitMap(image) ?
+        return image;
     }
 }
