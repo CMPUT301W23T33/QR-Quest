@@ -76,4 +76,7 @@ dependencies {
     // barcode scanning
     implementation 'com.google.mlkit:barcode-scanning:17.0.3'
 
+    // splash screen
+    implementation "androidx.core:core-splashscreen:1.0.0"
+
 }
