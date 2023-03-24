@@ -56,11 +56,6 @@ public class PromptLocationFragment extends Fragment implements LocationListener
         binding.buttonSorry.setAlpha(.5f);
         binding.buttonSure.setAlpha(.5f);
 
-        binding.buttonSure.setOnClickListener(v ->
-            Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
-
-        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
-
         return view;
     }
 
@@ -71,15 +66,22 @@ public class PromptLocationFragment extends Fragment implements LocationListener
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        // transfer (x, y)
-        bundle.putString("latitude", String.valueOf(latitude));
-        bundle.putString("longitude", String.valueOf(longitude));
-
+        // enable button
         binding.buttonSorry.setEnabled(true);
         binding.buttonSure.setEnabled(true);
 
         binding.buttonSorry.setAlpha(1);
         binding.buttonSure.setAlpha(1);
+
+        // transfer (x, y)
+        binding.buttonSure.setOnClickListener(v -> {
+            bundle.putString("latitude", String.valueOf(latitude));
+            bundle.putString("longitude", String.valueOf(longitude));
+            Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle);
+        });
+
+        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
+
 
         manager.removeUpdates(this);
     }

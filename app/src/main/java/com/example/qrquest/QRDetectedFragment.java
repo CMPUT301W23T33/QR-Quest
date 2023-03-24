@@ -31,7 +31,6 @@ public class QRDetectedFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentQrDetectedBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        Utilities utilities = new Utilities();
 
         // get the raw value of the QR code
         Bundle bundle = getArguments();
@@ -39,12 +38,12 @@ public class QRDetectedFragment extends Fragment {
         rawValue = bundle.getString("rawValue");
 
         // display the hashed name
-        String qrName = utilities.hashName(rawValue);
+        String qrName = Utilities.hashName(rawValue);
         binding.qrNameDisplay.setText(qrName);
         bundle.putString("qrName", qrName);
 
         // display the hashed score
-        int qrScore = utilities.hashScore(rawValue);
+        int qrScore = Utilities.hashScore(rawValue);
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
         bundle.putInt("qrScore", qrScore);
 
