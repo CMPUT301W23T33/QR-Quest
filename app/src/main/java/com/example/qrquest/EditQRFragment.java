@@ -129,7 +129,9 @@ public class EditQRFragment extends Fragment {
             // Collection "Player"
             db.collection("Player").document(username).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()){
-                    int highestScore = task.getResult().get("highestScore", Integer.class);
+                    String strHighestScore =
+                            String.valueOf(task.getResult().get("highestScore", Integer.class));
+                    int highestScore = Integer.parseInt(strHighestScore);
                     if (qrScore > highestScore){
                         newHighest = true;
                     }
