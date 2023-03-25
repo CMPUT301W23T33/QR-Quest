@@ -63,7 +63,7 @@ public class EditQRFragment extends Fragment {
                 latitude = Double.parseDouble(bundle.getString("latitude"));
                 longitude = Double.parseDouble(bundle.getString("longitude"));
                 binding.qrLocationText.setText(String.format(Locale.CANADA,"(%.2f,%.2f)", latitude, longitude));
-                            }
+            }
             else {
                 String noLocation = "None";
                 binding.qrLocationText.setText(noLocation);
