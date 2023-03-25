@@ -75,5 +75,7 @@
     <string name="leaderboard_1">Highest scoring QR Codes (Region)</string>
     <string name="leaderboard_2">Number of QR Codes owned</string>
     <string name="leaderboard_3">Highest sum of QR Codes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
