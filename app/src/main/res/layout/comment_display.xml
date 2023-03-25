@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginVertical="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/user_profile_description"
+            android:src="@drawable/baseline_person_24"
+            android:layout_marginEnd="12dp"
+            style="@style/Profile.Display.Leaderboard.List" />
+
+        <TextView
+            android:id="@+id/name_text_display"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_example"
+            android:textColor="@color/black"
+            android:textAppearance="@style/small"
+            android:layout_weight="0.5"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLines="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:maxLength="150"
+        android:text="@string/comment_example"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_1"
+        style="@style/Text.Display.Comment"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

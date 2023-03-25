@@ -1,9 +1,9 @@
 package com.example.qrquest;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.qrquest.databinding.FragmentQrDisplayBinding;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -21,6 +24,7 @@ public class QRDisplayFragment extends Fragment {
 
     FragmentQrDisplayBinding binding;
     ArrayList<VPItem> arrayList;
+    BottomSheetDialog dialog;
     String uri;
     double latitude;
     double longitude;
@@ -69,8 +73,16 @@ public class QRDisplayFragment extends Fragment {
                 (tab, position) -> tab.setText("")
         ).attach();
 
-
-
+        binding.buttonOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = new BottomSheetDialog(requireActivity());
+                View bottomSheetView = LayoutInflater.from(requireActivity())
+                        .inflate(R.layout.bottom_sheet_layout, container, false);
+                dialog.setContentView(bottomSheetView);
+                dialog.show();
+            }
+        });
         return view;
     }
 }
