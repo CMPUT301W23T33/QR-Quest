@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ public class EditQRFragment extends Fragment {
                 latitude = Double.parseDouble(bundle.getString("latitude"));
                 longitude = Double.parseDouble(bundle.getString("longitude"));
                 binding.qrLocationText.setText(String.format(Locale.CANADA,"(%.2f,%.2f)", latitude, longitude));
-            }
+                            }
             else {
                 String noLocation = "None";
                 binding.qrLocationText.setText(noLocation);
@@ -99,7 +100,7 @@ public class EditQRFragment extends Fragment {
 
         // Get basic info for updating the database
         username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
-//        username = "UI5";
+        // username = "UI5";
         region = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("region", "");
         String documentName = username + "_" + qrName;
         Date date = new Date();
@@ -128,9 +129,8 @@ public class EditQRFragment extends Fragment {
 
             // Collection "Player"
             db.collection("Player").document(username).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()){
-                    String strHighestScore =
-                            String.valueOf(task.getResult().get("highestScore", Integer.class));
+                if (task.isSuccessful()) {
+                    String strHighestScore = String.valueOf(task.getResult().get("highestScore", Integer.class));
                     int highestScore = Integer.parseInt(strHighestScore);
                     if (qrScore > highestScore){
                         newHighest = true;
@@ -139,7 +139,10 @@ public class EditQRFragment extends Fragment {
                 }
             });
 
-            requireActivity().finish();
+            // start qr display activity
+            Intent intent = new Intent(requireActivity(), QRDisplayActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         });
 
         binding.buttonClose.setOnClickListener(v -> requireActivity().finish());
