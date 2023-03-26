@@ -95,12 +95,9 @@ public class QRDisplayFragment extends Fragment {
         });
 
         // button back
-        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent intent = new Intent(getActivity(), mFragmentFavorite.class);
-                //startActivity(intent);
-            }
+        binding.buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         });
 
 
