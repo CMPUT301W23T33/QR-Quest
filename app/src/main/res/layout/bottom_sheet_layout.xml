@@ -46,6 +46,7 @@
         android:textColor="#902B2D42"
         android:paddingVertical="160dp"
         android:textAppearance="@style/body"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/button_add"

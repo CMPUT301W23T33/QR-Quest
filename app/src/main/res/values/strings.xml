@@ -82,5 +82,6 @@
     <string name="comment_example">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
         eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="no_comment">No comment yet…</string>
+    <string name="add_comment">Add a comment</string>
 
 </resources>

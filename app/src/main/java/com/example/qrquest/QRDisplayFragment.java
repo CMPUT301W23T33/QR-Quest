@@ -1,5 +1,7 @@
 package com.example.qrquest;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.qrquest.databinding.FragmentQrDisplayBinding;
@@ -25,6 +28,7 @@ public class QRDisplayFragment extends Fragment {
     FragmentQrDisplayBinding binding;
     ArrayList<VPItem> arrayList;
     BottomSheetDialog dialog;
+    View bottomSheetView;
     String uri;
     double latitude;
     double longitude;
@@ -73,16 +77,28 @@ public class QRDisplayFragment extends Fragment {
                 (tab, position) -> tab.setText("")
         ).attach();
 
-        binding.buttonOpen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog = new BottomSheetDialog(requireActivity());
-                View bottomSheetView = LayoutInflater.from(requireActivity())
-                        .inflate(R.layout.bottom_sheet_layout, container, false);
-                dialog.setContentView(bottomSheetView);
-                dialog.show();
-            }
+        // button arrow up
+        binding.buttonOpen.setOnClickListener(v -> {
+            // create dialog
+            dialog = new BottomSheetDialog(requireActivity());
+            bottomSheetView = LayoutInflater.from(requireActivity())
+                    .inflate(R.layout.bottom_sheet_layout, container, false);
+            dialog.setContentView(bottomSheetView);
+            dialog.show();
+
+            // button add
+            ImageButton buttonAdd = bottomSheetView.findViewById(R.id.button_add);
+            buttonAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AddCommentFragment fragment = new AddCommentFragment();
+                    fragment.show(requireActivity().getSupportFragmentManager(), "Dialog");
+                }
+            });
         });
+
+
+
         return view;
     }
 }
