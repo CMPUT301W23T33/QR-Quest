@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,6 +49,7 @@ public class PromptLocationFragment extends Fragment implements LocationListener
         manager = (LocationManager)requireActivity().getSystemService(Context.LOCATION_SERVICE);
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
+
         // get bundle (contain picture URI + raw value)
         bundle = getArguments();
         assert bundle != null;
@@ -76,8 +76,8 @@ public class PromptLocationFragment extends Fragment implements LocationListener
         binding.buttonSorry.setEnabled(true);
         binding.buttonSure.setEnabled(true);
 
-        binding.buttonSorry.setAlpha(1);
-        binding.buttonSure.setAlpha(1);
+        binding.buttonSorry.setAlpha(1.0f);
+        binding.buttonSure.setAlpha(1.0f);
 
         // transfer (x, y)
         binding.buttonSure.setOnClickListener(v -> {
@@ -85,10 +85,7 @@ public class PromptLocationFragment extends Fragment implements LocationListener
             bundle.putString("longitude", String.valueOf(longitude));
             Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle);
         });
-
         binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
-
-
         manager.removeUpdates(this);
     }
 

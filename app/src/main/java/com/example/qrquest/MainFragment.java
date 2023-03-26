@@ -212,7 +212,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
         String locale = String.format(Locale.CANADA,"(%s, %s)", location.getLatitude(), location.getLongitude());
-        Log.d("LOCATION", locale);
+        Log.d("MainFragmentLocation", locale);
 
         // find the region
         List<Address> addresses;
