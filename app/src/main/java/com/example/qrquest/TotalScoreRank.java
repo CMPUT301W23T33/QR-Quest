@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * This class stores the item information in the leaderboard for the highest total score
  * @author Dang Viet Anh Dinh
  */
-public class TotalScoreRank extends Rank implements ReusableRank {
+public class TotalScoreRank extends Rank{
 
     /**
      * This member represents the threshold value to identify duplicate(s)
@@ -33,6 +33,10 @@ public class TotalScoreRank extends Rank implements ReusableRank {
      */
     private static ArrayList<Integer> rankLeaderboard;
 
+    /**
+     * This method defines the default leaderboard item
+     */
+    public TotalScoreRank(){}
 
     /**
      * This method defines the leaderboard item with its attributes, sets its rank and queried rank when matched
@@ -53,10 +57,9 @@ public class TotalScoreRank extends Rank implements ReusableRank {
     /**
      * This method retrieves the rank of the queried value
      * @param score: the queried value
-     * @return the rank of the queried value
+     * @return the rank of the queried value or 0 if not found
      */
-    @Override
-    public int getQueryRank(int score) {
+    public static int getQueryRank(int score) {
         int index = scoreLeaderboard.indexOf(score);
         if (index == -1){
             return 0;

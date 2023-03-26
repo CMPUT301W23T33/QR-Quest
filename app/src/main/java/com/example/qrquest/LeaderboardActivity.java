@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -37,9 +38,28 @@ public class LeaderboardActivity extends AppCompatActivity {
                 (tab, position) -> tab.setText("")
         ).attach();
 
+        // Initialize view model
+        LeaderboardViewModel viewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
+
+        // Observe type of leaderboard
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                viewModel.setLeaderboardPosition(position);
+            }
+        });
+
         // button back
         ImageButton buttonBack = findViewById(R.id.button_back);
-        buttonBack.setOnClickListener(v -> finish());
+        buttonBack.setOnClickListener(v -> {
+            // Refresh leaderboard history
+            if (!LeaderboardViewModel.getRefreshPermission()){
+                viewModel.refreshHistory();
+                LeaderboardFragment.refreshHistory();
+            }
+            finish();
+        });
 
     }
 
