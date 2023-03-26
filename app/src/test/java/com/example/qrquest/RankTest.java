@@ -15,7 +15,7 @@ public class RankTest {
 
     @Test
     public void getIdentifierTest() {
-        assertNull(rank.getIdentifier());
+        assertEquals(rank.getIdentifier(), "");
         assertNotNull(rank1.getIdentifier());
         assertEquals(rank1.getIdentifier(), identifier);
     }
