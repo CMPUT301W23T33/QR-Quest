@@ -46,27 +46,7 @@ public class ScannedNumberRank extends Rank{
     public ScannedNumberRank(String identifier, int value){
         super(identifier, value);
         setupLeaderboard();
-        if (value == getScoreThreshold()){
-            rankCursorIdled();
-        }
-        else{
-            rankCursorIncremented();
-        }
-    }
-
-    /**
-     * This method retrieves the rank of the queried value
-     * @param score: the queried value
-     * @return the rank of the queried value or 0 if not found
-     */
-    public static int getQueryRank(int score) {
-        int index = scoreLeaderboard.indexOf(score);
-        if (index == -1){
-            return 0;
-        }
-        else{
-            return rankLeaderboard.get(index);
-        }
+        rankCursorIncremented();
     }
 
     /**
@@ -83,14 +63,6 @@ public class ScannedNumberRank extends Rank{
      */
     private void resetThresholdValue(){
         thresholdValue = 0;
-    }
-
-    /**
-     * This method retrieves the current threshold value
-     * @return the current threshold value
-     */
-    private int getScoreThreshold() {
-        return thresholdValue;
     }
 
     /**
@@ -153,13 +125,4 @@ public class ScannedNumberRank extends Rank{
         scoreLeaderboard.add(getValue());
         rankLeaderboard.add(getRank());
     }
-
-    /**
-     * This method updates the leaderboard when the rank cursor is idled (duplicate(s) are found for the current item value)
-     */
-    private void rankCursorIdled(){
-        setRank(getRankCursor());
-        resetCache(getCache() + 1);
-    }
-
 }
