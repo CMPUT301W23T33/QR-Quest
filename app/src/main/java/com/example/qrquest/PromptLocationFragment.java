@@ -30,12 +30,12 @@ import com.google.android.gms.location.Priority;
  */
 public class PromptLocationFragment extends Fragment {
     FragmentPromptBinding binding;
-    LocationRequest locationRequest;
     private Bundle bundle;
     private View view;
     private double latitude, longitude;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    private LocationRequest locationRequest;
 
     @SuppressLint("MissingPermission")
     @Nullable
@@ -60,6 +60,7 @@ public class PromptLocationFragment extends Fragment {
                 }
             }
         };
+
         // get bundle (contain picture URI + raw value)
         bundle = getArguments();
         assert bundle != null;
