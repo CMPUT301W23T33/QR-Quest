@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,10 +72,10 @@ public class LeaderboardFragment extends Fragment {
         viewModel.getLeaderboard().observe(requireActivity(), ranks -> adapter.submitList(ranks));
 
         // Get user and top player to observe
-        viewModel.getUserAndTopPlayers().observe(requireActivity(), ranks -> updateScreen(ranks));
+        viewModel.getUserAndTopPlayers().observe(requireActivity(), this::updateScreen);
 
         // Get type of leaderboard to observe
-        viewModel.getLeaderboardPosition().observe(requireActivity(), integer -> updateScreen(integer));
+        viewModel.getLeaderboardPosition().observe(requireActivity(), this::updateScreen);
 
         // LEADERBOARD 0 -> the highest scoring QR codes
         if (first) {
