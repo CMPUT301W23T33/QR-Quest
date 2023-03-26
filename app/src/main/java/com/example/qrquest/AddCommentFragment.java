@@ -14,6 +14,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.qrquest.databinding.FragmentDialogLayoutBinding;
 
+/**
+ * This class represents the Add a comment Dialog. It prompts for the comment from the user.
+ * @author Thea Nguyen
+ * @author Anh Dinh
+ */
 public class AddCommentFragment extends DialogFragment {
     FragmentDialogLayoutBinding binding;
 
