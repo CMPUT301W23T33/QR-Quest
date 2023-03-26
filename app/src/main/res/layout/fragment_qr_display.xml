@@ -16,7 +16,7 @@
         android:orientation="horizontal"/>
 
     <ImageButton
-        android:id="@+id/edit_profile_button_back"
+        android:id="@+id/button_back"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:contentDescription="@string/next_button_description"
