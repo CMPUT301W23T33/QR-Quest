@@ -1,10 +1,11 @@
 ## Tasks
-- Leaderboard screen: Thea
-- Comment screen: Michael + Sam
-- Search screen: Jay
-- Visual representation: Abi
-- Query + Profile screens: Vanh
+- UI testing: Michael
+- Unit Testing: Jay + Sam
+- Visual representation function: Michael + Abi
+- UML Update: Abi
+- Integration + Marker Refinement: Thea
+- Comment Query + Search Query: Vanh
 
 ## Deadline
-- Thursday, Mar 20, 2023
-- Do not give up guys, we are really near to the goal!!
+- Thursday, Mar 30, 2023
+- We must survive... We can do it!!
