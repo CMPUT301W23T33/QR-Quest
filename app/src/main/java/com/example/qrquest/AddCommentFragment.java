@@ -1,9 +1,9 @@
 package com.example.qrquest;
 
-
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,19 @@ public class AddCommentFragment extends DialogFragment {
         if (getDialog() != null && getDialog().getWindow() != null) {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
+
+        // button close
+        binding.buttonClose.setOnClickListener(v -> dismiss());
+
+        // button add
+        binding.buttonCheck.setOnClickListener(v -> {
+            String comment = binding.commentText.getText().toString();
+            Log.d("COMMENT", comment);
+            // PUSH COMMENT TO DATABASE HERE
+
+
+            dismiss();
+        });
 
         return view;
     }
