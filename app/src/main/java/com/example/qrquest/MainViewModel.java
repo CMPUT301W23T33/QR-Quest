@@ -41,7 +41,7 @@ public class MainViewModel extends AndroidViewModel {
 
     // Get history for display
     public void setHistory(FirebaseFirestore db, String username) {
-        if (refresh) {
+        if (getRefreshPermission()) {
             this.mainRepository.setHistory(db, username);
             refresh = false;
         }

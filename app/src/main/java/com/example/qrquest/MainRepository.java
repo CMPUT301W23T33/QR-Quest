@@ -81,40 +81,30 @@ public class MainRepository {
     // Delete a QR Code
     public void deleteQR(FirebaseFirestore db, String username, int position){
         String qrCode = this.historyData.get(position).getQrCode();
-        updateDatabase(db, username, qrCode);
+        update(db, username, qrCode);
         updateScreen(position);
     }
 
     // Refresh data
     public void refreshHistory(){
-        this.userInfoData.remove(1);
-        this.userInfoData.remove(0);
-        this.userInfoData.add(0);
-        this.userInfoData.add(0);
-        for (QRCodeHistory qrCodeHistory : this.historyData){
-            this.historyData.remove(qrCodeHistory);
-        }
-//        this.historyData = new ArrayList<>();
-//        this.userInfoData = new ArrayList<>();
-//        this.userInfoData.add(0);
-//        this.userInfoData.add(0);
-        this.history.setValue(this.historyData);
+        this.userInfoData.set(0, 0);
+        this.userInfoData.set(1, 0);
+        this.historyData.clear();
+        this.history.setValue(null);
         this.userInfo.setValue(this.userInfoData);
         highestScore = 0;
     }
 
     // Reverse sorting order
     public void reverseHistory(){
+        this.history.setValue(null);
         Collections.reverse(this.historyData);
-        this.historyData.add(new QRCodeHistory());
-        this.history.setValue(this.historyData);
-        this.historyData.remove(this.historyData.size() - 1);
         this.history.setValue(this.historyData);
     }
 
     // Update database
-    private void updateDatabase(FirebaseFirestore db, String username, String hashedQRCode){
-        db.collection("main").whereEqualTo("username", username).whereEqualTo("hashedQRCode", hashedQRCode).limit(1).get().addOnCompleteListener(task -> {
+    private void update(FirebaseFirestore db, String username, String hashedQRCode){
+        db.collection("main").whereEqualTo("username", username).whereEqualTo("hashedQRCode", hashedQRCode).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.exists()) {
@@ -129,11 +119,11 @@ public class MainRepository {
     }
 
     // Update screen
-    private void updateScreen( int position){
+    private void updateScreen(int position){
         this.userInfoData.set(0, this.userInfoData.get(0) - this.historyData.get(position).getScore());
         this.userInfoData.set(1, this.userInfoData.get(1) - 1);
-        this.historyData.remove(position);
         this.userInfo.setValue(this.userInfoData);
+        this.historyData.remove(position);
         this.history.setValue(this.historyData);
     }
 
@@ -141,7 +131,7 @@ public class MainRepository {
     private void updatePlayer(FirebaseFirestore db, String username, int score) {
         db.collection("Player").document(username).update("score", FieldValue.increment(-score));
         db.collection("Player").document(username).update("hasScanned", FieldValue.increment(-1));
-        if (userInfoData.get(1) > 1) {
+        if (userInfoData.get(1) > 0) {
             db.collection("main").whereEqualTo("username", username).orderBy("score", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -157,6 +147,7 @@ public class MainRepository {
         else {
             db.collection("Player").document(username).update("highestScore", 0);
         }
+
     }
 
     // Update "QR Code" collection
@@ -164,7 +155,6 @@ public class MainRepository {
         db.collection("main").whereEqualTo("hashedQRCode", hashedQRCode).count().get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
-                Log.d("Score", String.valueOf(task.getResult().getCount() == 0));
                 if (task.isSuccessful()){
                     if (task.getResult().getCount() == 0){
                         db.collection("QR Code").document(hashedQRCode).delete();

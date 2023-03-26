@@ -3,10 +3,10 @@ package com.example.qrquest;
 import java.util.ArrayList;
 
 /**
- * This class stores the item information in the leaderboard for the highest QR Code score
+ * This class stores the item information in the leaderboard for the regional highest QR Code score
  * @author Dang Viet Anh Dinh
  */
-public class HighestScoreRank extends Rank{
+public class RegionalHighestScoreRank extends Rank{
 
     /**
      * This member represents the threshold value to identify duplicate(s)
@@ -36,14 +36,14 @@ public class HighestScoreRank extends Rank{
     /**
      * This method defines the default leaderboard item
      */
-    public HighestScoreRank(){}
+    public RegionalHighestScoreRank(){}
 
     /**
      * This method defines the leaderboard item with its attributes, sets its rank and queried rank when matched
      * @param identifier: the identifier of the item (username, ...)
      * @param value: the item value
      */
-    public HighestScoreRank(String identifier, int value){
+    public RegionalHighestScoreRank(String identifier, int value){
         super(identifier, value);
         setupLeaderboard();
         if (value == getScoreThreshold()){
