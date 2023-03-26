@@ -76,4 +76,12 @@
     <string name="leaderboard_2">Number of QR Codes owned</string>
     <string name="leaderboard_3">Highest sum of QR Codes</string>
 
+    <!-- QR Display Screen -->
+    <string name="button_arrow_description">Open the bottom sheet</string>
+    <string name="add_a_comment">Add a comment</string>
+    <string name="comment_example">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="no_comment">No comment yet…</string>
+    <string name="add_comment">Add a comment</string>
+
 </resources>
