@@ -27,6 +27,7 @@ public class MainRepository {
 
     private static MainRepository mainRepository;
     private static int highestScore = 0;
+    private int done = 0;
     private ArrayList<QRCodeHistory> historyData = new ArrayList<>();
     private ArrayList<Integer> userInfoData = new ArrayList<>(2);
     private MutableLiveData<ArrayList<QRCodeHistory>> history = new MutableLiveData<>();
@@ -81,7 +82,7 @@ public class MainRepository {
     // Delete a QR Code
     public void deleteQR(FirebaseFirestore db, String username, int position){
         String qrCode = this.historyData.get(position).getQrCode();
-        updateDatabase(db, username, qrCode);
+        update(db, username, qrCode);
         updateScreen(position);
     }
 
@@ -103,8 +104,8 @@ public class MainRepository {
     }
 
     // Update database
-    private void updateDatabase(FirebaseFirestore db, String username, String hashedQRCode){
-        db.collection("main").whereEqualTo("username", username).whereEqualTo("hashedQRCode", hashedQRCode).limit(1).get().addOnCompleteListener(task -> {
+    private void update(FirebaseFirestore db, String username, String hashedQRCode){
+        db.collection("main").whereEqualTo("username", username).whereEqualTo("hashedQRCode", hashedQRCode).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.exists()) {
@@ -122,16 +123,17 @@ public class MainRepository {
     private void updateScreen(int position){
         this.userInfoData.set(0, this.userInfoData.get(0) - this.historyData.get(position).getScore());
         this.userInfoData.set(1, this.userInfoData.get(1) - 1);
-        this.historyData.remove(position);
         this.userInfo.setValue(this.userInfoData);
+        this.historyData.remove(position);
         this.history.setValue(this.historyData);
+        done = 1;
     }
 
     // Update "Player" collection
     private void updatePlayer(FirebaseFirestore db, String username, int score) {
         db.collection("Player").document(username).update("score", FieldValue.increment(-score));
         db.collection("Player").document(username).update("hasScanned", FieldValue.increment(-1));
-        if (userInfoData.get(1) > 1) {
+        if (userInfoData.get(1) > 0) {
             db.collection("main").whereEqualTo("username", username).orderBy("score", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -147,6 +149,7 @@ public class MainRepository {
         else {
             db.collection("Player").document(username).update("highestScore", 0);
         }
+
     }
 
     // Update "QR Code" collection
@@ -154,7 +157,6 @@ public class MainRepository {
         db.collection("main").whereEqualTo("hashedQRCode", hashedQRCode).count().get(AggregateSource.SERVER).addOnCompleteListener(new OnCompleteListener<AggregateQuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<AggregateQuerySnapshot> task) {
-                Log.d("Score", String.valueOf(task.getResult().getCount() == 0));
                 if (task.isSuccessful()){
                     if (task.getResult().getCount() == 0){
                         db.collection("QR Code").document(hashedQRCode).delete();

@@ -11,17 +11,17 @@ public class Rank {
     /**
      * This member represents the identifier of the item (player's username or QR Code name)
      */
-    private String identifier;
+    private String identifier = "";
 
     /**
      * This member represents the rank of the item
      */
-    private int rank;
+    private int rank = 0;
 
     /**
      * This member represents the value of the item
      */
-    private int value;
+    private int value = 0;
 
     /**
      * This method defines the default rank of an item

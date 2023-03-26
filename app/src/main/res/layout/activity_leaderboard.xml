@@ -11,6 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:backgroundTint="@android:color/transparent"
+        android:layout_weight="0.9"
+        app:tabGravity="center"
+        app:tabBackground="@drawable/tab_selector"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tabIndicatorHeight="0dp"/>
+
     <ImageButton
         android:id="@+id/button_back"
         android:layout_width="56dp"
@@ -24,18 +37,5 @@
         app:tint="@color/thistle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:backgroundTint="@android:color/transparent"
-        android:layout_weight="0.9"
-        app:tabGravity="center"
-        app:tabBackground="@drawable/tab_selector"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tabIndicatorHeight="0dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

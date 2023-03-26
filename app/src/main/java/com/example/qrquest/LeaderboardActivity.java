@@ -7,9 +7,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.qrquest.databinding.FragmentLeaderboardBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -19,6 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
  * @author Thea Nguyen
  */
 public class LeaderboardActivity extends AppCompatActivity {
+
     private static final int numPages = 4;
 
     @Override
@@ -31,6 +34,18 @@ public class LeaderboardActivity extends AppCompatActivity {
         FragmentStateAdapter adapter = new ScreenSlidePagerAdapter(this);
         viewPager2.setAdapter(adapter);
 
+        // Initialize view model
+        LeaderboardViewModel viewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
+
+        // Observe the current page
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                viewModel.setLeaderboardPosition(position);
+            }
+        });
+
         // setup Tab Layout
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         new TabLayoutMediator(tabLayout, viewPager2,
@@ -39,7 +54,13 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         // button back
         ImageButton buttonBack = findViewById(R.id.button_back);
-        buttonBack.setOnClickListener(v -> finish());
+        buttonBack.setOnClickListener(v -> {
+            if (!LeaderboardViewModel.getRefreshPermission()){
+                viewModel.refreshHistory();
+                LeaderboardFragment.refreshHistory();
+            }
+            finish();
+        });
 
     }
 

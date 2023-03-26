@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.ListAdapter;
 import java.util.Objects;
 
 /**
-* This class defines the adapter for displaying the QR Code history.
-*/
+ * This class defines the adapter for displaying the QR Code history.
+ * @author Dang Viet Anh Dinh
+ */
 public class QRHistoryAdapter extends ListAdapter<QRCodeHistory, QRHistoryViewHolder> {
 
     @NonNull
@@ -43,7 +44,7 @@ public class QRHistoryAdapter extends ListAdapter<QRCodeHistory, QRHistoryViewHo
 
         @Override
         public boolean areContentsTheSame(@NonNull QRCodeHistory oldItem, @NonNull QRCodeHistory newItem) {
-            return Objects.equals(oldItem.getQrCode(), newItem.getQrCode());
+            return oldItem.getScore() == newItem.getScore();
         }
     }
 
