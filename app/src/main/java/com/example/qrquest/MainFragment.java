@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class defines the main screen
@@ -209,6 +211,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
+        String locale = String.format(Locale.CANADA,"(%s, %s)", location.getLatitude(), location.getLongitude());
+        Log.d("LOCATION", locale);
+
         // find the region
         List<Address> addresses;
         Geocoder geocoder = new Geocoder(requireActivity());
@@ -231,7 +236,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
                 .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
 
         // set markers for nearby QR codes
-        db.collection("QR Code").get().addOnCompleteListener(task -> {
+        db.collection("main").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot doc : task.getResult()) {
                     double latitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
@@ -242,7 +247,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
                             latitude, longitude, list);
 
                     // distance radius within 20km (nearby)
-                    if (list[0] < 20000) {
+                    if (list[0] < 1000000000) {
                         LatLng latLng1 = new LatLng(latitude, longitude);
                         map.addMarker(new MarkerOptions()
                                 .position(latLng1)
@@ -253,6 +258,44 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
             }
         });
         manager.removeUpdates(this);
+
+        map.setOnMarkerClickListener(marker -> {
+            double markerLatitude = marker.getPosition().latitude;
+            double markerLongitude = marker.getPosition().longitude;
+
+            db.collection("main").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        double qrLatitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
+                        double qrLongitude = Double.parseDouble(String.valueOf(doc.get("longitude")));
+
+                        // get the corresponding qr code
+                        if (markerLatitude == qrLatitude && markerLongitude == qrLongitude) {
+                            String qrName = String.valueOf(doc.get("qrCode"));
+                            int qrScore = Integer.parseInt(String.valueOf(doc.get("score")));
+
+                            Bundle bundle = new Bundle();
+                            if (doc.get("imagePath") != null) {
+                                Uri qrUri = Uri.parse(String.valueOf(doc.get("imagePath")));
+                                bundle.putString("uri", String.valueOf(qrUri));
+                            }
+                            bundle.putString("qrName", qrName);
+                            bundle.putInt("qrScore", qrScore);
+                            bundle.putString("latitude", String.valueOf(qrLatitude));
+                            bundle.putString("longitude", String.valueOf(qrLongitude));
+
+                            Intent intent = new Intent(getContext(), QRDisplayActivity.class);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            });
+            return true;
+        });
+
+
+
     }
 
     @Override

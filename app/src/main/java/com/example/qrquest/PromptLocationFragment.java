@@ -6,9 +6,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +20,7 @@ import androidx.navigation.Navigation;
 import com.example.qrquest.databinding.FragmentPromptBinding;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class represents the Prompt Location Screen and gets the geo-location of the scanned QR code.
@@ -65,6 +68,9 @@ public class PromptLocationFragment extends Fragment implements LocationListener
         // get latitude, longitude
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+
+        String locale = String.format(Locale.CANADA,"(%s, %s)", latitude, longitude);
+        Log.d("LOCATION", locale);
 
         // enable button
         binding.buttonSorry.setEnabled(true);
