@@ -44,17 +44,15 @@ public class QRDisplayRepository {
     // Get comments for display
     public void setComments(FirebaseFirestore db, String username, String qrName){
         this.qrName = qrName;
-        db.collection("main").whereEqualTo("username", username).whereEqualTo("qrCode", qrName).orderBy("timeStamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("main").whereEqualTo("qrCode", qrName).orderBy("timeStamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for (QueryDocumentSnapshot document : task.getResult()){
                         Comment comment = new Comment(document.getString("username"), document.getString("comment"));
                         commentData.add(comment);
-                        Log.d("Current Stack Size 1", String.valueOf(commentData.size()));
                         if (Objects.equals(comment.getUsername(), username)){
                             commentedCheck = true;
-                            Log.d("Current Stack Size 2", String.valueOf(commentData.size()));
                             index = commentData.size() - 1;
                         }
                     }

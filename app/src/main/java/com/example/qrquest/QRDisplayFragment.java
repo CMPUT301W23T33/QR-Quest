@@ -102,7 +102,7 @@ public class QRDisplayFragment extends Fragment {
 
         // button back
         binding.buttonBack.setOnClickListener(v -> {
-            if (QRDisplayViewModel.getRefreshPermission()){
+            if (!QRDisplayViewModel.getRefreshPermission()){
                 viewModel.refreshHistory();
             }
             Intent intent = new Intent(getActivity(), MainActivity.class);
