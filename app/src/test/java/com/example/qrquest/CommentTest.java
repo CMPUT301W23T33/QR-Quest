@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests class Comment
+ * @author Thea Nguyen
+ */
 public class CommentTest {
 
     String username = "Dogwood";

@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests class Player
+ * @author Thea Nguyen
+ */
 public class PlayerTest {
     Player player = new Player();
 

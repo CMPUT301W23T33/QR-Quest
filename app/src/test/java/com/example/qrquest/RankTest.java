@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests class Rank
+ * @author Thea Nguyen
+ */
 public class RankTest {
     Rank rank = new Rank();
 
@@ -15,7 +19,7 @@ public class RankTest {
 
     @Test
     public void getIdentifierTest() {
-        assertEquals(rank.getIdentifier(), "");
+        assertNull(rank.getIdentifier());
         assertNotNull(rank1.getIdentifier());
         assertEquals(rank1.getIdentifier(), identifier);
     }

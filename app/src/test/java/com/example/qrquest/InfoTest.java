@@ -8,6 +8,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/**
+ * This class tests class Info
+ * @author Thea Nguyen
+ */
 public class InfoTest {
     Info info = new Info();
 

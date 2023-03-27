@@ -54,8 +54,8 @@ public class LeaderboardRepository {
 
     //
     public void setLeaderboard(){
-        Rank rank = new Rank();
-        for (int index =0; index < 4; index++){
+        Rank rank = new Rank("", 0);
+        for (int index = 0; index < 4; index++){
             this.cache.add(rank);
             this.firstUserAndTopPlayersData.add(rank);
             this.secondUserAndTopPlayersData.add(rank);

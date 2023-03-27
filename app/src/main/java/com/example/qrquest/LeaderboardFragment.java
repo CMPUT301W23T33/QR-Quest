@@ -109,7 +109,6 @@ public class LeaderboardFragment extends Fragment {
         if (integer == 0){
             if (first) {
                 first = false;
-                Log.d("First", "1");
                 viewModel.setFirstLeaderboard(db, username);
             }
             second = true;
@@ -122,7 +121,6 @@ public class LeaderboardFragment extends Fragment {
         else if (integer == 1){
             if (second) {
                 second = false;
-                Log.d("Second", "2");
                 viewModel.setSecondLeaderboard(db, username, region);
 
             }
@@ -136,7 +134,6 @@ public class LeaderboardFragment extends Fragment {
         else if (integer == 2){
             if (third) {
                 third = false;
-                Log.d("Third", "3");
                 viewModel.setThirdLeaderboard(db, username);
 
             }
@@ -150,7 +147,6 @@ public class LeaderboardFragment extends Fragment {
         else{
             if (last) {
                 last = false;
-                Log.d("Last", "4");
                 viewModel.setLastLeaderboard(db, username);
 
             }
@@ -194,19 +190,15 @@ public class LeaderboardFragment extends Fragment {
         ranking = "";
         if (user instanceof HighestScoreRank){
             ranking = String.valueOf(HighestScoreRank.getQueryRank(user.getValue()));
-            Log.d("User1", "1");
         }
         else if (user instanceof ScannedNumberRank){
             ranking = String.valueOf(ScannedNumberRank.getQueryRank(user.getValue()));
-            Log.d("User2", "2");
         }
         else if (user instanceof TotalScoreRank){
             ranking = String.valueOf(TotalScoreRank.getQueryRank(user.getValue()));
-            Log.d("User3", "3");
         }
         else if (user instanceof RegionalHighestScoreRank){
             ranking = String.valueOf(RegionalHighestScoreRank.getQueryRank(user.getValue()));
-            Log.d("User4", "4");
         }
         else{
             ranking = "0";
