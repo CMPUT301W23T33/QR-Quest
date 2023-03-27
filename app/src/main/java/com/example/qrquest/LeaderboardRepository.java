@@ -244,7 +244,10 @@ public class LeaderboardRepository {
         this.secondLeaderboardData.clear();
         this.thirdLeaderboardData.clear();
         this.lastLeaderboardData.clear();
+        this.cache.clear();
         Rank rank = new Rank();
+
+        // Consider clearing ArrayList to avoid adding unnecessary thresholds
         for (int index = 0; index < 4; index++) {
             this.firstUserAndTopPlayersData.set(index, rank);
             this.secondUserAndTopPlayersData.set(index, rank);

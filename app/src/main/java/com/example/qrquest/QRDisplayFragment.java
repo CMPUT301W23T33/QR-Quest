@@ -1,10 +1,14 @@
 package com.example.qrquest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.ImageButton;
 import com.example.qrquest.databinding.FragmentQrDisplayBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,6 +27,7 @@ import java.util.Locale;
 /**
  * This class represents the QR Display Screen.
  * @author Thea Nguyen
+ * @author Dang Viet Anh Dinh
  */
 public class QRDisplayFragment extends Fragment {
 
@@ -29,9 +35,14 @@ public class QRDisplayFragment extends Fragment {
     ArrayList<VPItem> arrayList;
     BottomSheetDialog dialog;
     View bottomSheetView;
-    String uri;
+    ImageButton buttonAdd;
+    String uri, username, qrName;
     double latitude;
     double longitude;
+    RecyclerView recyclerView;
+    QRDisplayViewModel viewModel;
+    FirebaseFirestore db;
+    QRCommentAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +52,10 @@ public class QRDisplayFragment extends Fragment {
         Bundle bundle = getArguments();
         assert bundle != null;
 
-        binding.qrNameText.setText(bundle.getString("qrName"));
+        username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
+        qrName = bundle.getString("qrName");
+
+        binding.qrNameText.setText(qrName);
         binding.qrScoreText.setText(String.valueOf(bundle.getInt("qrScore")));
 
         if (bundle.getString("latitude") != null) {
@@ -77,9 +91,22 @@ public class QRDisplayFragment extends Fragment {
                 (tab, position) -> tab.setText("")
         ).attach();
 
+        //
+        db = FirebaseFirestore.getInstance();
+
+        // Initialize view model
+        viewModel = new ViewModelProvider(requireActivity()).get(QRDisplayViewModel.class);
+
+        //
+        viewModel.setComments(db, username, qrName);
+
         // button back
         binding.buttonBack.setOnClickListener(v -> {
+            if (QRDisplayViewModel.getRefreshPermission()){
+                viewModel.refreshHistory();
+            }
             Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         });
 
@@ -93,8 +120,19 @@ public class QRDisplayFragment extends Fragment {
             dialog.setContentView(bottomSheetView);
             dialog.show();
 
+            recyclerView = bottomSheetView.findViewById(R.id.user_list);
+            adapter = new QRCommentAdapter(new QRCommentAdapter.commentDiff());
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+            buttonAdd = bottomSheetView.findViewById(R.id.button_add);
+
+            // Get the comment(s) to observe changes
+            viewModel.getComments().observe(requireActivity(), qrCodeComments -> adapter.submitList(qrCodeComments));
+
+            // Get if the user has scanned the QR Code to observe changes
+            viewModel.getScanned().observe(requireActivity(), aBoolean -> buttonAdd.setEnabled(aBoolean));
+
             // button add
-            ImageButton buttonAdd = bottomSheetView.findViewById(R.id.button_add);
             buttonAdd.setOnClickListener(v1 -> {
                 AddCommentFragment fragment = new AddCommentFragment();
                 fragment.show(requireActivity().getSupportFragmentManager(), "Dialog");

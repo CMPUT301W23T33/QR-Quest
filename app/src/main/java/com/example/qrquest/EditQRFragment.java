@@ -100,7 +100,6 @@ public class EditQRFragment extends Fragment {
 
         // Get basic info for updating the database
         username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
-        // username = "UI5";
         region = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("region", "");
         String documentName = username + "_" + qrName;
         Date date = new Date();
@@ -145,7 +144,9 @@ public class EditQRFragment extends Fragment {
             startActivity(intent);
         });
 
+        //
         binding.buttonClose.setOnClickListener(v -> requireActivity().finish());
+
         return view;
 
     }
