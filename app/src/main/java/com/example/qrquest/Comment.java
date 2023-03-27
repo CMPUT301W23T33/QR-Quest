@@ -5,7 +5,7 @@ package com.example.qrquest;
  * Call ArrayList<Comment> to use this class
  * @author Dang Viet Anh Dinh
  */
-public class QRCodeComment {
+public class Comment {
 
     /**
      * This member represents the username of the one who made the comment
@@ -20,14 +20,14 @@ public class QRCodeComment {
     /**
      * This method defines a default comment
      */
-    public QRCodeComment(){}
+    public Comment(){}
 
     /**
      * This method defines a comment made by a player
      * @param username: the username of the one who made the comment
      * @param comment: the comment made by the player
      */
-    public QRCodeComment(String username, String comment){
+    public Comment(String username, String comment){
         setUsername(username);
         setComment(comment);
     }

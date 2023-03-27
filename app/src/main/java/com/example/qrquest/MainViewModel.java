@@ -19,7 +19,7 @@ public class MainViewModel extends AndroidViewModel {
 
     private static boolean refresh = true;
     private MainRepository mainRepository;
-    private MutableLiveData<ArrayList<QRCodeHistory>> history;
+    private MutableLiveData<ArrayList<History>> history;
     private MutableLiveData<ArrayList<Integer>> userInfo;
 
     public MainViewModel(@NonNull Application application) {
@@ -30,7 +30,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     // Get QR Code history to observe
-    public LiveData<ArrayList<QRCodeHistory>> getHistory(){
+    public LiveData<ArrayList<History>> getHistory(){
         return this.history;
     }
 

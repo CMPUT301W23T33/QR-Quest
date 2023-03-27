@@ -17,7 +17,7 @@ public class QRDisplayViewModel extends AndroidViewModel {
 
     private static boolean refresh = true;
     private final QRDisplayRepository qrDisplayRepository;
-    private MutableLiveData<ArrayList<QRCodeComment>> comments;
+    private MutableLiveData<ArrayList<Comment>> comments;
     private MutableLiveData<Boolean> commented;
 
     public QRDisplayViewModel(@NonNull Application application) {
@@ -28,7 +28,7 @@ public class QRDisplayViewModel extends AndroidViewModel {
     }
 
     // Get the comment(s) to observe
-    public LiveData<ArrayList<QRCodeComment>> getComments(){return this.comments;}
+    public LiveData<ArrayList<Comment>> getComments(){return this.comments;}
 
     // Get if the user has scanned the QR Code to observe
     public LiveData<Boolean> getScanned(){return this.commented;}

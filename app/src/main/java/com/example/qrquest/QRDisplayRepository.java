@@ -21,10 +21,10 @@ import java.util.Objects;
 public class QRDisplayRepository {
 
     private static QRDisplayRepository qrDisplayRepository;
-    private ArrayList<QRCodeComment> commentData = new ArrayList<>();
+    private ArrayList<Comment> commentData = new ArrayList<>();
     private Boolean commentedCheck = false;
     private MutableLiveData<Boolean> commented = new MutableLiveData<>();
-    private MutableLiveData<ArrayList<QRCodeComment>> comments = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Comment>> comments = new MutableLiveData<>();
     private String qrName;
     private int index = -1;
 
@@ -36,7 +36,7 @@ public class QRDisplayRepository {
     }
 
     // Comments on the QR Code
-    public MutableLiveData<ArrayList<QRCodeComment>> getComments(){return this.comments;}
+    public MutableLiveData<ArrayList<Comment>> getComments(){return this.comments;}
 
     // If the user has scanned the QR Code
     public MutableLiveData<Boolean> getScanned(){return this.commented;}
@@ -49,7 +49,7 @@ public class QRDisplayRepository {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
                     for (QueryDocumentSnapshot document : task.getResult()){
-                        QRCodeComment comment = new QRCodeComment(document.getString("username"), document.getString("comment"));
+                        Comment comment = new Comment(document.getString("username"), document.getString("comment"));
                         commentData.add(comment);
                         Log.d("Current Stack Size 1", String.valueOf(commentData.size()));
                         if (Objects.equals(comment.getUsername(), username)){
@@ -96,7 +96,7 @@ public class QRDisplayRepository {
     // Update UI when adding a comment
     private void updateScreen(String username, String comment){
         this.comments.setValue(null);
-        this.commentData.set(this.index, new QRCodeComment(username, comment));
+        this.commentData.set(this.index, new Comment(username, comment));
         this.comments.setValue(this.commentData);
     }
 

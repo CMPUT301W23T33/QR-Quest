@@ -42,7 +42,7 @@ public class QRDisplayFragment extends Fragment {
     RecyclerView recyclerView;
     QRDisplayViewModel viewModel;
     FirebaseFirestore db;
-    QRCommentAdapter adapter;
+    CommentAdapter adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,7 +121,7 @@ public class QRDisplayFragment extends Fragment {
             dialog.show();
 
             recyclerView = bottomSheetView.findViewById(R.id.user_list);
-            adapter = new QRCommentAdapter(new QRCommentAdapter.commentDiff());
+            adapter = new CommentAdapter(new CommentAdapter.commentDiff());
             recyclerView.setAdapter(adapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
             buttonAdd = bottomSheetView.findViewById(R.id.button_add);

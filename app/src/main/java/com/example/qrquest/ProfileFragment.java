@@ -30,7 +30,7 @@ public class ProfileFragment extends Fragment {
     private FirebaseFirestore db;
 
     ProfileScreenBinding binding;
-    private QRHistoryAdapter adapter;
+    private HistoryAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class ProfileFragment extends Fragment {
         View view = binding.getRoot();
 
         RecyclerView recyclerView = view.findViewById(R.id.profile_screen_qr_codes);
-        adapter = new QRHistoryAdapter(new QRHistoryAdapter.historyDiff());
+        adapter = new HistoryAdapter(new HistoryAdapter.historyDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

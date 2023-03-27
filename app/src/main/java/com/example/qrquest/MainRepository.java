@@ -1,8 +1,6 @@
 package com.example.qrquest;
 
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -27,9 +25,9 @@ public class MainRepository {
 
     private static MainRepository mainRepository;
     private static int highestScore = 0;
-    private ArrayList<QRCodeHistory> historyData = new ArrayList<>();
+    private ArrayList<History> historyData = new ArrayList<>();
     private ArrayList<Integer> userInfoData = new ArrayList<>(2);
-    private MutableLiveData<ArrayList<QRCodeHistory>> history = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<History>> history = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Integer>> userInfo = new MutableLiveData<>();
 
     public static MainRepository getInstance(){
@@ -40,7 +38,7 @@ public class MainRepository {
     }
 
     // User's QR Code history
-    public MutableLiveData<ArrayList<QRCodeHistory>> getHistory(){return this.history;}
+    public MutableLiveData<ArrayList<History>> getHistory(){return this.history;}
 
     // User's score and scanned number
     public MutableLiveData<ArrayList<Integer>> getUserInfo(){return this.userInfo;}
@@ -56,7 +54,7 @@ public class MainRepository {
                             if (highestScore == 0) {
                                 highestScore = document.get("score", Integer.class);
                             }
-                            historyData.add(new QRCodeHistory(document.get("hashedQRCode", String.class), document.get("score", Integer.class)));
+                            historyData.add(new History(document.get("hashedQRCode", String.class), document.get("score", Integer.class)));
                         }
                     }
                     history.setValue(historyData);
