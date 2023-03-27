@@ -77,7 +77,7 @@ public class LeaderboardRepository {
                         int index = 0;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             HighestScoreRank temp = new HighestScoreRank(document.getString("username"), document.get("score", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
+                            if (Objects.equals(temp.getIdentifier(), username) && !found) {
                                 firstUserAndTopPlayersData.set(3, temp);
                                 found = true;
                             }
@@ -119,7 +119,7 @@ public class LeaderboardRepository {
                         int index = 0;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             RegionalHighestScoreRank temp = new RegionalHighestScoreRank(document.getString("username"), document.get("score", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
+                            if (Objects.equals(temp.getIdentifier(), username) && !found) {
                                 secondUserAndTopPlayersData.set(3, temp);
                                 found = true;
                             }
@@ -161,7 +161,7 @@ public class LeaderboardRepository {
                         int index = 0;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             ScannedNumberRank temp = new ScannedNumberRank(document.getString("username"), document.get("hasScanned", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
+                            if (Objects.equals(temp.getIdentifier(), username) && !found) {
                                 thirdUserAndTopPlayersData.set(3, temp);
                                 found = true;
                             }
@@ -203,7 +203,7 @@ public class LeaderboardRepository {
                         int index = 0;
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             TotalScoreRank temp = new TotalScoreRank(document.getString("username"), document.get("score", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
+                            if (Objects.equals(temp.getIdentifier(), username) && !found) {
                                 lastUserAndTopPlayersData.set(3, temp);
                                 found = true;
                             }

@@ -77,8 +77,15 @@ public class QRDisplayFragment extends Fragment {
                 (tab, position) -> tab.setText("")
         ).attach();
 
+        // button back
+        binding.buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
+        });
+
         // button arrow up
         binding.buttonOpen.setOnClickListener(v -> {
+
             // create dialog
             dialog = new BottomSheetDialog(requireActivity());
             bottomSheetView = LayoutInflater.from(requireActivity())
@@ -92,14 +99,8 @@ public class QRDisplayFragment extends Fragment {
                 AddCommentFragment fragment = new AddCommentFragment();
                 fragment.show(requireActivity().getSupportFragmentManager(), "Dialog");
             });
-        });
 
-        // button back
-        binding.buttonBack.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
         });
-
 
         return view;
     }
