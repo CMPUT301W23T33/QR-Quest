@@ -221,11 +221,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-
     protected void createLocationRequest() {
-        locationRequest = new LocationRequest.Builder(
-                Priority.PRIORITY_HIGH_ACCURACY, 1000
-        ).build();
+        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).build();
     }
 
     private void stopLocationUpdates() {
