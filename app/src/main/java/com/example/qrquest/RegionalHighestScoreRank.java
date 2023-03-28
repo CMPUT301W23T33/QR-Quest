@@ -26,12 +26,12 @@ public class RegionalHighestScoreRank extends Rank{
     /**
      * This member represents the distinct score in the leaderboard
      */
-    private static ArrayList<Integer> scoreLeaderboard;
+    private static ArrayList<Integer> scoreLeaderboard = new ArrayList<>();
 
     /**
      * This member represents the rank of the distinct score in the leaderboard
      */
-    private static ArrayList<Integer> rankLeaderboard;
+    private static ArrayList<Integer> rankLeaderboard = new ArrayList<>();
 
     /**
      * This method defines the default leaderboard item
@@ -45,7 +45,6 @@ public class RegionalHighestScoreRank extends Rank{
      */
     public RegionalHighestScoreRank(String identifier, int value){
         super(identifier, value);
-        setupLeaderboard();
         if (value == getScoreThreshold()){
             rankCursorIdled();
         }
@@ -76,6 +75,8 @@ public class RegionalHighestScoreRank extends Rank{
         resetCache(0);
         resetRankCursor(0);
         resetThresholdValue();
+        scoreLeaderboard.clear();
+        rankLeaderboard.clear();
     }
 
     /**
@@ -130,16 +131,6 @@ public class RegionalHighestScoreRank extends Rank{
      */
     private void resetCache(int newCache){
         cache = newCache;
-    }
-
-    /**
-     * This method sets up the leaderboard
-     */
-    private void setupLeaderboard(){
-        if (scoreLeaderboard == null){
-            scoreLeaderboard = new ArrayList<>();
-            rankLeaderboard = new ArrayList<>();
-        }
     }
 
     /**

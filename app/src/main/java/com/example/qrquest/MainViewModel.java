@@ -17,27 +17,32 @@ import java.util.ArrayList;
  */
 public class MainViewModel extends AndroidViewModel {
 
+    // History general setup
     private static boolean refresh = true;
     private MainRepository mainRepository;
     private MutableLiveData<ArrayList<History>> history;
-    private MutableLiveData<ArrayList<Integer>> userInfo;
+    private MutableLiveData<Integer> totalScore;
+    private MutableLiveData<Integer> totalCodes;
 
+    // Set up data for the main activity
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.mainRepository = MainRepository.getInstance();
         this.history = this.mainRepository.getHistory();
-        this.userInfo = this.mainRepository.getUserInfo();
+        this.totalScore = this.mainRepository.getTotalScore();
+        this.totalCodes = this.mainRepository.getTotalCodes();
     }
 
-    // Get QR Code history to observe
+    // Get the history to observe
     public LiveData<ArrayList<History>> getHistory(){
         return this.history;
     }
 
-    // Get user info to observe
-    public LiveData<ArrayList<Integer>> getUserInfo(){
-        return this.userInfo;
-    }
+    // Get the total score to observe
+    public LiveData<Integer> getTotalScore(){return this.totalScore;}
+
+    // Get the total codes to observe
+    public LiveData<Integer> getTotalCodes(){return this.totalCodes;}
 
     // Get history for display
     public void setHistory(FirebaseFirestore db, String username) {

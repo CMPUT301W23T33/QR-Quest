@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -52,8 +53,8 @@ public class ProfileFragment extends Fragment {
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", "");
-//          String username = "UI5";
 
+        // Adding touch access to the recycler view
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -79,21 +80,17 @@ public class ProfileFragment extends Fragment {
         // set user profile QR Code history for display
         viewModel.setHistory(db, username);
 
-        // Observe any changes to the history
+        // Get history to observe
         viewModel.getHistory().observe(requireActivity(), qrCodeHistories -> adapter.submitList(qrCodeHistories));
 
-        // Observe any changes to the user statistic
-        viewModel.getUserInfo().observe(requireActivity(), integers -> {
-            binding.profileScreenScore.setText(String.valueOf(integers.get(0)));
-            binding.profileScreenCode.setText(String.valueOf(integers.get(1)));
-            adapter.notifyDataSetChanged();
-        });
+        // Get total score to observe
+        viewModel.getTotalScore().observe(requireActivity(), integer -> binding.profileScreenScore.setText(String.valueOf(integer)));
+
+        // Get total codes to observe
+        viewModel.getTotalCodes().observe(requireActivity(), integer -> binding.profileScreenCode.setText(String.valueOf(integer)));
 
         // Reverse sorting order
-        binding.profileScreenButtonSort.setOnClickListener(v -> {
-            viewModel.reverseHistory();
-            adapter.notifyDataSetChanged();
-        });
+        binding.profileScreenButtonSort.setOnClickListener(v -> viewModel.reverseHistory());
 
         // Navigate back to the main screen
         binding.profileScreenButtonBack.setOnClickListener(v ->

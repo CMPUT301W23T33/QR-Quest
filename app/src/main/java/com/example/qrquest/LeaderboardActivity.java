@@ -53,11 +53,8 @@ public class LeaderboardActivity extends AppCompatActivity {
         // button back
         ImageButton buttonBack = findViewById(R.id.button_back);
         buttonBack.setOnClickListener(v -> {
-            // Refresh leaderboard history
-            if (!LeaderboardViewModel.getRefreshPermission()){
-                viewModel.refreshHistory();
-                LeaderboardFragment.refreshHistory();
-            }
+            viewModel.refreshHistory();
+            LeaderboardFragment.refreshHistory();
             finish();
         });
 
