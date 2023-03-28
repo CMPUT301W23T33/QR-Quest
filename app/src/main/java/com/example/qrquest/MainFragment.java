@@ -248,7 +248,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             addresses = geocoder.getFromLocation(location.getLatitude(),
                     location.getLongitude(),1);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+                throw new RuntimeException(e);
         }
 
         String region = addresses.get(0).getAdminArea();

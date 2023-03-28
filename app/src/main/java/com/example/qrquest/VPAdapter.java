@@ -2,6 +2,7 @@ package com.example.qrquest;
 
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -39,10 +43,15 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         VPItem item = arrayList.get(position);
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference();
+        StorageReference imagesReference = storageReference.child("images");
+        StorageReference imageReference = imagesReference.child("timestamp.jpg");
         if (item.imageUri == null)
             holder.imageView.setImageResource(item.imageId);
         else holder.imageView.setImageURI(Uri.parse(item.imageUri));
-
+        if (item.fragment != null)
+            GlideApp.with(item.fragment).load(imageReference).into(holder.imageView);
     }
 
     @Override

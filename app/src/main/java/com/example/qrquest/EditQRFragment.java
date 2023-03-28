@@ -74,15 +74,16 @@ public class EditQRFragment extends Fragment {
         if (uri != null) {
             String[] imageURIs = {uri};
             arrayList = new ArrayList<>();
-            for (String imageURI : imageURIs) arrayList.add(new VPItem(imageURI));
+            for (String imageURI : imageURIs) arrayList.add(new VPItem(this, imageURI));
         }
         // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
         else {
             int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
             arrayList = new ArrayList<>();
-            for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
+            for (int imageID : imageIDs) arrayList.add(new VPItem(this, imageID));
         }
 
+        //Log.d("EditQRFragment", arrayList.get(0).fragment.toString());
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
 
