@@ -209,21 +209,36 @@ public class CameraFragment extends Fragment {
         // Go to Files -> Android -> data -> com.example.qrquest -> cache -> Pictures
         File photoFile = new File(photoFilePath);
         imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(),
-                getExecutor(), new ImageCapture.OnImageSavedCallback() {
-            @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-
-                String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
-                Bundle bundle2 = getArguments();
-                assert bundle2 != null;
-                bundle2.putString("uri", stringUri);
-                Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_promptLocationFragment, bundle2);
-            }
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                getExecutor(), onImageSavedCallback);
     }
 
+    private final ImageCapture.OnImageCapturedCallback onImageCapturedCallback = new ImageCapture.OnImageCapturedCallback() {
+        @Override
+        public void onCaptureSuccess(@NonNull ImageProxy image) {
+            super.onCaptureSuccess(image);
+        }
+
+        @Override
+        public void onError(@NonNull ImageCaptureException exception) {
+            Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    };
+
+    private final ImageCapture.OnImageSavedCallback onImageSavedCallback = new ImageCapture.OnImageSavedCallback() {
+        @Override
+        public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+            String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
+            Bundle bundle2 = getArguments();
+            assert bundle2 != null;
+            bundle2.putString("uri", stringUri);
+            Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_promptLocationFragment, bundle2);
+        }
+
+        @Override
+        public void onError(@NonNull ImageCaptureException exception) {
+            Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+    };
 }
