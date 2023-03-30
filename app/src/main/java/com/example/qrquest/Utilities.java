@@ -119,8 +119,20 @@ public class Utilities {
         String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
         // Using the first 6 bits of the hash, modify the copy of the defaultFace to create a unique visual representation
+        StringBuilder imgBuilder = new StringBuilder();
         for (int i = 0; i < 6; i++) {
-
+            int dictionaryIndex = i % faceOptions.length;
+            char[] dictionary = faceOptions[dictionaryIndex];
+            int wordIndex = (hashString.charAt(i) & 0x01) % dictionary.length;
+            if (i == 5) {
+                if ((imgBuilder.charAt(1)) == '(') {
+                    imgBuilder.append(')');
+                }
+                else {
+                    imgBuilder.append(']');
+                }
+            }
+            imgBuilder.append(dictionary[wordIndex]);
         // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face
         }
         // return image or set the view to the bitmap?
