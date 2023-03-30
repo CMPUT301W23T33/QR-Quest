@@ -48,6 +48,11 @@ public class QRDetectedFragment extends Fragment {
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
         bundle.putInt("qrScore", qrScore);
 
+        // display the hashed name
+        String qrVisual = utilities.visualRepresentation(rawValue);
+        binding.qrNameDisplay.setText(qrName);
+        bundle.putString("qrVisual", qrVisual);
+
         // next button
         binding.buttonNext.setOnClickListener(v -> Navigation.findNavController(view)
                 .navigate(R.id.action_QRDetectedFragment_to_promptPictureFragment, bundle));
