@@ -59,7 +59,9 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     FirebaseFirestore db;
     private GoogleMap map;
+    private LocationManager manager;
     private String username;
+
     FragmentMainBinding binding;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
@@ -191,7 +193,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         try {
             GPSEnabled = manager1.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled = manager1.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch (Exception error) {
+        }
+        catch (Exception error) {
             error.printStackTrace();
         }
 

@@ -26,6 +26,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class represents the Prompt Location Screen
