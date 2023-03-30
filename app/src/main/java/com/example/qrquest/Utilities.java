@@ -34,13 +34,15 @@ public class Utilities {
     };
 
     // Dictionary of characters to choose from for in the creation of visual representation (testing for visual rep)
+    // First bit: left arm (\ vs /), second bit face: () vs [] (need an if condition to make sure face matches), third bit: left eye (X or O)
+    // fourth bit: mouth (v or _), fifth bit: right eye (o or x) and sixth bit: right hand (\ or /)
     private static char[][] faceOptions = {
-            {'/','_'},
-            {},
-            {},
-            {},
-            {},
-            {}
+            {'\\','/'},
+            {'[','('},
+            {'O','X'},
+            {'v','_'},
+            {'o','x'},
+            {'/','\\'}
     };
 
     // Default string representation
@@ -104,7 +106,8 @@ public class Utilities {
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
         Canvas canvas = new Canvas(image);
 
-        // First bit (round vs square face), second bit (left eye), third bit (right eye), fourth bit (mouth), fifth bit (left arm), sixth bit (right arm)
+        // First bit: left arm (\ vs /), second bit face: () vs [] (need an if condition to make sure face matches), third bit: left eye (X or O)
+        // fourth bit: mouth (v or _), fifth bit: right eye (o or x) and sixth bit: right hand (\ or /)
 
         // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
@@ -118,7 +121,7 @@ public class Utilities {
         // Using the first 6 bits of the hash, modify the copy of the defaultFace to create a unique visual representation
         for (int i = 0; i < 6; i++) {
 
-
+        // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face
         }
         // return image or set the view to the bitmap?
         return image;
