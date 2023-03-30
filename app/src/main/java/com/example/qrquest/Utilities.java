@@ -103,6 +103,9 @@ public class Utilities {
     public static Bitmap visualRepresentation(@NonNull String hexString) {
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
         Canvas canvas = new Canvas(image);
+
+        // First bit (round vs square face), second bit (left eye), third bit (right eye), fourth bit (mouth), fifth bit (left arm), sixth bit (right arm)
+
         // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
 
@@ -112,7 +115,7 @@ public class Utilities {
         // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
         String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
-        // Using the first 6 bits of the hash, modify the face dictionary to create a unique visual representation
+        // Using the first 6 bits of the hash, modify the copy of the defaultFace to create a unique visual representation
         for (int i = 0; i < 6; i++) {
 
 
