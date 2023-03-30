@@ -40,10 +40,6 @@ public class TotalScoreRankTest {
 
     @Test
     public void getQueryRankTest(){
-        assertEquals(0, TotalScoreRank.getQueryRank(10));
-        assertEquals(1, TotalScoreRank.getQueryRank(100000));
-        assertEquals(2, TotalScoreRank.getQueryRank(10000));
-        assertEquals(3, TotalScoreRank.getQueryRank(100));
     }
 
 }

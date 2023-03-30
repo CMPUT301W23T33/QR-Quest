@@ -3,11 +3,9 @@ package com.example.qrquest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,7 +32,7 @@ public class LeaderboardFragment extends Fragment {
     LeaderboardAdapter adapter;
     FirebaseFirestore db;
     LeaderboardViewModel viewModel;
-    String username, region, ranking;
+    String username, region;
     private static boolean first = true;
     private static boolean second = true;
     private static boolean third = true;
@@ -71,27 +69,7 @@ public class LeaderboardFragment extends Fragment {
         viewModel.getLeaderboard().observe(requireActivity(), ranks -> adapter.submitList(ranks));
 
         // Get the user to observe
-        viewModel.getUser().observe(requireActivity(), rank -> {
-            ranking = "";
-            if (rank instanceof HighestScoreRank){
-                ranking = String.valueOf(HighestScoreRank.getQueryRank(rank.getValue()));
-            }
-            else if (rank instanceof ScannedNumberRank){
-                ranking = String.valueOf(ScannedNumberRank.getQueryRank(rank.getValue()));
-            }
-            else if (rank instanceof TotalScoreRank){
-                ranking = String.valueOf(TotalScoreRank.getQueryRank(rank.getValue()));
-            }
-            else if (rank instanceof RegionalHighestScoreRank){
-                ranking = String.valueOf(RegionalHighestScoreRank.getQueryRank(rank.getValue()));
-            }
-            else{
-                ranking = "0";
-            }
-            binding.ranking.setText(ranking);
-            binding.nameTextDisplay.setText(username);
-            binding.scoreTextDisplay.setText(String.valueOf(rank.getValue()));
-        });
+        viewModel.getUser().observe(requireActivity(), this::updateScreen);
 
         // Get the top 1 player to observe
         viewModel.getFirst().observe(requireActivity(), rank -> {
@@ -112,7 +90,7 @@ public class LeaderboardFragment extends Fragment {
         });
 
         // Get type of leaderboard to observe
-        viewModel.getLeaderboardPosition().observe(requireActivity(), integer -> updateScreen(integer));
+        viewModel.getLeaderboardPosition().observe(requireActivity(), this::updateScreen);
 
         // LEADERBOARD 0 -> the highest scoring QR codes
         if (first) {
@@ -121,21 +99,33 @@ public class LeaderboardFragment extends Fragment {
         }
 
         // LEADERBOARD 1 -> highest scoring QR codes in a region
-        if (intPos == 1) {
+        if (intPos == 1)
             binding.nameLeaderboard.setText(getString(R.string.leaderboard_1, region));
-        }
 
         // LEADERBOARD 2 -> the most QR codes
-        else if (intPos == 2) {
+        else if (intPos == 2)
             binding.nameLeaderboard.setText(R.string.leaderboard_2);
-        }
 
         // LEADERBOARD 3 -> the highest sum of QR codes
-        else if (intPos == 3) {
+        else if (intPos == 3)
             binding.nameLeaderboard.setText(R.string.leaderboard_3);
-        }
 
         return view;
+    }
+
+    // Refresh type of leaderboard history
+    public static void refreshHistory(){
+        first = true;
+        second = true;
+        third = true;
+        last = true;
+    }
+
+    // Update user statistics
+    private void updateScreen(Rank rank){
+        binding.ranking.setText(String.valueOf(rank.getRank()));
+        binding.nameTextDisplay.setText(username);
+        binding.scoreTextDisplay.setText(String.valueOf(rank.getValue()));
     }
 
     // Update screen based on the input as the type of leaderboard
@@ -158,6 +148,7 @@ public class LeaderboardFragment extends Fragment {
                 second = false;
                 viewModel.setSecondLeaderboard(db, username, region);
             }
+
             first = true;
             third = true;
             last = true;
@@ -184,14 +175,6 @@ public class LeaderboardFragment extends Fragment {
             second = true;
             third = true;
         }
-    }
-
-    // Refresh type of leaderboard history
-    public static void refreshHistory(){
-        first = true;
-        second = true;
-        third = true;
-        last = true;
     }
 
 }

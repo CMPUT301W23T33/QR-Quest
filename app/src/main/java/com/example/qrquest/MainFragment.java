@@ -10,8 +10,8 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.qrquest.databinding.FragmentMainBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -48,14 +55,15 @@ import java.util.List;
  * This class defines the main screen
  * @author Thea Nguyen
  */
-public class MainFragment extends Fragment implements OnMapReadyCallback, LocationListener {
+public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     FirebaseFirestore db;
     private GoogleMap map;
-    private LocationManager manager;
     private String username;
-
     FragmentMainBinding binding;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
+    private LocationRequest locationRequest;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,16 +127,26 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         Boolean fineLocationGranted = result.getOrDefault(
                 android.Manifest.permission.ACCESS_FINE_LOCATION, false);
         Boolean coarseLocationGranted = result.getOrDefault(
-                Manifest.permission.ACCESS_COARSE_LOCATION,false);
+                Manifest.permission.ACCESS_COARSE_LOCATION, false);
 
 
         if ((fineLocationGranted != null && fineLocationGranted)
                 || (coarseLocationGranted != null && coarseLocationGranted)) {
             checkLocationEnabled();
 
-            // setup location manager
-            manager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            // set up fused location client of google services api
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext());
+            locationCallback = new LocationCallback() {
+                @Override
+                public void onLocationResult(@NonNull LocationResult locationResult) {
+                    for (Location location : locationResult.getLocations()) {
+                        updateMapLocation(location);
+                        Log.d("PromptLocation", location.toString());
+                        stopLocationUpdates();
+                    }
+                }
+            };
+            startLocationUpdates();
 
         } else {
             // erase local memories
@@ -173,8 +191,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         try {
             GPSEnabled = manager1.isProviderEnabled(LocationManager.GPS_PROVIDER);
             networkEnabled = manager1.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        }
-        catch (Exception error) {
+        } catch (Exception error) {
             error.printStackTrace();
         }
 
@@ -204,8 +221,23 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
         }
     }
 
-    @Override
-    public void onLocationChanged(@NonNull Location location) {
+    protected void createLocationRequest() {
+        locationRequest = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000).build();
+    }
+
+    private void stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void startLocationUpdates() {
+        createLocationRequest();
+        fusedLocationClient.requestLocationUpdates(locationRequest,
+                locationCallback,
+                Looper.getMainLooper());
+    }
+
+    private void updateMapLocation(@NonNull Location location) {
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
@@ -231,7 +263,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
                 .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
 
         // set markers for nearby QR codes
-        db.collection("QR Code").get().addOnCompleteListener(task -> {
+        db.collection("main").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot doc : task.getResult()) {
                     double latitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
@@ -252,27 +284,40 @@ public class MainFragment extends Fragment implements OnMapReadyCallback, Locati
                 }
             }
         });
-        manager.removeUpdates(this);
-    }
 
-    @Override
-    public void onLocationChanged(@NonNull List<Location> locations) {
-        LocationListener.super.onLocationChanged(locations);
-    }
+        map.setOnMarkerClickListener(marker -> {
+            double markerLatitude = marker.getPosition().latitude;
+            double markerLongitude = marker.getPosition().longitude;
 
-    @Override
-    public void onFlushComplete(int requestCode) {
-        LocationListener.super.onFlushComplete(requestCode);
-    }
+            db.collection("main").get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot doc : task.getResult()) {
+                        double qrLatitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
+                        double qrLongitude = Double.parseDouble(String.valueOf(doc.get("longitude")));
 
-    @Override
-    public void onProviderEnabled(@NonNull String provider) {
-        LocationListener.super.onProviderEnabled(provider);
-    }
+                        // get the corresponding qr code
+                        if (markerLatitude == qrLatitude && markerLongitude == qrLongitude) {
+                            String qrName = String.valueOf(doc.get("qrCode"));
+                            int qrScore = Integer.parseInt(String.valueOf(doc.get("score")));
 
-    @Override
-    public void onProviderDisabled(@NonNull String provider) {
-        LocationListener.super.onProviderDisabled(provider);
-    }
+                            Bundle bundle = new Bundle();
+                            if (doc.get("imagePath") != null) {
+                                Uri qrUri = Uri.parse(String.valueOf(doc.get("imagePath")));
+                                bundle.putString("uri", String.valueOf(qrUri));
+                            }
+                            bundle.putString("qrName", qrName);
+                            bundle.putInt("qrScore", qrScore);
+                            bundle.putString("latitude", String.valueOf(qrLatitude));
+                            bundle.putString("longitude", String.valueOf(qrLongitude));
 
+                            Intent intent = new Intent(getContext(), QRDisplayActivity.class);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            });
+            return true;
+        });
+    }
 }

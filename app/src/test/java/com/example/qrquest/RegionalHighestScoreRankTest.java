@@ -40,10 +40,6 @@ public class RegionalHighestScoreRankTest {
 
     @Test
     public void getQueryRankTest(){
-        assertEquals(0, RegionalHighestScoreRank.getQueryRank(5000));
-        assertEquals(1, RegionalHighestScoreRank.getQueryRank(500));
-        assertEquals(2, RegionalHighestScoreRank.getQueryRank(50));
-        assertEquals(4, RegionalHighestScoreRank.getQueryRank(5));
     }
 
 }

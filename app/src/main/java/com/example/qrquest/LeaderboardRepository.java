@@ -24,7 +24,6 @@ public class LeaderboardRepository {
     // Leaderboard general setup
     private static LeaderboardRepository leaderboardRepository;
     private final MutableLiveData<ArrayList<Rank>> leaderboard = new MutableLiveData<>();
-    private Integer position = 0;
     private boolean fetchFirstLeaderboard, fetchSecondLeaderboard, fetchThirdLeaderboard, fetchLastLeaderboard;
     private final MutableLiveData<Integer> leaderboardPosition = new MutableLiveData<>();
     private final MutableLiveData<Rank> user = new MutableLiveData<>();
@@ -90,7 +89,11 @@ public class LeaderboardRepository {
     public void setFirstLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
         if (!this.fetchFirstLeaderboard) {
-            db.collection("main").orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
+            db.collection("main")
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     boolean found = false;
                     int index = 0;
@@ -128,7 +131,12 @@ public class LeaderboardRepository {
     public void setSecondLeaderboard(FirebaseFirestore db, String username, String region){
         this.leaderboard.setValue(null);
         if (!this.fetchSecondLeaderboard) {
-            db.collection("main").whereEqualTo("region", region).orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
+            db.collection("main")
+                    .whereEqualTo("region", region)
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     boolean found = false;
                     int index = 0;
@@ -166,7 +174,10 @@ public class LeaderboardRepository {
     public void setThirdLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
         if (!this.fetchThirdLeaderboard) {
-            db.collection("Player").orderBy("hasScanned", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
+            db.collection("Player")
+                    .orderBy("hasScanned", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     boolean found = false;
                     int index = 0;
@@ -204,7 +215,10 @@ public class LeaderboardRepository {
     public void setLastLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
         if (!this.fetchLastLeaderboard) {
-            db.collection("Player").orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
+            db.collection("Player")
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     boolean found = false;
                     int index = 0;
@@ -240,8 +254,7 @@ public class LeaderboardRepository {
 
     // Set the type of leaderboard
     public void setLeaderboardPosition(int position){
-        this.position = position;
-        this.leaderboardPosition.setValue(this.position);
+        this.leaderboardPosition.setValue(position);
     }
 
     // Refresh rank thresholds

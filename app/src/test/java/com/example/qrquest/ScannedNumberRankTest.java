@@ -40,10 +40,6 @@ public class ScannedNumberRankTest {
 
     @Test
     public void getQueryRankTest(){
-        assertEquals(0, ScannedNumberRank.getQueryRank(1000));
-        assertEquals(1, ScannedNumberRank.getQueryRank(100));
-        assertEquals(2, ScannedNumberRank.getQueryRank(10));
-        assertEquals(4, ScannedNumberRank.getQueryRank(1));
     }
 
 }

@@ -60,9 +60,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/user_name_example"
                 android:textColor="@color/fairy_tale"
-                android:textAppearance="@style/small"
+                android:textAppearance="@style/smaller"
                 android:ellipsize="end"
-                android:maxWidth="120dp"
+                android:maxWidth="72dp"
                 android:maxLines="1"
                 android:layout_gravity="center"/>
 
@@ -164,9 +164,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/user_name_example"
                 android:textColor="@color/thistle"
-                android:textAppearance="@style/small"
+                android:textAppearance="@style/smaller"
                 android:ellipsize="end"
-                android:maxWidth="120dp"
+                android:maxWidth="72dp"
                 android:maxLines="1"
                 android:layout_gravity="center"/>
 
@@ -216,7 +216,7 @@
             android:textColor="@color/thistle"
             android:textAppearance="@style/body"
             android:layout_marginEnd="12dp"
-            android:layout_weight="0.25"/>
+            android:layout_weight="0.4"/>
 
         <ImageView
             android:id="@+id/profile"

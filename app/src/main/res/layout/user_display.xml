@@ -23,7 +23,7 @@
             android:textColor="@color/chinese_violet"
             android:textAppearance="@style/body"
             android:layout_marginEnd="12dp"
-            android:layout_weight="0.25"/>
+            android:layout_weight="0.4"/>
 
         <ImageView
             android:id="@+id/profile"

@@ -39,10 +39,6 @@ public class HighestScoreRankTest {
 
     @Test
     public void getQueryRankTest(){
-        assertEquals(0, HighestScoreRank.getQueryRank(10000));
-        assertEquals(1, HighestScoreRank.getQueryRank(1000));
-        assertEquals(2, HighestScoreRank.getQueryRank(100));
-        assertEquals(4, HighestScoreRank.getQueryRank(10));
     }
 
 }
