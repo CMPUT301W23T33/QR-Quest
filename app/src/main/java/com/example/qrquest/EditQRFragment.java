@@ -178,7 +178,7 @@ public class EditQRFragment extends Fragment {
                 });
             }
             // start qr display activity
-            startActivity(intent);
+            else startActivity(intent);
 
 
         });
