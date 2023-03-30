@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 
 import androidx.annotation.NonNull;
 
@@ -95,11 +96,11 @@ public class Utilities {
     /**
      * Function that creates a visual representation of the QR Hash using ASCII characters,
      * and using Bitmaps, returns it as an image
+     *
      * @param hexString
      * @return
-     *
      */
-    public static Bitmap visualRepresentation(@NonNull String hexString) {
+    public static Uri visualRepresentation(@NonNull String hexString) {
         // Setup bitmap
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
         Canvas faceCanvas = new Canvas(image);
@@ -136,6 +137,9 @@ public class Utilities {
         }
         // Put the created string face onto the Bitmap canvas
         faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
+        // convert bitmap to Uri
+        Uri imageUri = Uri.parse(image.toString()); // or String.valueOf()?
+        //used for camera: String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString()
 
         // return Bitmap image
         //return image;
