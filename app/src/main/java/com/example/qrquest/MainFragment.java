@@ -61,7 +61,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
     FirebaseFirestore db;
     private GoogleMap map;
-    private LocationManager manager;
     private String username;
     FragmentMainBinding binding;
     private FusedLocationProviderClient fusedLocationClient;
