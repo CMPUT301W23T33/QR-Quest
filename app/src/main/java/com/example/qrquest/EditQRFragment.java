@@ -46,6 +46,7 @@ public class EditQRFragment extends Fragment {
     String qrName;
     String uri;
     int qrScore;
+    String qrVisual;
     double latitude;
     double longitude;
     String username, region, imagePath, comment;
@@ -64,6 +65,7 @@ public class EditQRFragment extends Fragment {
         if (bundle != null) {
             qrName = bundle.getString("qrName");
             qrScore = bundle.getInt("qrScore");
+            qrVisual = bundle.getString("qrVisual");
             binding.qrNameText.setText(qrName);
             binding.qrScoreText.setText(String.valueOf(qrScore));
 
@@ -88,16 +90,16 @@ public class EditQRFragment extends Fragment {
         // set up viewPager2
         // if user takes a picture, imageURIs would be picture, and then visual rep
         if (uri != null) {
-            String[] imageURIs = {uri};
+            String[] imageURIs = {qrVisual, uri};
             arrayList = new ArrayList<>();
             for (String imageURI : imageURIs) arrayList.add(new VPItem(imageURI));
         }
         // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
         else {
             // if user doesnt take a picture, just have the visual rep in imageIDs
-            int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
+            String[] imageIDs = {qrVisual};
             arrayList = new ArrayList<>();
-            for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
+            for (String imageID : imageIDs) arrayList.add(new VPItem(imageID));
         }
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);

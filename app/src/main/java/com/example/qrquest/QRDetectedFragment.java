@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +50,7 @@ public class QRDetectedFragment extends Fragment {
         bundle.putInt("qrScore", qrScore);
 
         // display the hashed name
-        String qrVisual = utilities.visualRepresentation(rawValue);
+        String qrVisual = (utilities.visualRepresentation(rawValue)).toString();
         binding.qrNameDisplay.setText(qrName);
         bundle.putString("qrVisual", qrVisual);
 
