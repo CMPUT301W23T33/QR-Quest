@@ -1,29 +1,36 @@
 package com.example.qrquest;
 
 
-import android.content.Context;
+import android.graphics.Bitmap;
 
 import androidx.fragment.app.Fragment;
 
 public class VPItem {
     int imageId;
-    String imageUri;
-
+    String uri;
+    boolean isCloud;
     Fragment fragment;
+    Bitmap bitmap;
 
     public VPItem(int imageId) {
         this.imageId = imageId;
     }
 
-    public VPItem(String imageUri) {this.imageUri = imageUri;}
+    public VPItem(String localUri) {this.uri = localUri;}
 
-    public VPItem(Fragment context, String imageUri) {
+    public VPItem(Fragment context, String uri, boolean isCloud) {
         this.fragment = context;
-        this.imageUri = imageUri;
+        this.uri = uri;
+        this.isCloud = isCloud;
     }
 
     public VPItem(Fragment context, int imageId) {
         this.fragment = context;
         this.imageId = imageId;
+    }
+
+    public VPItem(Fragment context, Bitmap bitmap) {
+        this.fragment = context;
+        this.bitmap = bitmap;
     }
 }

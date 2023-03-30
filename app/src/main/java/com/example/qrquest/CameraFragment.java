@@ -2,9 +2,13 @@ package com.example.qrquest;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.Image;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
@@ -18,7 +22,9 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -30,7 +36,11 @@ import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -54,7 +64,8 @@ public class CameraFragment extends Fragment {
             .build();
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         binding = CameraScreenBinding.inflate(inflater, container, false);
         cameraFragmentView = binding.getRoot();
         bundle = getArguments();
@@ -129,11 +140,13 @@ public class CameraFragment extends Fragment {
     }
 
     /**
-     * This methods initializes the camera once all necessary permissions are granted. It also
-     * analyzes the picture to detect QR Codes (if any).
-     * @param cameraProvider A singleton which can be used to bind the lifecycle of cameras to
-     *                       any LifecycleOwner within an application's process
+     * This methods initializes the camera once all necessary permissions are granted.
+     * It also analyzes the picture to detect QR Codes (if any).
+     * @param cameraProvider A singleton which can be used to bind the lifecycle
+     *                       of cameras to any LifecycleOwner within an application's
+     *                       process
      */
+    @OptIn(markerClass = androidx.camera.core.ExperimentalGetImage.class)
     private void startCameraX(@NonNull ProcessCameraProvider cameraProvider) {
 
         // Unbind all previous settings
@@ -159,10 +172,9 @@ public class CameraFragment extends Fragment {
                 .build();
 
         // Analyze image
-        imageAnalysis.setAnalyzer(getExecutor(), new ImageAnalysis.Analyzer() {
-            @Override
-            @ExperimentalGetImage
-            public void analyze(@NonNull ImageProxy image) {
+        if (bundle == null)
+        {
+            imageAnalysis.setAnalyzer(getExecutor(), image -> {
                 Image mediaImage = image.getImage();
                 if (mediaImage != null) {
                     InputImage inputImage = InputImage.fromMediaImage(mediaImage,
@@ -179,7 +191,8 @@ public class CameraFragment extends Fragment {
                                 bundle1.putString("rawValue", rawValue);
 
                                 Navigation.findNavController(cameraFragmentView)
-                                        .navigate(R.id.action_camera_to_QRDetectedFragment, bundle1);
+                                        .navigate(R.id.action_camera_to_QRDetectedFragment,
+                                                bundle1);
                                 imageAnalysis.clearAnalyzer();
                             }
                         }
@@ -187,10 +200,12 @@ public class CameraFragment extends Fragment {
                     .addOnFailureListener(e -> binding.cameraButtonCaptureImage.setEnabled(false))
                     .addOnCompleteListener(task -> image.close());
                 }
-            }
-        });
+            });
+        }
+
         // Bind all these use cases to the camera
-        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalysis);
+        cameraProvider.bindToLifecycle(this, cameraSelector,
+                preview, imageCapture, imageAnalysis);
     }
 
     /**
@@ -199,45 +214,40 @@ public class CameraFragment extends Fragment {
     private void takePhoto() {
         File photoDir = new File(requireActivity().getExternalCacheDir() + "/Pictures");
         if (!photoDir.exists())
-            //noinspection ResultOfMethodCallIgnored
-            photoDir.mkdir();
+            if (!photoDir.mkdir()) {
+                Log.d("CameraFragment", "Folder created unsuccessfully");
+            };
         Date date = new Date();
         String timestamp = String.valueOf(date.getTime());
         String photoFilePath = photoDir.getAbsolutePath() + "/" + timestamp + ".jpg";
 
-        // Photo is saved at /storage/emulated/0/Android/data/com.example.qrquest/cache/Pictures (absolute path)
+        // Photo is saved at
+        // /storage/emulated/0/Android/data/com.example.qrquest/cache/Pictures (absolute path)
         // Go to Files -> Android -> data -> com.example.qrquest -> cache -> Pictures
         File photoFile = new File(photoFilePath);
-        imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(),
+
+        ImageCapture.OutputFileOptions outputFileOptions =
+                new ImageCapture.OutputFileOptions.Builder(photoFile).build();
+        imageCapture.takePicture(outputFileOptions,
                 getExecutor(), onImageSavedCallback);
     }
 
-    private final ImageCapture.OnImageCapturedCallback onImageCapturedCallback = new ImageCapture.OnImageCapturedCallback() {
-        @Override
-        public void onCaptureSuccess(@NonNull ImageProxy image) {
-            super.onCaptureSuccess(image);
-        }
-
-        @Override
-        public void onError(@NonNull ImageCaptureException exception) {
-            Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-
-    };
-
-    private final ImageCapture.OnImageSavedCallback onImageSavedCallback = new ImageCapture.OnImageSavedCallback() {
+    private final ImageCapture.OnImageSavedCallback onImageSavedCallback =
+            new ImageCapture.OnImageSavedCallback() {
         @Override
         public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
             String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString();
             Bundle bundle2 = getArguments();
             assert bundle2 != null;
             bundle2.putString("uri", stringUri);
-            Navigation.findNavController(cameraFragmentView).navigate(R.id.action_camera_to_promptLocationFragment, bundle2);
+            Navigation.findNavController(cameraFragmentView).navigate(
+                    R.id.action_camera_to_promptLocationFragment, bundle2);
         }
 
         @Override
         public void onError(@NonNull ImageCaptureException exception) {
-            Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Error saving photo: " +
+                    exception.getMessage(), Toast.LENGTH_SHORT).show();
 
         }
     };

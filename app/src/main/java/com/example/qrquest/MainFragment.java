@@ -252,15 +252,16 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         String region = addresses.get(0).getAdminArea();
-        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp",
+                Context.MODE_PRIVATE).edit();
         editor.putString("region", region);
         editor.apply();
 
         // set region of the user
         db.collection("Player").document(username)
                 .update("region", region)
-                .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
-                .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
+                .addOnSuccessListener(unused -> Log.d("MainFragment", "Successfully updated"))
+                .addOnFailureListener(e -> Log.d("MainFragment", "Error updating document"));
 
         // set markers for nearby QR codes
         db.collection("main").get().addOnCompleteListener(task -> {
@@ -309,6 +310,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             bundle.putInt("qrScore", qrScore);
                             bundle.putString("latitude", String.valueOf(qrLatitude));
                             bundle.putString("longitude", String.valueOf(qrLongitude));
+                            bundle.putBoolean("isCloud", true);
 
                             Intent intent = new Intent(getContext(), QRDisplayActivity.class);
                             intent.putExtras(bundle);
