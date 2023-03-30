@@ -1,6 +1,9 @@
 package com.example.qrquest;
 
+import static com.example.qrquest.Utilities.visualRepresentation;
+
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,7 +81,12 @@ public class EditQRFragment extends Fragment {
             }
         }
 
+        // get Bitmap from utilities class?
+        //Bitmap visualRep = bundle.getParcelable("visualRepresentation");
+
+
         // set up viewPager2
+        // if user takes a picture, imageURIs would be picture, and then visual rep
         if (uri != null) {
             String[] imageURIs = {uri};
             arrayList = new ArrayList<>();
@@ -86,6 +94,7 @@ public class EditQRFragment extends Fragment {
         }
         // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
         else {
+            // if user doesnt take a picture, just have the visual rep in imageIDs
             int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
             arrayList = new ArrayList<>();
             for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));

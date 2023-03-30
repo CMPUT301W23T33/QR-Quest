@@ -15,7 +15,6 @@ import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * This class consists of different functions that are utilised in the project.
@@ -100,7 +99,7 @@ public class Utilities {
      * @return
      *
      */
-    public static String visualRepresentation(@NonNull String hexString) {
+    public static Bitmap visualRepresentation(@NonNull String hexString) {
         // Setup bitmap
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
         Canvas faceCanvas = new Canvas(image);
@@ -139,7 +138,9 @@ public class Utilities {
         faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
 
         // return Bitmap image
-        //String stringUri = Objects.requireNonNull(image.getSavedUri()).toString()
-        return image;
+        //return image;
+
+        // return Uri
+        return imageUri;
     }
 }
