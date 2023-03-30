@@ -45,11 +45,6 @@ public class Utilities {
             {'/','\\'}
     };
 
-    // Default string representation
-    private static String defaultFace = "\\(O_o)/";
-    //\<U_u>/
-    //(X-x)>
-
     /**
      *
      * @param hexString
@@ -111,9 +106,6 @@ public class Utilities {
 
         // Convert the hex string to a byte array
         byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
-
-        // Make a copy of the defaultFace to change depending on the hash bits
-        String stringCopy = defaultFace;
 
         // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
         String hashString = Hashing.sha256().hashBytes(byteArray).toString();
