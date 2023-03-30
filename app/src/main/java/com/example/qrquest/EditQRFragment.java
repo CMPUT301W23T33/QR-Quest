@@ -2,7 +2,6 @@ package com.example.qrquest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,8 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.qrquest.databinding.FragmentEditQrBinding;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
@@ -25,8 +23,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,7 +78,6 @@ public class EditQRFragment extends Fragment {
         arrayList = new ArrayList<>();
         arrayList.add(new VPItem(this, uri, isCloud));
 
-        //Log.d("EditQRFragment", arrayList.get(0).fragment.toString());
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
 

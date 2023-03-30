@@ -5,7 +5,7 @@ package com.example.qrquest;
  * Call ArrayList<UserQRCodeHistory> to use this class
  * @author Dang Viet Anh Dinh
  */
-public class QRCodeHistory {
+public class History {
 
     /**
      * This member represents the hashed name of the QR Code
@@ -20,14 +20,14 @@ public class QRCodeHistory {
     /**
      * This method defines a default compact QR Code
      */
-    public QRCodeHistory(){}
+    public History(){}
 
     /**
      * This method defines the compact QR Code scanned by a player
      * @param qrCode: the QR Code name
      * @param score: the QR Code score
      */
-    public QRCodeHistory(String qrCode, int score){
+    public History(String qrCode, int score){
         setQrCode(qrCode);
         setScore(score);
     }

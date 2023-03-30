@@ -4,6 +4,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * This class tests class QRCodeo
+ * @author Thea Nguyen
+ */
 public class QRCodeTest {
 
     QRCode qrCode = new QRCode();

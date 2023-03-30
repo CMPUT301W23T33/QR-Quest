@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +32,7 @@ public class LeaderboardFragment extends Fragment {
     LeaderboardAdapter adapter;
     FirebaseFirestore db;
     LeaderboardViewModel viewModel;
-    String username, region, ranking;
+    String username, region;
     private static boolean first = true;
     private static boolean second = true;
     private static boolean third = true;
@@ -64,14 +65,29 @@ public class LeaderboardFragment extends Fragment {
         // Initialize view model
         viewModel = new ViewModelProvider(requireActivity()).get(LeaderboardViewModel.class);
 
-        // Set up leaderboard
-        viewModel.setLeaderboard();
-
         // Get leaderboard to observe
         viewModel.getLeaderboard().observe(requireActivity(), ranks -> adapter.submitList(ranks));
 
-        // Get user and top player to observe
-        viewModel.getUserAndTopPlayers().observe(requireActivity(), this::updateScreen);
+        // Get the user to observe
+        viewModel.getUser().observe(requireActivity(), this::updateScreen);
+
+        // Get the top 1 player to observe
+        viewModel.getFirst().observe(requireActivity(), rank -> {
+            binding.nameTextDisplay1.setText(rank.getIdentifier());
+            binding.scoreTextDisplay1.setText(String.valueOf(rank.getValue()));
+        });
+
+        // Get the top 2 player to observe
+        viewModel.getSecond().observe(requireActivity(), rank -> {
+            binding.nameTextDisplay2.setText(rank.getIdentifier());
+            binding.scoreTextDisplay2.setText(String.valueOf(rank.getValue()));
+        });
+
+        // Get the top 3 player to observe
+        viewModel.getThird().observe(requireActivity(), rank -> {
+            binding.nameTextDisplay3.setText(rank.getIdentifier());
+            binding.scoreTextDisplay3.setText(String.valueOf(rank.getValue()));
+        });
 
         // Get type of leaderboard to observe
         viewModel.getLeaderboardPosition().observe(requireActivity(), this::updateScreen);
@@ -97,6 +113,21 @@ public class LeaderboardFragment extends Fragment {
         return view;
     }
 
+    // Refresh type of leaderboard history
+    public static void refreshHistory(){
+        first = true;
+        second = true;
+        third = true;
+        last = true;
+    }
+
+    // Update user statistics
+    private void updateScreen(Rank rank){
+        binding.ranking.setText(String.valueOf(rank.getRank()));
+        binding.nameTextDisplay.setText(username);
+        binding.scoreTextDisplay.setText(String.valueOf(rank.getValue()));
+    }
+
     // Update screen based on the input as the type of leaderboard
     private void updateScreen(int integer){
 
@@ -109,7 +140,6 @@ public class LeaderboardFragment extends Fragment {
             second = true;
             third = true;
             last = true;
-            binding.nameLeaderboard.setText(R.string.leaderboard_0);
         }
 
         // Second leaderboard
@@ -122,7 +152,6 @@ public class LeaderboardFragment extends Fragment {
             first = true;
             third = true;
             last = true;
-            binding.nameLeaderboard.setText(getString(R.string.leaderboard_1, region));
         }
 
         // Third leaderboard
@@ -134,7 +163,6 @@ public class LeaderboardFragment extends Fragment {
             first = true;
             second = true;
             last = true;
-            binding.nameLeaderboard.setText(R.string.leaderboard_2);
         }
 
         // Last leaderboard
@@ -146,34 +174,7 @@ public class LeaderboardFragment extends Fragment {
             first = true;
             second = true;
             third = true;
-            binding.nameLeaderboard.setText(R.string.leaderboard_3);
         }
     }
 
-    // Update screen based on leaderboard ranking
-    private void updateScreen(@NonNull ArrayList<Rank> ranks){
-
-        // Update top 3 players
-        binding.nameTextDisplay1.setText(ranks.get(0).getIdentifier());
-        binding.scoreTextDisplay1.setText(String.valueOf(ranks.get(0).getValue()));
-        binding.nameTextDisplay2.setText(ranks.get(1).getIdentifier());
-        binding.scoreTextDisplay2.setText(String.valueOf(ranks.get(1).getValue()));
-        binding.nameTextDisplay3.setText(ranks.get(2).getIdentifier());
-        binding.scoreTextDisplay3.setText(String.valueOf(ranks.get(2).getValue()));
-
-        // Update user ranking
-        Rank user = ranks.get(3);
-        ranking = String.valueOf(user.getRank());
-        binding.ranking.setText(ranking);
-        binding.nameTextDisplay.setText(username);
-        binding.scoreTextDisplay.setText(String.valueOf(user.getValue()));
-    }
-
-    // Refresh type of leaderboard history
-    public static void refreshHistory(){
-        first = true;
-        second = true;
-        third = true;
-        last = true;
-    }
 }
