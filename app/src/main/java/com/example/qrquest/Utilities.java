@@ -136,6 +136,7 @@ public class Utilities {
         faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
         // convert bitmap to Uri
         Uri imageUri = Uri.parse(image.toString()); // or String.valueOf()?
+        //used for camera: String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString()
 
         // return Bitmap image
         //return image;
