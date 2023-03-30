@@ -88,6 +88,7 @@ public class LeaderboardRepository {
                             else{
                                 firstLeaderboardData.add(temp);
                             }
+                            Log.d("LeaderboardQuery", String.valueOf(document));
                         }
                         Log.d("Leaderboard 111", String.valueOf(firstLeaderboardData.size()));
                         leaderboard.setValue(firstLeaderboardData);

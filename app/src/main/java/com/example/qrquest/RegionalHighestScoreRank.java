@@ -46,12 +46,7 @@ public class RegionalHighestScoreRank extends Rank{
     public RegionalHighestScoreRank(String identifier, int value){
         super(identifier, value);
         setupLeaderboard();
-        if (value == getScoreThreshold()){
-            rankCursorIdled();
-        }
-        else{
-            rankCursorIncremented();
-        }
+        rankCursorIncremented();
     }
 
     /**

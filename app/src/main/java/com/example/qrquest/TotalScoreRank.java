@@ -46,12 +46,7 @@ public class TotalScoreRank extends Rank{
     public TotalScoreRank(String identifier, int value){
         super(identifier, value);
         setupLeaderboard();
-        if (value == getScoreThreshold()){
-            rankCursorIdled();
-        }
-        else{
-            rankCursorIncremented();
-        }
+        rankCursorIncremented();
     }
 
     /**
