@@ -3,6 +3,8 @@ package com.example.qrquest;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
 
@@ -98,8 +100,12 @@ public class Utilities {
      *
      */
     public static Bitmap visualRepresentation(@NonNull String hexString) {
+        // Setup bitmap
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
-        Canvas canvas = new Canvas(image);
+        Canvas faceCanvas = new Canvas(image);
+        Paint paint = new Paint();
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(12);
 
         // First bit: left arm (\ vs /), second bit face: () vs [] (need an if condition to make sure face matches), third bit: left eye (X or O)
         // fourth bit: mouth (v or _), fifth bit: right eye (o or x) and sixth bit: right hand (\ or /)
@@ -128,7 +134,10 @@ public class Utilities {
             imgBuilder.append(dictionary[wordIndex]);
         // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face
         }
-        // return image or set the view to the bitmap?
+        // Put the created string face onto the Bitmap canvas
+        faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
+
+        // return Bitmap image
         return image;
     }
 }
