@@ -46,7 +46,7 @@ public class Utilities {
     };
 
     // Default string representation
-    private static String defaultFace = "\\(O_O)/";
+    private static String defaultFace = "\\(O_o)/";
     //\<U_u>/
     //(X-x)>
 
@@ -121,7 +121,7 @@ public class Utilities {
         // Using the first 6 bits of the hash, modify the copy of the defaultFace to create a unique visual representation
         for (int i = 0; i < 6; i++) {
 
-        // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face
+        // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face (when going onto the sixth item)
         }
         // return image or set the view to the bitmap?
         return image;
