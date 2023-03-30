@@ -4,13 +4,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class QRCodeCommentTest {
+/**
+ * This class tests class Comment
+ * @author Thea Nguyen
+ */
+public class CommentTest {
 
     String username = "Dogwood";
     String commentContent = "Hello world!";
 
-    QRCodeComment comment = new QRCodeComment();
-    QRCodeComment comment1 = new QRCodeComment(username, commentContent);
+    Comment comment = new Comment();
+    Comment comment1 = new Comment(username, commentContent);
 
     @Test
     public void getCommentTest() {

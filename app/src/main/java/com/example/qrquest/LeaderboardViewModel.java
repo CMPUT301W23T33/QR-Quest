@@ -15,36 +15,41 @@ import java.util.ArrayList;
  */
 public class LeaderboardViewModel extends AndroidViewModel {
 
-    private static boolean refresh = true;
+    // Leaderboard general setup
     private final LeaderboardRepository leaderboardRepository;
     private MutableLiveData<ArrayList<Rank>> leaderboard;
-    private MutableLiveData<ArrayList<Rank>> userAndTopPlayers;
+    private MutableLiveData<Rank> user, first, second, third;
     private MutableLiveData<Integer> leaderboardPosition;
 
+    // Set up data for the leaderboard activity
     public LeaderboardViewModel(@NonNull Application application) {
         super(application);
         this.leaderboardRepository = LeaderboardRepository.getInstance();
         this.leaderboard = this.leaderboardRepository.getLeaderboard();
-        this.userAndTopPlayers = this.leaderboardRepository.getUserAndTopPlayers();
+        this.user = this.leaderboardRepository.getUser();
+        this.first = this.leaderboardRepository.getFirst();
+        this.second = this.leaderboardRepository.getSecond();
+        this.third = this.leaderboardRepository.getThird();
         this.leaderboardPosition = this.leaderboardRepository.getLeaderboardPosition();
     }
 
     // Get the leaderboard to observe (top4 -> ...)
     public LiveData<ArrayList<Rank>> getLeaderboard(){return this.leaderboard;}
 
-    // Get user and top players (1st, 2nd and 3rd) to observe
-    public LiveData<ArrayList<Rank>> getUserAndTopPlayers(){return this.userAndTopPlayers;}
+    // Get the user to observe
+    public LiveData<Rank> getUser(){return this.user;}
+
+    // Get the top 1st player to observe
+    public LiveData<Rank> getFirst(){return this.first;}
+
+    // Get the top 2nd player to observe
+    public LiveData<Rank> getSecond(){return this.second;}
+
+    // Get the top 3rd player to observe
+    public LiveData<Rank> getThird(){return this.third;}
 
     // Get the type of leaderboard to observe
     public LiveData<Integer> getLeaderboardPosition(){return this.leaderboardPosition;}
-
-    // Get leaderboard for display
-    public void setLeaderboard(){
-        if (getRefreshPermission()){
-            this.leaderboardRepository.setLeaderboard();
-            refresh = false;
-        }
-    }
 
     // Get the first leaderboard (highest scoring QR Codes) for display
     public void setFirstLeaderboard(FirebaseFirestore db, String username) {this.leaderboardRepository.setFirstLeaderboard(db, username);}
@@ -63,13 +68,7 @@ public class LeaderboardViewModel extends AndroidViewModel {
 
     // Allow the leaderboard to refresh
     public void refreshHistory(){
-        refresh = true;
         this.leaderboardRepository.refreshHistory();
-    }
-
-    // Get current refresh permission
-    public static boolean getRefreshPermission(){
-        return refresh;
     }
 
 }

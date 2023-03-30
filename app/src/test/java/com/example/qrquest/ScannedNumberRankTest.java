@@ -1,0 +1,45 @@
+package com.example.qrquest;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ * This class tests class ScannedNumberRank
+ * @author Dang Viet Anh Dinh
+ */
+public class ScannedNumberRankTest {
+
+    private String identifier1, identifier2, identifier3, identifier4;
+    private Integer value1, value2, value3, value4;
+    private ScannedNumberRank scannedNumberRank1, scannedNumberRank2,
+            scannedNumberRank3, scannedNumberRank4;
+
+    @Before
+    public void setup() {
+        this.identifier1 = "Player 1";
+        this.identifier2 = "Player 2";
+        this.identifier3 = "Player 3";
+        this.identifier4 = "Player 4";
+        this.value1 = 100;
+        this.value2 = 10;
+        this.value3 = 10;
+        this.value4 = 1;
+        this.scannedNumberRank1 = new ScannedNumberRank(this.identifier1, this.value1);
+        this.scannedNumberRank2 = new ScannedNumberRank(this.identifier2, this.value2);
+        this.scannedNumberRank3 = new ScannedNumberRank(this.identifier3, this.value3);
+        this.scannedNumberRank4 = new ScannedNumberRank(this.identifier4, this.value4);
+    }
+
+    @After
+    public void reset(){
+        this.scannedNumberRank1.resetThreshold();
+    }
+
+    @Test
+    public void getQueryRankTest(){
+    }
+
+}

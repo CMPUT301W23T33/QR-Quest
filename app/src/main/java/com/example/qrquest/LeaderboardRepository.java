@@ -3,6 +3,7 @@ package com.example.qrquest;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -20,22 +21,45 @@ import java.util.Objects;
  */
 public class LeaderboardRepository {
 
+    // Leaderboard general setup
     private static LeaderboardRepository leaderboardRepository;
-    private ArrayList<Rank> firstLeaderboardData = new ArrayList<>();
-    private ArrayList<Rank> secondLeaderboardData = new ArrayList<>();
-    private ArrayList<Rank> thirdLeaderboardData = new ArrayList<>();
-    private ArrayList<Rank> lastLeaderboardData = new ArrayList<>();
-    private MutableLiveData<ArrayList<Rank>> leaderboard = new MutableLiveData<>();
-    private ArrayList<Rank> firstUserAndTopPlayersData = new ArrayList<>();
-    private ArrayList<Rank> secondUserAndTopPlayersData = new ArrayList<>();
-    private ArrayList<Rank> thirdUserAndTopPlayersData = new ArrayList<>();
-    private ArrayList<Rank> lastUserAndTopPlayersData = new ArrayList<>();
-    private ArrayList<Rank> cache = new ArrayList<>();
-    private MutableLiveData<ArrayList<Rank>> userAndTopPlayer = new MutableLiveData<>();
-    private Integer position = 0;
+    private final MutableLiveData<ArrayList<Rank>> leaderboard = new MutableLiveData<>();
     private boolean fetchFirstLeaderboard, fetchSecondLeaderboard, fetchThirdLeaderboard, fetchLastLeaderboard;
-    private MutableLiveData<Integer> leaderboardPosition = new MutableLiveData<>();
+    private final MutableLiveData<Integer> leaderboardPosition = new MutableLiveData<>();
+    private final MutableLiveData<Rank> user = new MutableLiveData<>();
+    private final MutableLiveData<Rank> first = new MutableLiveData<>();
+    private final MutableLiveData<Rank> second = new MutableLiveData<>();
+    private final MutableLiveData<Rank> third = new MutableLiveData<>();
 
+    // First leaderboard data
+    private final ArrayList<Rank> firstLeaderboardData = new ArrayList<>();
+    private Rank firstUserData = new Rank();
+    private Rank first1stPlayerData = new Rank();
+    private Rank first2ndPlayerData = new Rank();
+    private Rank first3rdPlayerData = new Rank();
+
+    // Second leaderboard data
+    private final ArrayList<Rank> secondLeaderboardData = new ArrayList<>();
+    private Rank secondUserData = new Rank();
+    private Rank second1stPlayerData = new Rank();
+    private Rank second2ndPlayerData = new Rank();
+    private Rank second3rdPlayerData = new Rank();
+
+    // Third leaderboard data
+    private final ArrayList<Rank> thirdLeaderboardData = new ArrayList<>();
+    private Rank thirdUserData = new Rank();
+    private Rank third1stPlayerData = new Rank();
+    private Rank third2ndPlayerData = new Rank();
+    private Rank third3rdPlayerData = new Rank();
+
+    // Last leaderboard data
+    private final ArrayList<Rank> lastLeaderboardData = new ArrayList<>();
+    private Rank lastUserData = new Rank();
+    private Rank last1stPlayerData = new Rank();
+    private Rank last2ndPlayerData = new Rank();
+    private Rank last3rdPlayerData = new Rank();
+
+    // Get a representative instance of the class
     public static LeaderboardRepository getInstance(){
         if (leaderboardRepository == null){
             leaderboardRepository = new LeaderboardRepository();
@@ -46,213 +70,195 @@ public class LeaderboardRepository {
     // Get leaderboard
     public MutableLiveData<ArrayList<Rank>> getLeaderboard(){return this.leaderboard;}
 
-    // Get user and top players (1st, 2nd, 3rd) ranking information
-    public MutableLiveData<ArrayList<Rank>> getUserAndTopPlayers(){return this.userAndTopPlayer;}
+    // Get user
+    public MutableLiveData<Rank> getUser(){return this.user;}
+
+    // Get 1st player
+    public MutableLiveData<Rank> getFirst(){return this.first;}
+
+    // Get 2nd player
+    public MutableLiveData<Rank> getSecond(){return this.second;}
+
+    // Get 3rd player
+    public MutableLiveData<Rank> getThird(){return this.third;}
 
     // Get type of leaderboard
     public MutableLiveData<Integer> getLeaderboardPosition(){return this.leaderboardPosition;}
 
-    //
-    public void setLeaderboard(){
-        Rank rank = new Rank();
-        for (int index =0; index < 4; index++){
-            this.cache.add(rank);
-            this.firstUserAndTopPlayersData.add(rank);
-            this.secondUserAndTopPlayersData.add(rank);
-            this.thirdUserAndTopPlayersData.add(rank);
-            this.lastUserAndTopPlayersData.add(rank);
-        }
-    }
-
-    //
+    // Set the first leaderboard for display
     public void setFirstLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
-        this.userAndTopPlayer.setValue(cache);
         if (!this.fetchFirstLeaderboard) {
-            db.collection("main").orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        boolean found = false;
-                        int index = 0;
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            HighestScoreRank temp = new HighestScoreRank(document.getString("username"), document.get("score", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
-                                firstUserAndTopPlayersData.set(3, temp);
-                                found = true;
-                            }
-                            if (index < 3) {
-                                firstUserAndTopPlayersData.set(index, temp);
-                                index++;
-                            }
-                            else{
-                                firstLeaderboardData.add(temp);
-                            }
-                            Log.d("LeaderboardQuery", String.valueOf(document));
+            db.collection("main")
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean found = false;
+                    int index = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        HighestScoreRank temp = new HighestScoreRank(document.getString("username"), document.get("score", Integer.class));
+                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                            firstUserData = temp;
+                            found = true;
                         }
-                        Log.d("Leaderboard 111", String.valueOf(firstLeaderboardData.size()));
-                        leaderboard.setValue(firstLeaderboardData);
-                        userAndTopPlayer.setValue(firstUserAndTopPlayersData);
-                        fetchFirstLeaderboard = true;
-                        Log.d("Leaderboard 112", String.valueOf(firstLeaderboardData.size()));
+                        if (index == 0){
+                            first1stPlayerData = temp;
+                        }
+                        else if (index == 1){
+                            first2ndPlayerData = temp;
+                        }
+                        else if (index == 2){
+                            first3rdPlayerData = temp;
+                        }
+                        else{
+                            firstLeaderboardData.add(temp);
+                        }
+                        index++;
                     }
+                    setData(firstLeaderboardData, firstUserData, first1stPlayerData, first2ndPlayerData, first3rdPlayerData);
+                    fetchFirstLeaderboard = true;
                 }
             });
         }
         else{
-            Log.d("Leaderboard 121", String.valueOf(firstLeaderboardData.size()));
-            this.leaderboard.setValue(this.firstLeaderboardData);
-            this.userAndTopPlayer.setValue(this.firstUserAndTopPlayersData);
-            Log.d("Leaderboard 122", String.valueOf(firstLeaderboardData.size()));
+            setData(firstLeaderboardData, firstUserData, first1stPlayerData, first2ndPlayerData, first3rdPlayerData);
         }
     }
 
-    //
+    // Set the second leaderboard for display
     public void setSecondLeaderboard(FirebaseFirestore db, String username, String region){
         this.leaderboard.setValue(null);
-        this.userAndTopPlayer.setValue(cache);
         if (!this.fetchSecondLeaderboard) {
-            db.collection("main").whereEqualTo("region", region).orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        boolean found = false;
-                        int index = 0;
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            RegionalHighestScoreRank temp = new RegionalHighestScoreRank(document.getString("username"), document.get("score", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
-                                secondUserAndTopPlayersData.set(3, temp);
-                                found = true;
-                            }
-                            if (index < 3) {
-                                secondUserAndTopPlayersData.set(index, temp);
-                                index++;
-                            }
-                            else{
-                                secondLeaderboardData.add(temp);
-                            }
+            db.collection("main")
+                    .whereEqualTo("region", region)
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .orderBy("timeStamp", Query.Direction.ASCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean found = false;
+                    int index = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        RegionalHighestScoreRank temp = new RegionalHighestScoreRank(document.getString("username"), document.get("score", Integer.class));
+                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                            secondUserData = temp;
+                            found = true;
                         }
-                        Log.d("Leaderboard 211", String.valueOf(secondLeaderboardData.size()));
-                        leaderboard.setValue(secondLeaderboardData);
-                        userAndTopPlayer.setValue(secondUserAndTopPlayersData);
-                        fetchSecondLeaderboard = true;
-                        Log.d("Leaderboard 212", String.valueOf(secondLeaderboardData.size()));
+                        if (index == 0){
+                            second1stPlayerData = temp;
+                        }
+                        else if (index == 1){
+                            second2ndPlayerData = temp;
+                        }
+                        else if (index == 2){
+                            second3rdPlayerData = temp;
+                        }
+                        else{
+                            secondLeaderboardData.add(temp);
+                        }
+                        index++;
                     }
+                    setData(secondLeaderboardData, secondUserData, second1stPlayerData, second2ndPlayerData, second3rdPlayerData);
+                    fetchSecondLeaderboard = true;
                 }
             });
         }
         else{
-            Log.d("Leaderboard 221", String.valueOf(secondLeaderboardData.size()));
-            this.leaderboard.setValue(this.secondLeaderboardData);
-            this.userAndTopPlayer.setValue(this.secondUserAndTopPlayersData);
-            Log.d("Leaderboard 222", String.valueOf(secondLeaderboardData.size()));
+            setData(secondLeaderboardData, secondUserData, second1stPlayerData, second2ndPlayerData, second3rdPlayerData);
         }
     }
 
-    //
+    // Set the third leaderboard for display
     public void setThirdLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
-        this.userAndTopPlayer.setValue(cache);
         if (!this.fetchThirdLeaderboard) {
-            db.collection("Player").orderBy("hasScanned", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        boolean found = false;
-                        int index = 0;
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            ScannedNumberRank temp = new ScannedNumberRank(document.getString("username"), document.get("hasScanned", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
-                                thirdUserAndTopPlayersData.set(3, temp);
-                                found = true;
-                            }
-                            if (index < 3) {
-                                thirdUserAndTopPlayersData.set(index, temp);
-                                index++;
-                            }
-                            else{
-                                thirdLeaderboardData.add(temp);
-                            }
+            db.collection("Player")
+                    .orderBy("hasScanned", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean found = false;
+                    int index = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        ScannedNumberRank temp = new ScannedNumberRank(document.getString("username"), document.get("hasScanned", Integer.class));
+                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                            thirdUserData = temp;
+                            found = true;
                         }
-                        Log.d("Leaderboard 311", String.valueOf(thirdLeaderboardData.size()));
-                        leaderboard.setValue(thirdLeaderboardData);
-                        userAndTopPlayer.setValue(thirdUserAndTopPlayersData);
-                        fetchThirdLeaderboard = true;
-                        Log.d("Leaderboard 312", String.valueOf(thirdLeaderboardData.size()));
+                        if (index == 0){
+                            third1stPlayerData = temp;
+                        }
+                        else if (index == 1){
+                            third2ndPlayerData = temp;
+                        }
+                        else if (index == 2){
+                            third3rdPlayerData = temp;
+                        }
+                        else{
+                            thirdLeaderboardData.add(temp);
+                        }
+                        index++;
                     }
+                    setData(thirdLeaderboardData, thirdUserData, third1stPlayerData, third2ndPlayerData, third3rdPlayerData);
+                    fetchThirdLeaderboard = true;
                 }
             });
         }
         else{
-            Log.d("Leaderboard 321", String.valueOf(thirdLeaderboardData.size()));
-            this.leaderboard.setValue(this.thirdLeaderboardData);
-            this.userAndTopPlayer.setValue(this.thirdUserAndTopPlayersData);
-            Log.d("Leaderboard 322", String.valueOf(thirdLeaderboardData.size()));
+            setData(thirdLeaderboardData, thirdUserData, third1stPlayerData, third2ndPlayerData, third3rdPlayerData);
         }
     }
 
-    //
+    // Set the last leaderboard for display
     public void setLastLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
-        this.userAndTopPlayer.setValue(cache);
         if (!this.fetchLastLeaderboard) {
-            db.collection("Player").orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        boolean found = false;
-                        int index = 0;
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            TotalScoreRank temp = new TotalScoreRank(document.getString("username"), document.get("score", Integer.class));
-                            if (Objects.equals(temp.getIdentifier(), username) & !found) {
-                                lastUserAndTopPlayersData.set(3, temp);
-                                found = true;
-                            }
-                            if (index < 3) {
-                                lastUserAndTopPlayersData.set(index, temp);
-                                index++;
-                            }
-                            else{
-                                lastLeaderboardData.add(temp);
-                            }
+            db.collection("Player")
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    boolean found = false;
+                    int index = 0;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        TotalScoreRank temp = new TotalScoreRank(document.getString("username"), document.get("score", Integer.class));
+                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                            lastUserData = temp;
+                            found = true;
                         }
-                        Log.d("Leaderboard 411", String.valueOf(lastLeaderboardData.size()));
-                        leaderboard.setValue(lastLeaderboardData);
-                        userAndTopPlayer.setValue(lastUserAndTopPlayersData);
-                        fetchLastLeaderboard = true;
-                        Log.d("Leaderboard 412", String.valueOf(lastLeaderboardData.size()));
+                        if (index == 0){
+                            last1stPlayerData = temp;
+                        }
+                        else if (index == 1){
+                            last2ndPlayerData = temp;
+                        }
+                        else if (index == 2){
+                            last3rdPlayerData = temp;
+                        }
+                        else{
+                            lastLeaderboardData.add(temp);
+                        }
+                        index++;
                     }
+                    setData(lastLeaderboardData, lastUserData, last1stPlayerData, last2ndPlayerData, last3rdPlayerData);
+                    fetchLastLeaderboard = true;
                 }
             });
         }
         else{
-            Log.d("Leaderboard 421", String.valueOf(lastLeaderboardData.size()));
-            leaderboard.setValue(lastLeaderboardData);
-            userAndTopPlayer.setValue(lastUserAndTopPlayersData);
-            Log.d("Leaderboard 422", String.valueOf(lastLeaderboardData.size()));
+            setData(lastLeaderboardData, lastUserData, last1stPlayerData, last2ndPlayerData, last3rdPlayerData);
         }
     }
 
-    //
+    // Set the type of leaderboard
     public void setLeaderboardPosition(int position){
-        this.position = position;
-        this.leaderboardPosition.setValue(this.position);
+        this.leaderboardPosition.setValue(position);
     }
 
-    // Refresh data
+    // Refresh rank thresholds
     public void refreshHistory(){
-        this.firstLeaderboardData.clear();
-        this.secondLeaderboardData.clear();
-        this.thirdLeaderboardData.clear();
-        this.lastLeaderboardData.clear();
-        Rank rank = new Rank();
-        for (int index = 0; index < 4; index++) {
-            this.firstUserAndTopPlayersData.set(index, rank);
-            this.secondUserAndTopPlayersData.set(index, rank);
-            this.thirdUserAndTopPlayersData.set(index, rank);
-            this.lastUserAndTopPlayersData.set(index, rank);
-        }
-        this.position = 0;
         HighestScoreRank first = new HighestScoreRank();
         first.resetThreshold();
         RegionalHighestScoreRank second = new RegionalHighestScoreRank();
@@ -261,13 +267,15 @@ public class LeaderboardRepository {
         third.resetThreshold();
         TotalScoreRank last = new TotalScoreRank();
         last.resetThreshold();
-        this.leaderboard.setValue(null);
-        this.userAndTopPlayer.setValue(this.firstUserAndTopPlayersData);
-        this.leaderboardPosition.setValue(0);
-        this.fetchFirstLeaderboard = false;
-        this.fetchSecondLeaderboard = false;
-        this.fetchThirdLeaderboard = false;
-        this.fetchLastLeaderboard = false;
+    }
+
+    // Set data for display
+    private void setData(ArrayList<Rank> leaderboardData, Rank userData, Rank top1Data, Rank top2Data, Rank top3Data){
+        this.leaderboard.setValue(leaderboardData);
+        this.user.setValue(userData);
+        this.first.setValue(top1Data);
+        this.second.setValue(top2Data);
+        this.third.setValue(top3Data);
     }
 
 }

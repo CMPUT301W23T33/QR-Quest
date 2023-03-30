@@ -138,8 +138,92 @@ public class ActivityAndFragmentTest {
         onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
     }
 
+    //
+    @Test
+    public void testOnNavigationLeaderboardActivity(){
+
+        // First time using this application
+        if (Objects.equals(username, "")){
+            testOnNavigationStartActivity();
+        }
+
+        //
+
+
+    }
+
+    //
+    @Test
+    public void testLeaderboardActivity(){
+
+        // First time using this application
+        if (Objects.equals(username, "")){
+            testOnNavigationStartActivity();
+        }
+
+        //
+
+
+    }
+
+    //
+    @Test
+    public void testOnNavigationSearchActivity(){
+
+        // First time using this application
+        if (Objects.equals(username, "")){
+            testOnNavigationStartActivity();
+        }
+
+        //
+
+
+    }
+
+    //
+    @Test
+    public void testSearchActivity(){
+
+        // First time using this application
+        if (Objects.equals(username, "")){
+            testOnNavigationStartActivity();
+        }
+
+        //
+
+
+    }
+
+    //
+    @Test
+    public void testOnNavigationQRDisplayActivity(){
+
+        // First time using this application
+        if (Objects.equals(username, "")){
+            testOnNavigationStartActivity();
+        }
+
+        //
+
+
+    }
+
+    //
+    @Test
+    public void testQRDisplayActivity(){
+
+        // First time using this application
+        if (Objects.equals(username, "")){
+            testOnNavigationStartActivity();
+        }
+
+        //
+
+
+    }
+
     // Test navigation on Start Activity
-    public void testOnNavigationStartActivity(){
+    private void testOnNavigationStartActivity(){
 
         // Start Screen
         onView(withId(R.id.start_fragment)).check(matches(isDisplayed()));
