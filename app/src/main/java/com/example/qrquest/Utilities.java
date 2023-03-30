@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 
 import com.google.common.hash.Hashing;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
@@ -41,16 +43,8 @@ public class Utilities {
             {}
     };
 
-    // Dictionary containing the ASCII representation of the face visual representation
-    private static char[][] face = {
-            {' ', ' ', ' ', ' ', ' ', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_','_','_'},
-            {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
-        {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '!', ' ', ' ', ' ', '!', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
-        {' ', ' ', 'D', '|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '^', ' ', '^', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|', 'D'},
-        {' ', ' ', ' ', ' ', ' ', '|',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '>', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
-        {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '\\', ' ', ' ', ' ', ' ', '/', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
-        {' ', ' ', ' ', ' ', ' ', '\\', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '/'}
-    };
+    //\<U_u>/
+    //(X-x)>
 
     /**
      *
@@ -113,20 +107,12 @@ public class Utilities {
         // Compute the SHA-256 hash of the byte array using Guava's Hashing.sha256()
         String hashString = Hashing.sha256().hashBytes(byteArray).toString();
 
-        //<U_u>/
-        //(X-x)>
-
         // Using the first 6 bits of the hash, modify the face dictionary to create a unique visual representation
         for (int i = 0; i < 6; i++) {
 
 
-
         }
-
-
-
         // return image or set the view to the bitmap?
-        // vp_item.setBitMap(image) ?
         return image;
     }
 }
