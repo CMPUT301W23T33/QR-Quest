@@ -146,26 +146,27 @@ public class Utilities {
 
         // or store the bitmap locally, since its a small file
 
-        File photoDir = new File( + "/Pictures");
-        if (!photoDir.exists()) {
-            photoDir.mkdir();
-        }
-        Date date = new Date();
-        String timestamp = String.valueOf(date.getTime());
-        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
-        File photoFile = new File(photoFilePath);
-        imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(), getExecutor(), new ImageCapture.OnImageSavedCallback() {
-            @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Toast.makeText(requireActivity(), "Photo has been saved successfully", Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+//        File photoDir = new File( + "/Pictures");
+//        if (!photoDir.exists()) {
+//            photoDir.mkdir();
+//        }
+//        Date date = new Date();
+//        String timestamp = String.valueOf(date.getTime());
+//        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
+//        File photoFile = new File(photoFilePath);
+//        imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(), getExecutor(), new ImageCapture.OnImageSavedCallback() {
+//            @Override
+//            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+//                Toast.makeText(requireActivity(), "Photo has been saved successfully", Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onError(@NonNull ImageCaptureException exception) {
+//                Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-        // convert bitmap to Uri
+        //image.compress(Bitmap.CompressFormat.PNG, quality, outStream);
+
 
         //uri is a path to the image, if we save it locally
 
