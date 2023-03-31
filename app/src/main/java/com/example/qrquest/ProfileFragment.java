@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,8 @@ public class ProfileFragment extends Fragment {
         // Get username
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", "");
+        boolean myProfile = sharedPref.getBoolean("myProfile", false);
+        Log.d("CheckMyProfile1", String.valueOf(myProfile));
 
         // Adding touch access to the recycler view
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -80,6 +83,9 @@ public class ProfileFragment extends Fragment {
         // set user profile QR Code history for display
         viewModel.setHistory(db, username);
 
+        //
+        viewModel.setMyProfile(myProfile);
+
         // Get history to observe
         viewModel.getHistory().observe(requireActivity(), qrCodeHistories -> adapter.submitList(qrCodeHistories));
 
@@ -89,12 +95,28 @@ public class ProfileFragment extends Fragment {
         // Get total codes to observe
         viewModel.getTotalCodes().observe(requireActivity(), integer -> binding.profileScreenCode.setText(String.valueOf(integer)));
 
+        //
+        viewModel.getMyProfile().observe(requireActivity(), aBoolean -> {
+            Log.d("CheckMyProfile2", String.valueOf(aBoolean));
+            if (aBoolean){
+                binding.profileScreenButtonEdit.setVisibility(View.VISIBLE);
+            }
+            else{
+                binding.profileScreenButtonEdit.setVisibility(View.INVISIBLE);
+            }
+            binding.profileScreenButtonEdit.setEnabled(aBoolean);
+        });
+
         // Reverse sorting order
         binding.profileScreenButtonSort.setOnClickListener(v -> viewModel.reverseHistory());
 
         // Navigate back to the main screen
-        binding.profileScreenButtonBack.setOnClickListener(v ->
-            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment));
+        binding.profileScreenButtonBack.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("myProfile", false);
+            editor.apply();
+            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);
+        });
 
         // Navigate to edit profile screen
         binding.profileScreenButtonEdit.setOnClickListener(v ->Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_editProfileFragment));

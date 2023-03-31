@@ -66,6 +66,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
+    SharedPreferences sharedpref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,8 +95,8 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         // get username from Shared Preferences
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
-        username = sharedPref.getString("username", "");
+        sharedpref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+        username = sharedpref.getString("username", "");
 
         // Camera button
         binding.buttonCamera1.setOnClickListener(v -> {
@@ -117,8 +118,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
 
         // Navigate to the profile screen
-        binding.profile.setOnClickListener(v -> Navigation.findNavController(v)
-                .navigate(R.id.action_mainFragment_to_profileFragment));
+        binding.profile.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = sharedpref.edit();
+            editor.putBoolean("myProfile", true); // Viewing my profile -> true
+            editor.apply();
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_profileFragment);
+        });
 
         return view;
     }

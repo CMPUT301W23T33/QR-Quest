@@ -29,6 +29,7 @@ public class MainRepository {
     private final MutableLiveData<ArrayList<History>> history = new MutableLiveData<>();
     private final MutableLiveData<Integer> totalScore = new MutableLiveData<>();
     private final MutableLiveData<Integer> totalCodes = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> myProfile = new MutableLiveData<>();
 
     // History data
     private ArrayList<History> historyData = new ArrayList<>();
@@ -56,6 +57,9 @@ public class MainRepository {
     // User's total codes
     public MutableLiveData<Integer> getTotalCodes(){return this.totalCodes;}
 
+    //
+    public MutableLiveData<Boolean> getMyProfile(){return this.myProfile;}
+
     // Get user's QR Code history and set up for display
     public void setHistory(FirebaseFirestore db, String username) {
         db.collection("main").whereEqualTo("username", username).orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
@@ -82,6 +86,11 @@ public class MainRepository {
                 });
             }
         });
+    }
+
+    //
+    public void setMyProfile(Boolean isMyProfile){
+        this.myProfile.setValue(isMyProfile);
     }
 
     // Delete a QR Code
