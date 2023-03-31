@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -47,6 +48,9 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * This class defines the main screen
@@ -243,6 +247,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1, addresses -> {
                 String region = addresses.get(0).getAdminArea();
+
                 SharedPreferences.Editor editor = requireActivity()
                         .getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
                 editor.putString("region", region);
@@ -254,6 +259,26 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                         .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
                         .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
             });
+        }
+        else {
+            List<Address> addresses;
+            String region;
+            try {
+                addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                region = addresses.get(0).getAdminArea();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            SharedPreferences.Editor editor = requireActivity()
+                    .getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+            editor.putString("region", region);
+            editor.apply();
+
+            // set region of the user
+            db.collection("Player").document(username)
+                    .update("region", region)
+                    .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
+                    .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
         }
 
         // set markers for nearby QR codes
