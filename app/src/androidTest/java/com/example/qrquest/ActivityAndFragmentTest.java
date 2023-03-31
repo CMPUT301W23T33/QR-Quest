@@ -11,8 +11,14 @@ import static org.junit.Assert.assertNotEquals;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.CoordinatesProvider;
+import androidx.test.espresso.action.GeneralClickAction;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Tap;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
@@ -196,15 +202,47 @@ public class ActivityAndFragmentTest {
 
     //
     @Test
-    public void testOnNavigationQRDisplayActivity(){
+    public void testOnNavigationQRDisplayActivity() throws InterruptedException {
 
         // First time using this application
         if (Objects.equals(username, "")){
             testOnNavigationStartActivity();
         }
 
-        //
+        // Main Screen -> Camera Screen
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_camera_1)).perform(click());
+        onView(withId(R.id.camera_activity)).check(matches(isDisplayed()));
 
+        // Camera Screen -> QR Detected Screen (need to scan qr code manually in the 2 seconds given)
+        Thread.sleep(2000);
+
+        // QR Detected Screen -> Image and Location Prompt
+        onView(withId(R.id.qr_detected)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_next)).perform(click());
+
+        // Image and Location Prompt -> QR Edit Screen
+        onView(withId(R.id.fragment_prompt)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_sorry)).perform(click());
+        Thread.sleep(5000);
+        onView(withId(R.id.button_sorry)).perform(click());
+
+        // QR Edit Screen -> QR Comments Screen
+        onView(withId(R.id.edit_qr)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_check)).perform(click());
+
+        // QR Comments Screen -> QR Comments
+        onView(withId(R.id.qr_display_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_open)).perform(click());
+
+        // QR Comments -> QR Comments Add
+        onView(withId(R.id.bottom_sheet)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_add)).perform(click());
+
+        // QR Comments Add -> QR Comments
+        onView(withId(R.id.dialog_layout)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_check)).perform(click());
+        onView(withId(R.id.bottom_sheet)).check(matches(isDisplayed()));
 
     }
 
