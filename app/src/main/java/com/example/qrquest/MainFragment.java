@@ -51,6 +51,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class defines the main screen
@@ -328,6 +329,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             bundle.putInt("qrScore", qrScore);
                             bundle.putString("latitude", String.valueOf(qrLatitude));
                             bundle.putString("longitude", String.valueOf(qrLongitude));
+
+                            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+                            editor.putBoolean("myQR", Objects.equals(doc.getString("username"), username)); // Viewing QR Codes on the map
+                            editor.apply();
 
                             Intent intent = new Intent(getContext(), QRDisplayActivity.class);
                             intent.putExtras(bundle);

@@ -2,6 +2,7 @@ package com.example.qrquest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +42,7 @@ public class EditQRFragment extends Fragment {
     String region;
     String comment;
     boolean newHighest = false;
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -99,8 +101,9 @@ public class EditQRFragment extends Fragment {
         // EXISTING DATA)
 
         // Get basic info for updating the database
-        username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
-        region = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("region", "");
+        sharedPreferences = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "");
+        region = sharedPreferences.getString("region", "");
         String documentName = username + "_" + qrName;
         Date date = new Date();
 
@@ -139,6 +142,9 @@ public class EditQRFragment extends Fragment {
             });
 
             // start qr display activity
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("myQR", true); // Viewing QR Codes on the map -> false
+            editor.apply();
             Intent intent = new Intent(requireActivity(), QRDisplayActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
