@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.location.Address;
@@ -13,13 +12,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -221,17 +220,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         } catch (Resources.NotFoundException e) {
             Log.e("STYLE", "Can't find style. Error: ", e);
         }
-        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        map.setMyLocationEnabled(true);
     }
 
     protected void createLocationRequest() {
@@ -255,26 +243,43 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
         // find the region
-        List<Address> addresses;
         Geocoder geocoder = new Geocoder(requireActivity());
-        try {
-            addresses = geocoder.getFromLocation(location.getLatitude(),
-                    location.getLongitude(),1);
-        } catch (IOException e) {
-                throw new RuntimeException(e);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1, addresses -> {
+                String region = addresses.get(0).getAdminArea();
+
+                SharedPreferences.Editor editor = requireActivity()
+                        .getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+                editor.putString("region", region);
+                editor.apply();
+
+                // set region of the user
+                db.collection("Player").document(username)
+                        .update("region", region)
+                        .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
+                        .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
+            });
         }
+        else {
+            List<Address> addresses;
+            String region;
+            try {
+                addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                region = addresses.get(0).getAdminArea();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            SharedPreferences.Editor editor = requireActivity()
+                    .getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+            editor.putString("region", region);
+            editor.apply();
 
-        String region = addresses.get(0).getAdminArea();
-        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp",
-                Context.MODE_PRIVATE).edit();
-        editor.putString("region", region);
-        editor.apply();
-
-        // set region of the user
-        db.collection("Player").document(username)
-                .update("region", region)
-                .addOnSuccessListener(unused -> Log.d("MainFragment", "Successfully updated"))
-                .addOnFailureListener(e -> Log.d("MainFragment", "Error updating document"));
+            // set region of the user
+            db.collection("Player").document(username)
+                    .update("region", region)
+                    .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
+                    .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
+        }
 
         // set markers for nearby QR codes
         db.collection("main").get().addOnCompleteListener(task -> {
@@ -323,7 +328,6 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             bundle.putInt("qrScore", qrScore);
                             bundle.putString("latitude", String.valueOf(qrLatitude));
                             bundle.putString("longitude", String.valueOf(qrLongitude));
-                            bundle.putBoolean("isCloud", true);
 
                             Intent intent = new Intent(getContext(), QRDisplayActivity.class);
                             intent.putExtras(bundle);
