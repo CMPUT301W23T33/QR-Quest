@@ -146,6 +146,7 @@ public class Utilities {
 
         // or store the bitmap locally, since its a small file
 
+
 //        File photoDir = new File( + "/Pictures");
 //        if (!photoDir.exists()) {
 //            photoDir.mkdir();
@@ -166,6 +167,17 @@ public class Utilities {
 //        });
 
         //image.compress(Bitmap.CompressFormat.PNG, quality, outStream);
+
+        File photoDir = new File( + "/Pictures");
+        if (!photoDir.exists()) {
+            photoDir.mkdir();
+        }
+        Date date = new Date();
+        String timestamp = String.valueOf(date.getTime());
+        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
+        File photoFile = new File(photoFilePath);
+
+
 
 
         //uri is a path to the image, if we save it locally
