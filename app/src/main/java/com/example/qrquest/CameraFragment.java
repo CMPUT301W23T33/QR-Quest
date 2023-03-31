@@ -9,6 +9,7 @@ import android.media.Image;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
+import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -164,6 +166,7 @@ public class CameraFragment extends Fragment {
         // Add image capture use case to capture image
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
+                .setTargetResolution(new Size(120,120))
                 .build();
 
         // Add image analysis use case to analyze image
