@@ -6,8 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 
 import com.google.common.hash.Hashing;
 
@@ -15,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -137,9 +141,40 @@ public class Utilities {
         }
         // Put the created string face onto the Bitmap canvas
         faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
+
+        //create a function and pass the activity into it"
+
+        // or store the bitmap locally, since its a small file
+
+        File photoDir = new File( + "/Pictures");
+        if (!photoDir.exists()) {
+            photoDir.mkdir();
+        }
+        Date date = new Date();
+        String timestamp = String.valueOf(date.getTime());
+        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
+        File photoFile = new File(photoFilePath);
+        imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(), getExecutor(), new ImageCapture.OnImageSavedCallback() {
+            @Override
+            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                Toast.makeText(requireActivity(), "Photo has been saved successfully", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onError(@NonNull ImageCaptureException exception) {
+                Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // convert bitmap to Uri
-        Uri imageUri = Uri.parse(image.toString()); // or String.valueOf()?
+
+        //uri is a path to the image, if we save it locally
+
+        //Uri imageUri = Uri.parse(image.toString()); // or String.valueOf()?
         //used for camera: String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString()
+
+        //update march 30th: save the bitmap image locally on the phone, push it to database and then we can pull it and use
+        // it in the viewpager
+
 
         // return Bitmap image
         //return image;
