@@ -23,9 +23,9 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 
-
 /**
- * This class represents the Prompt Location Screen and gets the geo-location of the scanned QR code.
+ * This class represents the Prompt Location Screen
+ * and gets the geo-location of the scanned QR code.
  * @author Thea Nguyen
  */
 public class PromptLocationFragment extends Fragment {
@@ -40,7 +40,8 @@ public class PromptLocationFragment extends Fragment {
     @SuppressLint("MissingPermission")
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = FragmentPromptBinding.inflate(inflater, container, false);
         view = binding.getRoot();
 
@@ -107,9 +108,12 @@ public class PromptLocationFragment extends Fragment {
         binding.buttonSure.setOnClickListener(v -> {
             bundle.putString("latitude", String.valueOf(latitude));
             bundle.putString("longitude", String.valueOf(longitude));
-            Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle);
+            Navigation.findNavController(view).navigate(
+                    R.id.action_promptLocationFragment_to_editQRFragment, bundle);
         });
-        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
+        binding.buttonSorry.setOnClickListener(v -> Navigation.findNavController(view)
+                .navigate(R.id.action_promptLocationFragment_to_editQRFragment, bundle));
+
         stopLocationUpdates();
     }
 

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.example.qrquest.databinding.FragmentQrDisplayBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -68,21 +71,10 @@ public class QRDisplayFragment extends Fragment {
             binding.qrLocationText.setText(noLocation);
         }
 
-        if (bundle.getString("uri") != null)
-            uri = bundle.getString("uri");
-
-        // set up viewPager2
-        if (uri != null) {
-            String[] imageURIs = {uri};
-            arrayList = new ArrayList<>();
-            for (String imageURI : imageURIs) arrayList.add(new VPItem(imageURI));
-        }
-        // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
-        else {
-            int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
-            arrayList = new ArrayList<>();
-            for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
-        }
+        arrayList = new ArrayList<>();
+        arrayList.add(new VPItem(this, R.drawable.qr_logo_big));
+        arrayList.add(new VPItem(this, bundle.getString("uri"),
+                bundle.getBoolean("isCloud", false)));
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);

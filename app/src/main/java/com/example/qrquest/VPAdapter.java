@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 
 public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
@@ -32,16 +35,22 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vp_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.vp_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         VPItem item = arrayList.get(position);
-        if (item.imageUri == null)
-            holder.imageView.setImageResource(item.imageId);
-        else holder.imageView.setImageURI(Uri.parse(item.imageUri));
+        if (item.isCloud) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
+            StorageReference imageReference = storageReference.child(item.uri);
+            GlideApp.with(item.fragment).load(imageReference).into(holder.imageView);
+        }
+        else if (item.uri != null) holder.imageView.setImageURI(Uri.parse(item.uri));
+        else holder.imageView.setImageResource(item.imageId);
 
     }
 
