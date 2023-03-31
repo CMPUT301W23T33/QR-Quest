@@ -1,11 +1,17 @@
 package com.example.qrquest;
 
 
+import static java.security.AccessController.getContext;
+
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +22,8 @@ import com.google.common.hash.Hashing;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -104,7 +112,7 @@ public class Utilities {
      * @param hexString
      * @return
      */
-    public static Uri visualRepresentation(@NonNull String hexString) {
+    public static Uri visualRepresentation(@NonNull Context context, @NonNull String hexString) {
         // Setup bitmap
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
         Canvas faceCanvas = new Canvas(image);
@@ -143,17 +151,16 @@ public class Utilities {
         faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
 
         //create a function and pass the activity into it"
-
         // or store the bitmap locally, since its a small file
 
-
+        /// Vanh's implementation for CameraFragment
 //        File photoDir = new File( + "/Pictures");
 //        if (!photoDir.exists()) {
 //            photoDir.mkdir();
 //        }
 //        Date date = new Date();
 //        String timestamp = String.valueOf(date.getTime());
-//        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
+//        String photoFilePath = photoDir.getAbsolutePath() + "/" + timestamp + ".jpg";
 //        File photoFile = new File(photoFilePath);
 //        imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(), getExecutor(), new ImageCapture.OnImageSavedCallback() {
 //            @Override
@@ -166,33 +173,41 @@ public class Utilities {
 //            }
 //        });
 
-        //image.compress(Bitmap.CompressFormat.PNG, quality, outStream);
-
-        File photoDir = new File( + "/Pictures");
-        if (!photoDir.exists()) {
-            photoDir.mkdir();
-        }
-        Date date = new Date();
-        String timestamp = String.valueOf(date.getTime());
-        String photoFilePath = photoDir.getAbsolutePath() + "/" + "timestamp" + ".jpg";
-        File photoFile = new File(photoFilePath);
-
-
-
 
         //uri is a path to the image, if we save it locally
-
         //Uri imageUri = Uri.parse(image.toString()); // or String.valueOf()?
         //used for camera: String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString()
 
-        //update march 30th: save the bitmap image locally on the phone, push it to database and then we can pull it and use
+        //update march 30th: save the bitmap image locally on the phone, then we can use
         // it in the viewpager
 
+//        // testing method 1: save bitmap locally and then take it and return URI string | requires return type to be string)
+//        File photoDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Pictures/", "QRQuest");
+//        // try passing context instead of Environment ?
+//        if (!photoDir.exists()) {
+//            photoDir.mkdir();
+//        }
+//        Date date = new Date();
+//        String timestamp = String.valueOf(date.getTime());
+//        String imagePath = photoDir.getAbsolutePath() + "/" + timestamp + ".png";
+//        File photoFile = new File(imagePath);
+//        try {
+//            FileOutputStream out = new FileOutputStream(photoFile);
+//            image.compress(Bitmap.CompressFormat.PNG, 100, out);
+//            out.flush();
+//            out.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return imagePath;
 
-        // return Bitmap image
-        //return image;
 
-        // return Uri
-        return imageUri;
+        // testing method 2: requires adding @NonNull Context into function // | or try getApplicationContext()?
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), image, "Title", null);
+        return Uri.parse(path);
+        //return imageUri;
     }
 }
