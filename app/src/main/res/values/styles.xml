@@ -269,6 +269,12 @@
         <item name="tint">@color/fairy_tale</item>
     </style>
 
+    <style name="Profile.Display.CommentSection" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_comment</item>
+        <item name="tint">@color/black</item>
+    </style>
+
     <!--Search bar-->
     <style name="SearchLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>

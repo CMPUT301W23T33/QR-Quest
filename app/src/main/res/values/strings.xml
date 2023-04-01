@@ -63,6 +63,7 @@
     <string name="location">LOCATION</string>
     <string name="latitude_longitude">(102, 122)</string>
     <string name="comment">COMMENT</string>
+    <string name="player">PLAYER</string>
     <string name="comment_more">…</string>
 
     <!--Leaderboard Screen-->
