@@ -108,23 +108,27 @@ public class Utilities {
 
     /**
      * Function that creates a visual representation of the QR Hash using ASCII characters,
-     * and using Bitmaps, returns it as an image
+     * and using Bitmaps, converts it to a PNG and returns its URI path
      *
+     * @param context
      * @param hexString
-     * @return
+     * @return Uri
      */
     public static Uri visualRepresentation(@NonNull Context context, @NonNull String hexString) {
         // Setup bitmap
-        Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
+        Bitmap image = Bitmap.createBitmap(300,300,Bitmap.Config.ARGB_8888); // need width and height
         Canvas faceCanvas = new Canvas(image);
         Paint paint = new Paint();
         // app/src/main/java/com/example/qrquest/Utilities.java
         // app/src/main/res/font/poppins_regular.ttf
         //Typeface visualRepTypeface = Typeface.createFromAsset(context.getAssets(), "../../../../../res/font/poppins_regular.ttf");
-        //Typeface typeface = Typeface.create("sans-serif", Typeface.NORMAL);
-        //paint.setTypeface(Typeface.SANS_SERIF);
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(20);
+        Typeface typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD);
+
+        paint.setTypeface(typeface);
+        String colour = "#CDB4DB";
+        int col = Color.parseColor(colour);
+        paint.setColor(col);
+        paint.setTextSize(60);
 
         // First bit: left arm (\ vs /), second bit face: () vs [] (need an if condition to make sure face matches), third bit: left eye (X or O)
         // fourth bit: mouth (v or _), fifth bit: right eye (o or x) and sixth bit: right hand (\ or /)
@@ -153,17 +157,12 @@ public class Utilities {
             imgBuilder.append(dictionary[wordIndex]);
         // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face
         }
-        // Put the created string face onto the Bitmap canvas
-        //faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
 
-        //int col = (int) #2B2D42
-        //String colour = "#2B2D42";
-        //String colour = "#673AB7";
-        String colour = "#46277D";
-        int col = Color.parseColor(colour);
+        // Put the created string face onto the Bitmap canvas
+        colour = "#373C6C";
+        col = Color.parseColor(colour);
         faceCanvas.drawColor(col);
-        //faceCanvas.drawColor(0xFFFFFF);
-        faceCanvas.drawText(imgBuilder.toString(), 30, 50, paint);
+        faceCanvas.drawText(imgBuilder.toString(), 60, 170, paint);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, bytes);
