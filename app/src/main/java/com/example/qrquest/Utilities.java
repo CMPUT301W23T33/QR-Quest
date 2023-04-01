@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -117,8 +118,13 @@ public class Utilities {
         Bitmap image = Bitmap.createBitmap(100,100,Bitmap.Config.ARGB_8888); // need width and height
         Canvas faceCanvas = new Canvas(image);
         Paint paint = new Paint();
+        // app/src/main/java/com/example/qrquest/Utilities.java
+        // app/src/main/res/font/poppins_regular.ttf
+        //Typeface visualRepTypeface = Typeface.createFromAsset(context.getAssets(), "../../../../../res/font/poppins_regular.ttf");
+        //Typeface typeface = Typeface.create("sans-serif", Typeface.NORMAL);
+        //paint.setTypeface(Typeface.SANS_SERIF);
         paint.setColor(Color.BLACK);
-        paint.setTextSize(12);
+        paint.setTextSize(20);
 
         // First bit: left arm (\ vs /), second bit face: () vs [] (need an if condition to make sure face matches), third bit: left eye (X or O)
         // fourth bit: mouth (v or _), fifth bit: right eye (o or x) and sixth bit: right hand (\ or /)
@@ -148,66 +154,21 @@ public class Utilities {
         // have an if condition that checks the index position of the left side of face to make sure it matches the right side of the face
         }
         // Put the created string face onto the Bitmap canvas
-        faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
+        //faceCanvas.drawText(imgBuilder.toString(), 50, 50, paint);
 
-        //create a function and pass the activity into it"
-        // or store the bitmap locally, since its a small file
+        //int col = (int) #2B2D42
+        //String colour = "#2B2D42";
+        //String colour = "#673AB7";
+        String colour = "#46277D";
+        int col = Color.parseColor(colour);
+        faceCanvas.drawColor(col);
+        //faceCanvas.drawColor(0xFFFFFF);
+        faceCanvas.drawText(imgBuilder.toString(), 30, 50, paint);
 
-        /// Vanh's implementation for CameraFragment
-//        File photoDir = new File( + "/Pictures");
-//        if (!photoDir.exists()) {
-//            photoDir.mkdir();
-//        }
-//        Date date = new Date();
-//        String timestamp = String.valueOf(date.getTime());
-//        String photoFilePath = photoDir.getAbsolutePath() + "/" + timestamp + ".jpg";
-//        File photoFile = new File(photoFilePath);
-//        imageCapture.takePicture(new ImageCapture.OutputFileOptions.Builder(photoFile).build(), getExecutor(), new ImageCapture.OnImageSavedCallback() {
-//            @Override
-//            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-//                Toast.makeText(requireActivity(), "Photo has been saved successfully", Toast.LENGTH_SHORT).show();
-//            }
-//            @Override
-//            public void onError(@NonNull ImageCaptureException exception) {
-//                Toast.makeText(requireActivity(), "Error saving photo: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
-        //uri is a path to the image, if we save it locally
-        //Uri imageUri = Uri.parse(image.toString()); // or String.valueOf()?
-        //used for camera: String stringUri = Objects.requireNonNull(outputFileResults.getSavedUri()).toString()
-
-        //update march 30th: save the bitmap image locally on the phone, then we can use
-        // it in the viewpager
-
-//        // testing method 1: save bitmap locally and then take it and return URI string | requires return type to be string)
-//        File photoDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/Pictures/", "QRQuest");
-//        // try passing context instead of Environment ?
-//        if (!photoDir.exists()) {
-//            photoDir.mkdir();
-//        }
-//        Date date = new Date();
-//        String timestamp = String.valueOf(date.getTime());
-//        String imagePath = photoDir.getAbsolutePath() + "/" + timestamp + ".png";
-//        File photoFile = new File(imagePath);
-//        try {
-//            FileOutputStream out = new FileOutputStream(photoFile);
-//            image.compress(Bitmap.CompressFormat.PNG, 100, out);
-//            out.flush();
-//            out.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return imagePath;
-
-
-        // testing method 2: requires adding @NonNull Context into function // | or try getApplicationContext()?
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.PNG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), image, "Title", null);
         return Uri.parse(path);
-        //return imageUri;
+
     }
 }

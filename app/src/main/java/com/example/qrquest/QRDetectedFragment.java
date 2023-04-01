@@ -50,10 +50,8 @@ public class QRDetectedFragment extends Fragment {
         bundle.putInt("qrScore", qrScore);
 
         // display the hashed name
-        //String qrVisual = (utilities.visualRepresentation(rawValue)).toString();
         String qrVisual = (utilities.visualRepresentation(getContext(),rawValue)).toString();
         binding.qrNameDisplay.setText(qrName);
-        //bundle.putString("qrVisual", qrVisual);
         bundle.putString("qrVisual",qrVisual);
 
         // next button
