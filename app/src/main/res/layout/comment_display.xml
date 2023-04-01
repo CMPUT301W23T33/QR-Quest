@@ -23,7 +23,7 @@
             android:contentDescription="@string/user_profile_description"
             android:src="@drawable/baseline_person_24"
             android:layout_marginEnd="12dp"
-            style="@style/Profile.Display.Leaderboard.List" />
+            style="@style/Profile.Display.CommentSection" />
 
         <TextView
             android:id="@+id/name_text_display"
