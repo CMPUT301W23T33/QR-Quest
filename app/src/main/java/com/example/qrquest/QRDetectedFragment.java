@@ -25,7 +25,7 @@ import com.example.qrquest.databinding.FragmentQrDetectedBinding;
 public class QRDetectedFragment extends Fragment {
 
     FragmentQrDetectedBinding binding;
-    String rawValue;
+    String hashString;
 
     @Nullable
     @Override
@@ -36,19 +36,19 @@ public class QRDetectedFragment extends Fragment {
         // get the raw value of the QR code
         Bundle bundle = getArguments();
         assert bundle != null;
-        rawValue = bundle.getString("rawValue");
+        hashString = bundle.getString("hashString");
 
         // display the hashed image
-        Bitmap bitmap = Utilities.hashImage(rawValue);
+        Bitmap bitmap = Utilities.hashImage(hashString);
         binding.qrPicture.setImageBitmap(bitmap);
 
         // display the hashed name
-        String qrName = Utilities.hashName(rawValue);
+        String qrName = Utilities.hashName(hashString);
         binding.qrNameDisplay.setText(qrName);
         bundle.putString("qrName", qrName);
 
         // display the hashed score
-        int qrScore = Utilities.hashScore(rawValue);
+        int qrScore = Utilities.hashScore(hashString);
         binding.qrScoreDisplay.setText(String.valueOf(qrScore));
         bundle.putInt("qrScore", qrScore);
 

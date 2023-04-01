@@ -36,9 +36,8 @@ public class QRDisplayFragment extends Fragment {
     BottomSheetDialog dialog;
     View bottomSheetView;
     ImageButton buttonAdd;
-    String uri, rawValue, username, qrName;
-    double latitude;
-    double longitude;
+    String hashString, username, qrName;
+    double latitude, longitude;
     RecyclerView commentRecyclerView;
     QRDisplayViewModel viewModel;
     FirebaseFirestore db;
@@ -53,7 +52,7 @@ public class QRDisplayFragment extends Fragment {
         assert bundle != null;
 
         username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
-        rawValue = bundle.getString("rawValue");
+        hashString = bundle.getString("hashString");
         qrName = bundle.getString("qrName");
 
         binding.qrNameText.setText(qrName);
@@ -70,7 +69,7 @@ public class QRDisplayFragment extends Fragment {
         }
 
         arrayList = new ArrayList<>();
-        arrayList.add(new VPItem(this, Utilities.hashImage(rawValue)));
+        arrayList.add(new VPItem(this, Utilities.hashImage(hashString)));
         if (bundle.getBoolean("isCloud", false))
             arrayList.add(new VPItem(this, bundle.getString("uri"),
                         bundle.getBoolean("isCloud", false)));

@@ -39,15 +39,9 @@ public class EditQRFragment extends Fragment {
     FragmentEditQrBinding binding;
     FirebaseFirestore db;
     CollectionReference qrCodeRef;
-    String qrName;
-    String uri;
     int qrScore;
-    double latitude;
-    double longitude;
-    String rawValue;
-    String username;
-    String region;
-    String comment;
+    double latitude, longitude;
+    String qrName, uri, hashString, username, region, comment;
     boolean newHighest = false;
     boolean isCloud = false;
 
@@ -60,7 +54,7 @@ public class EditQRFragment extends Fragment {
         // take bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
-            rawValue = bundle.getString("rawValue", "");
+            hashString = bundle.getString("hashString", "");
             qrName = bundle.getString("qrName", "");
             qrScore = bundle.getInt("qrScore", 0);
             uri = bundle.getString("uri", null);
@@ -79,7 +73,7 @@ public class EditQRFragment extends Fragment {
 
         // set up viewPager2
         arrayList = new ArrayList<>();
-        arrayList.add(new VPItem(this, Utilities.hashImage(rawValue)));
+        arrayList.add(new VPItem(this, Utilities.hashImage(hashString)));
         if (uri != null)
             arrayList.add(new VPItem(this, uri, isCloud));
 
@@ -128,8 +122,8 @@ public class EditQRFragment extends Fragment {
 
             // Collection "main"
             comment = binding.commentText.getText().toString();
-            Info info = new Info(comment, latitude, longitude,
-                    qrName, region, qrScore, date, username);
+            Info info = new Info(comment, hashString, latitude, longitude, qrName, region, qrScore,
+                    date, username);
 
             Log.d("Document", documentName);
             db.collection("main").document(documentName).set(info)

@@ -316,6 +316,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                         // get the corresponding qr code
                         if (markerLatitude == qrLatitude && markerLongitude == qrLongitude) {
+                            String hashString = String.valueOf(doc.get("hashedQRCode"));
                             String qrName = String.valueOf(doc.get("qrCode"));
                             int qrScore = Integer.parseInt(String.valueOf(doc.get("score")));
 
@@ -324,6 +325,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 Uri qrUri = Uri.parse(String.valueOf(doc.get("imagePath")));
                                 bundle.putString("uri", String.valueOf(qrUri));
                             }
+                            bundle.putString("hashString", hashString);
                             bundle.putString("qrName", qrName);
                             bundle.putInt("qrScore", qrScore);
                             bundle.putString("latitude", String.valueOf(qrLatitude));

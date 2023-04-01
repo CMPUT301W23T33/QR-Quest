@@ -1,6 +1,5 @@
 package com.example.qrquest;
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
-
-import com.google.common.hash.Hashing;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -83,11 +80,11 @@ public class Utilities {
 
     /**
      * This method hashes an integer from the given string
-     * @param hexString a string that needs to be hashed
+     * @param hashString a string that needs to be hashed
      * @return a hashed integer
      */
-    public static int hashScore(@NonNull String hexString) {
-        byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
+    public static int hashScore(@NonNull String hashString) {
+        byte[] byteArray = hashString.getBytes(StandardCharsets.UTF_8);
         int score = 0;
         for (byte b : byteArray) {
             score += b;
@@ -97,16 +94,11 @@ public class Utilities {
 
     /**
      * This method hashes a human-readable name from the given string
-     * @param hexString a string that needs to be hashed
+     * @param hashString a string that needs to be hashed
      * @return a hashed and readable name
      */
     @NonNull
-    public static String hashName(@NonNull String hexString) {
-        // Convert the hex string into 256 hashed bits string
-        final String hashString = Hashing.sha256()
-                .hashString(hexString, StandardCharsets.UTF_8)
-                .toString();
-
+    public static String hashName(@NonNull String hashString) {
         // divide 32 bytes into 4 parts, each part has 8 bytes
         long currentNumber = 0;
         int currentArrays = 0;
@@ -124,12 +116,7 @@ public class Utilities {
         return name.toString();
     }
 
-    public static Bitmap hashImage(@NonNull String hexString) {
-        // hash the string
-        final String hashString = Hashing.sha256()
-                .hashString(hexString, StandardCharsets.UTF_8)
-                .toString();
-
+    public static Bitmap hashImage(@NonNull String hashString) {
         // convert to a string of binaries
         StringBuilder binaryString = new StringBuilder(new BigInteger(hashString, 16).toString(2));
 
