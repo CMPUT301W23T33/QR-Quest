@@ -36,7 +36,7 @@ public class QRDisplayFragment extends Fragment {
     BottomSheetDialog dialog;
     View bottomSheetView;
     ImageButton buttonAdd;
-    String uri, username, qrName;
+    String uri, rawValue, username, qrName;
     double latitude;
     double longitude;
     RecyclerView commentRecyclerView;
@@ -53,6 +53,7 @@ public class QRDisplayFragment extends Fragment {
         assert bundle != null;
 
         username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
+        rawValue = bundle.getString("rawValue");
         qrName = bundle.getString("qrName");
 
         binding.qrNameText.setText(qrName);
@@ -69,10 +70,10 @@ public class QRDisplayFragment extends Fragment {
         }
 
         arrayList = new ArrayList<>();
-        arrayList.add(new VPItem(this, R.drawable.qr_logo_big));
-        arrayList.add(new VPItem(this, bundle.getString("uri"),
-                bundle.getBoolean("isCloud", false)));
-
+        arrayList.add(new VPItem(this, Utilities.hashImage(rawValue)));
+        if (bundle.getBoolean("isCloud", false))
+            arrayList.add(new VPItem(this, bundle.getString("uri"),
+                        bundle.getBoolean("isCloud", false)));
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
 

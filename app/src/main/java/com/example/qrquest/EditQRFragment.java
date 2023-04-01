@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class represents the Edit QR Screen and displays the hashed QR name, QR score, and QR
@@ -43,6 +44,7 @@ public class EditQRFragment extends Fragment {
     int qrScore;
     double latitude;
     double longitude;
+    String rawValue;
     String username;
     String region;
     String comment;
@@ -58,6 +60,7 @@ public class EditQRFragment extends Fragment {
         // take bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
+            rawValue = bundle.getString("rawValue", "");
             qrName = bundle.getString("qrName", "");
             qrScore = bundle.getInt("qrScore", 0);
             uri = bundle.getString("uri", null);
@@ -76,7 +79,9 @@ public class EditQRFragment extends Fragment {
 
         // set up viewPager2
         arrayList = new ArrayList<>();
-        arrayList.add(new VPItem(this, uri, isCloud));
+        arrayList.add(new VPItem(this, Utilities.hashImage(rawValue)));
+        if (uri != null)
+            arrayList.add(new VPItem(this, uri, isCloud));
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
@@ -166,8 +171,7 @@ public class EditQRFragment extends Fragment {
                     Log.d("EditQRFragment", "Upload imaged unsuccessfully");
                 }).addOnSuccessListener(taskSnapshot -> {
                     Log.d("EditQRFragment", "Upload imaged successfully");
-                    Log.d("EditQRFragment", taskSnapshot.getMetadata().toString());
-                    intent.putExtra("uri", taskSnapshot.getMetadata().getPath());
+                    intent.putExtra("uri", Objects.requireNonNull(taskSnapshot.getMetadata()).getPath());
                     intent.putExtra("isCloud", true);
                     startActivity(intent);
                 });
