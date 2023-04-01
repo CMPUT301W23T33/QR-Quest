@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,10 @@ public class QRDetectedFragment extends Fragment {
         Bundle bundle = getArguments();
         assert bundle != null;
         rawValue = bundle.getString("rawValue");
+
+        // display the hashed image
+        Bitmap bitmap = Utilities.hashImage(rawValue);
+        binding.qrPicture.setImageBitmap(bitmap);
 
         // display the hashed name
         String qrName = Utilities.hashName(rawValue);
