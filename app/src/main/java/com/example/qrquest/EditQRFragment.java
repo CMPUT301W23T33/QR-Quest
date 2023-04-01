@@ -111,9 +111,9 @@ public class EditQRFragment extends Fragment {
                 intent.putExtras(bundle);
 
             // Collection "QR Code"
-            QRCode qrCode = new QRCode(qrName, qrScore, latitude, longitude);
+            QRCode qrCode = new QRCode(hashString, qrName, qrScore, latitude, longitude);
 
-            qrCodeRef.document(qrCode.getHashedQRCode())
+            qrCodeRef.document(qrName)
                     .set(qrCode)
                     .addOnSuccessListener(unused ->
                             Log.d("SET", "Added document successfully"))
