@@ -211,7 +211,7 @@
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:layout_marginEnd">20dp</item>
         <item name="android:background">@drawable/rect_shape_comment</item>
-        <item name="android:textColor">@color/chinese_violet</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textColorHint">#602B2D42</item>
         <item name="android:gravity">start</item>
     </style>
@@ -269,6 +269,12 @@
         <item name="tint">@color/fairy_tale</item>
     </style>
 
+    <style name="Profile.Display.CommentSection" parent="">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@drawable/oval_shape_comment</item>
+        <item name="tint">@color/black</item>
+    </style>
+
     <!--Search bar-->
     <style name="SearchLayout.Style" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance</item>
@@ -301,8 +307,8 @@
     </style>
 
     <style name="QRDisplay.Style" parent="">
-        <item name="android:layout_marginStart">32dp</item>
-        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:background">@drawable/rect_shape</item>
         <item name="android:padding">8dp</item>
@@ -361,6 +367,6 @@
     <style name="Image.AddCommentButton.Style" parent="">
         <item name="android:scaleType">fitCenter</item>
         <item name="backgroundTint">@color/thistle</item>
-        <item name="tint">@color/chinese_violet</item>
+        <item name="tint">@color/black</item>
     </style>
 </resources>

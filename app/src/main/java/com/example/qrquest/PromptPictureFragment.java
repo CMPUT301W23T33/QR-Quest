@@ -29,6 +29,8 @@ public class PromptPictureFragment extends Fragment {
 
         // get the raw value of the QR code
         Bundle bundle = getArguments();
+        assert(bundle != null);
+        bundle.putString("Intent", "Take a picture");
 
         binding.buttonSure.setOnClickListener(v -> Navigation.findNavController(view)
                 .navigate(R.id.action_promptPictureFragment_to_camera, bundle));

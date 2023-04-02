@@ -12,6 +12,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -242,25 +243,43 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
 
         // find the region
-        List<Address> addresses;
         Geocoder geocoder = new Geocoder(requireActivity());
-        try {
-            addresses = geocoder.getFromLocation(location.getLatitude(),
-                    location.getLongitude(),1);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1, addresses -> {
+                String region = addresses.get(0).getAdminArea();
+
+                SharedPreferences.Editor editor = requireActivity()
+                        .getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+                editor.putString("region", region);
+                editor.apply();
+
+                // set region of the user
+                db.collection("Player").document(username)
+                        .update("region", region)
+                        .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
+                        .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
+            });
         }
+        else {
+            List<Address> addresses;
+            String region;
+            try {
+                addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                region = addresses.get(0).getAdminArea();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            SharedPreferences.Editor editor = requireActivity()
+                    .getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+            editor.putString("region", region);
+            editor.apply();
 
-        String region = addresses.get(0).getAdminArea();
-        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
-        editor.putString("region", region);
-        editor.apply();
-
-        // set region of the user
-        db.collection("Player").document(username)
-                .update("region", region)
-                .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
-                .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
+            // set region of the user
+            db.collection("Player").document(username)
+                    .update("region", region)
+                    .addOnSuccessListener(unused -> Log.d("UPDATE", "Successfully updated"))
+                    .addOnFailureListener(e -> Log.d("UPDATE", "Error updating document"));
+        }
 
         // set markers for nearby QR codes
         db.collection("main").get().addOnCompleteListener(task -> {
@@ -297,6 +316,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
                         // get the corresponding qr code
                         if (markerLatitude == qrLatitude && markerLongitude == qrLongitude) {
+                            String hashString = String.valueOf(doc.get("hashedQRCode"));
                             String qrName = String.valueOf(doc.get("qrCode"));
                             int qrScore = Integer.parseInt(String.valueOf(doc.get("score")));
 
@@ -305,6 +325,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 Uri qrUri = Uri.parse(String.valueOf(doc.get("imagePath")));
                                 bundle.putString("uri", String.valueOf(qrUri));
                             }
+                            bundle.putString("hashString", hashString);
                             bundle.putString("qrName", qrName);
                             bundle.putInt("qrScore", qrScore);
                             bundle.putString("latitude", String.valueOf(qrLatitude));

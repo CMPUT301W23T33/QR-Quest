@@ -1,11 +1,12 @@
 ## Tasks
-- UI testing: Michael
-- Unit Testing: Jay + Sam
-- Visual representation function: Michael + Abi
-- UML Update: Abi
-- Integration + Marker Refinement: Thea
-- Comment Query + Search Query: Vanh
+- Search + Past scanned players: Vanh
+- UML: Abi
+- UI testing: Michael + Sam
+- Storyboard: Thea
+- Javadoc: Jay
+- Write scripts for the demo: All members
 
-## Deadline
-- Thursday, Mar 30, 2023
-- We must survive... We can do it!!
+## Meetings
+- Sunday (10 pm) (Discord) (Optional)
+- Wednesday (afternoon) (Campus)
+- Nearly finished...

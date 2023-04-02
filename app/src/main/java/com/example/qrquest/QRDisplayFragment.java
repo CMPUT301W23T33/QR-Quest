@@ -36,10 +36,9 @@ public class QRDisplayFragment extends Fragment {
     BottomSheetDialog dialog;
     View bottomSheetView;
     ImageButton buttonAdd;
-    String uri, username, qrName;
-    double latitude;
-    double longitude;
-    RecyclerView recyclerView;
+    String hashString, username, qrName;
+    double latitude, longitude;
+    RecyclerView commentRecyclerView;
     QRDisplayViewModel viewModel;
     FirebaseFirestore db;
     CommentAdapter adapter;
@@ -53,6 +52,7 @@ public class QRDisplayFragment extends Fragment {
         assert bundle != null;
 
         username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).getString("username", "");
+        hashString = bundle.getString("hashString");
         qrName = bundle.getString("qrName");
 
         binding.qrNameText.setText(qrName);
@@ -68,22 +68,11 @@ public class QRDisplayFragment extends Fragment {
             binding.qrLocationText.setText(noLocation);
         }
 
-        if (bundle.getString("uri") != null)
-            uri = bundle.getString("uri");
-
-        // set up viewPager2
-        if (uri != null) {
-            String[] imageURIs = {uri};
-            arrayList = new ArrayList<>();
-            for (String imageURI : imageURIs) arrayList.add(new VPItem(imageURI));
-        }
-        // for demo (MUST BE MODIFIED AFTER HAVING A VISUAL REPRESENTATION)
-        else {
-            int[] imageIDs = {R.drawable.qr_logo_big, R.drawable.qr_logo_big};
-            arrayList = new ArrayList<>();
-            for (int imageID : imageIDs) arrayList.add(new VPItem(imageID));
-        }
-
+        arrayList = new ArrayList<>();
+        arrayList.add(new VPItem(this, Utilities.hashImage(hashString)));
+        if (bundle.getBoolean("isCloud", false))
+            arrayList.add(new VPItem(this, bundle.getString("uri"),
+                        bundle.getBoolean("isCloud", false)));
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
 
@@ -120,11 +109,18 @@ public class QRDisplayFragment extends Fragment {
             dialog.setContentView(bottomSheetView);
             dialog.show();
 
-            recyclerView = bottomSheetView.findViewById(R.id.user_list);
+            commentRecyclerView = bottomSheetView.findViewById(R.id.user_list);
             adapter = new CommentAdapter(new CommentAdapter.commentDiff());
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+            commentRecyclerView.setAdapter(adapter);
+            commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
             buttonAdd = bottomSheetView.findViewById(R.id.button_add);
+
+            // ADD ANOTHER RECYCLER VIEW OF THE PLAYER LIST HERE (LOOK AT THE NEW FIGMA FILE FOR VERIFICATION)
+
+
+            // Use this line below to make the list scroll horizontally
+            // playerRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+
 
             // Get the comment(s) to observe changes
             viewModel.getComments().observe(requireActivity(), qrCodeComments -> adapter.submitList(qrCodeComments));
