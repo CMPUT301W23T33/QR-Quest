@@ -46,19 +46,21 @@ public class SearchRepository {
         clearSearchData();
         if (keyword != null && !keyword.equals("")) {
             searchingDone.setValue(false);
-            db.collection("Player").get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.getId().toLowerCase().contains(keyword)) {
-                            searchResultData.add(new Rank(document.getString("username"), document.get("score", Integer.class)));
+            db.collection("Player")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                if (document.getId().toLowerCase().contains(keyword)) {
+                                    searchResultData.add(new Rank(document.getString("username"), document.get("score", Integer.class)));
+                                }
+                            }
+                            searchResult.setValue(searchResultData);
+                            lastSearchedKeyword.setValue(keyword);
+                            searchingDone.setValue(true);
+                            Log.d("Just Updated", String.valueOf(true));
                         }
-                    }
-                    searchResult.setValue(searchResultData);
-                    lastSearchedKeyword.setValue(keyword);
-                    searchingDone.setValue(true);
-                    Log.d("Just Updated", String.valueOf(true));
-                }
-            });
+                    });
         }
     }
 

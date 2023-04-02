@@ -62,30 +62,37 @@ public class MainRepository {
 
     // Get user's QR Code history and set up for display
     public void setHistory(FirebaseFirestore db, String username) {
-        db.collection("main").whereEqualTo("username", username).orderBy("score", Query.Direction.DESCENDING).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    if (document.exists()) {
-                        if (highestScore == 0) {
-                            highestScore = document.get("score", Integer.class);
+        db.collection("main")
+                .whereEqualTo("username", username)
+                .orderBy("score", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                if (highestScore == 0) {
+                                    highestScore = document.get("score", Integer.class);
+                                }
+                                historyData.add(new History(document.get("hashedQRCode", String.class), document.get("score", Integer.class)));
+                            }
                         }
-                        historyData.add(new History(document.get("hashedQRCode", String.class), document.get("score", Integer.class)));
-                    }
-                }
-                history.setValue(historyData);
+                        history.setValue(historyData);
 
-                db.collection("Player").whereEqualTo("username", username).get().addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task1.getResult()) {
-                            totalScoreData = document.get("score", Integer.class);
-                            totalCodesData = document.get("hasScanned", Integer.class);
-                        }
-                        totalScore.setValue(totalScoreData);
-                        totalCodes.setValue(totalCodesData);
+                        db.collection("Player")
+                                .whereEqualTo("username", username)
+                                .get()
+                                .addOnCompleteListener(task1 -> {
+                            if (task1.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task1.getResult()) {
+                                    totalScoreData = document.get("score", Integer.class);
+                                    totalCodesData = document.get("hasScanned", Integer.class);
+                                }
+                                totalScore.setValue(totalScoreData);
+                                totalCodes.setValue(totalCodesData);
+                            }
+                        });
                     }
                 });
-            }
-        });
     }
 
     //
@@ -118,18 +125,22 @@ public class MainRepository {
 
     // Update database
     private void update(FirebaseFirestore db, String username, String hashedQRCode){
-        db.collection("main").whereEqualTo("username", username).whereEqualTo("hashedQRCode", hashedQRCode).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    if (document.exists()) {
-                        int score = document.get("score", Integer.class);
-                        updateMain(db, document);
-                        updatePlayer(db, username, score);
-                        updateQRCode(db, hashedQRCode);
+        db.collection("main")
+                .whereEqualTo("username", username)
+                .whereEqualTo("hashedQRCode", hashedQRCode)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.exists()) {
+                                int score = document.get("score", Integer.class);
+                                updateMain(db, document);
+                                updatePlayer(db, username, score);
+                                updateQRCode(db, hashedQRCode);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     // Update screen
@@ -147,14 +158,19 @@ public class MainRepository {
         db.collection("Player").document(username).update("score", FieldValue.increment(-score));
         db.collection("Player").document(username).update("hasScanned", FieldValue.increment(-1));
         if (totalCodesData > 0) {
-            db.collection("main").whereEqualTo("username", username).orderBy("score", Query.Direction.DESCENDING).limit(1).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        int score1 = document.get("score", Integer.class);
-                        db.collection("Player").document(username).update("highestScore", score1);
-                    }
-                }
-            });
+            db.collection("main")
+                    .whereEqualTo("username", username)
+                    .orderBy("score", Query.Direction.DESCENDING)
+                    .limit(1)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                int score1 = document.get("score", Integer.class);
+                                db.collection("Player").document(username).update("highestScore", score1);
+                            }
+                        }
+                    });
         }
         else {
             db.collection("Player").document(username).update("highestScore", 0);
@@ -164,13 +180,17 @@ public class MainRepository {
 
     // Update "QR Code" collection
     private void updateQRCode(FirebaseFirestore db, String hashedQRCode){
-        db.collection("main").whereEqualTo("hashedQRCode", hashedQRCode).count().get(AggregateSource.SERVER).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                if (task.getResult().getCount() == 0){
-                    db.collection("QR Code").document(hashedQRCode).delete();
-                }
-            }
-        });
+        db.collection("main")
+                .whereEqualTo("hashedQRCode", hashedQRCode)
+                .count()
+                .get(AggregateSource.SERVER)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()){
+                        if (task.getResult().getCount() == 0){
+                            db.collection("QR Code").document(hashedQRCode).delete();
+                        }
+                    }
+                });
     }
 
     // Update "main" collection

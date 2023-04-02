@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +39,11 @@ public class QRDisplayFragment extends Fragment {
     ImageButton buttonAdd;
     String hashString, username, qrName;
     double latitude, longitude;
-    RecyclerView commentRecyclerView;
+    RecyclerView commentRecyclerView, playerRecyclerView;
     QRDisplayViewModel viewModel;
     FirebaseFirestore db;
-    CommentAdapter adapter;
+    CommentAdapter commentAdapter;
+    PlayerAdapter playerAdapter;
     boolean scanned;
     SharedPreferences sharedPreferences;
 
@@ -99,6 +99,9 @@ public class QRDisplayFragment extends Fragment {
         // Set user view
         viewModel.setScanned(scanned);
 
+        // Set up the list of players who scanned the QR Code
+        viewModel.setPlayers(db, qrName);
+
         // button back
         binding.buttonBack.setOnClickListener(v -> {
             if (!QRDisplayViewModel.getRefreshPermission()){
@@ -122,21 +125,23 @@ public class QRDisplayFragment extends Fragment {
             dialog.setContentView(bottomSheetView);
             dialog.show();
 
-            commentRecyclerView = bottomSheetView.findViewById(R.id.user_list);
-            adapter = new CommentAdapter(new CommentAdapter.commentDiff());
-            commentRecyclerView.setAdapter(adapter);
-            commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+            // Add button
             buttonAdd = bottomSheetView.findViewById(R.id.button_add);
 
-            // ADD ANOTHER RECYCLER VIEW OF THE PLAYER LIST HERE (LOOK AT THE NEW FIGMA FILE FOR VERIFICATION)
+            // Comment list
+            commentRecyclerView = bottomSheetView.findViewById(R.id.user_list);
+            commentAdapter = new CommentAdapter(new CommentAdapter.commentDiff());
+            commentRecyclerView.setAdapter(commentAdapter);
+            commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
 
+            // Player list
+            playerRecyclerView = bottomSheetView.findViewById(R.id.player_list);
+            playerAdapter = new PlayerAdapter(new PlayerAdapter.playerDiff());
+            playerRecyclerView.setAdapter(playerAdapter);
+            playerRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-            // Use this line below to make the list scroll horizontally
-            // playerRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
-
-
-            // Get the comment(s) to observe changes
-            viewModel.getComments().observe(requireActivity(), qrCodeComments -> adapter.submitList(qrCodeComments));
+            // Get the comment(s) to observe
+            viewModel.getComments().observe(requireActivity(), qrCodeComments -> commentAdapter.submitList(qrCodeComments));
 
             // Get if the user has scanned the QR Code to observe changes
             viewModel.getScanned().observe(requireActivity(), aBoolean -> {
@@ -149,7 +154,10 @@ public class QRDisplayFragment extends Fragment {
                 buttonAdd.setEnabled(aBoolean);
             });
 
-            // button add
+            // Get the player(s) who scanned the QR Code to observe
+            viewModel.getPlayers().observe(requireActivity(), players -> playerAdapter.submitList(players));
+
+            // Add/Modify comment
             buttonAdd.setOnClickListener(v1 -> {
                 AddCommentFragment fragment = new AddCommentFragment();
                 fragment.show(requireActivity().getSupportFragmentManager(), "Dialog");

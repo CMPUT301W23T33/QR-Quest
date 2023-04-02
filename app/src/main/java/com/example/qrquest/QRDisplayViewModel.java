@@ -19,12 +19,14 @@ public class QRDisplayViewModel extends AndroidViewModel {
     private final QRDisplayRepository qrDisplayRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
     private MutableLiveData<Boolean> scanned;
+    private MutableLiveData<ArrayList<Player>> players;
 
     public QRDisplayViewModel(@NonNull Application application) {
         super(application);
         this.qrDisplayRepository = QRDisplayRepository.getInstance();
         this.comments = this.qrDisplayRepository.getComments();
         this.scanned = this.qrDisplayRepository.getScanned();
+        this.players = this.qrDisplayRepository.getPlayers();
     }
 
     // Get the comment(s) to observe
@@ -32,6 +34,9 @@ public class QRDisplayViewModel extends AndroidViewModel {
 
     // Get if the user has scanned the QR Code to observe
     public LiveData<Boolean> getScanned(){return this.scanned;}
+
+    // Get the player(s) who scanned the QR Code to observe
+    public LiveData<ArrayList<Player>> getPlayers(){return this.players;}
 
     // Set the comments for display
     public void setComments(FirebaseFirestore db, String username, String qrName){
@@ -41,8 +46,11 @@ public class QRDisplayViewModel extends AndroidViewModel {
         }
     }
 
-    // Set the perspective of the user to the QR Code for display
+    // Set the view of the user to the QR Code for display
     public void setScanned(boolean scanned){this.qrDisplayRepository.setScanned(scanned);}
+
+    // Set the players who scanned the QR Code for display
+    public void setPlayers(FirebaseFirestore db, String qrName){this.qrDisplayRepository.setPlayers(db, qrName);}
 
     // Add a comment
     public void addComment(FirebaseFirestore db, String username, String comment){this.qrDisplayRepository.addComment(db, username, comment);}

@@ -94,33 +94,33 @@ public class LeaderboardRepository {
                     .orderBy("timeStamp", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    boolean found = false;
-                    int index = 0;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        HighestScoreRank temp = new HighestScoreRank(document.getString("username"), document.get("score", Integer.class));
-                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
-                            firstUserData = temp;
-                            found = true;
+                        if (task.isSuccessful()) {
+                            boolean found = false;
+                            int index = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                HighestScoreRank temp = new HighestScoreRank(document.getString("username"), document.get("score", Integer.class));
+                                if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                                    firstUserData = temp;
+                                    found = true;
+                                }
+                                if (index == 0){
+                                    first1stPlayerData = temp;
+                                }
+                                else if (index == 1){
+                                    first2ndPlayerData = temp;
+                                }
+                                else if (index == 2){
+                                    first3rdPlayerData = temp;
+                                }
+                                else{
+                                    firstLeaderboardData.add(temp);
+                                }
+                                index++;
+                            }
+                            setData(firstLeaderboardData, firstUserData, first1stPlayerData, first2ndPlayerData, first3rdPlayerData);
+                            fetchFirstLeaderboard = true;
                         }
-                        if (index == 0){
-                            first1stPlayerData = temp;
-                        }
-                        else if (index == 1){
-                            first2ndPlayerData = temp;
-                        }
-                        else if (index == 2){
-                            first3rdPlayerData = temp;
-                        }
-                        else{
-                            firstLeaderboardData.add(temp);
-                        }
-                        index++;
-                    }
-                    setData(firstLeaderboardData, firstUserData, first1stPlayerData, first2ndPlayerData, first3rdPlayerData);
-                    fetchFirstLeaderboard = true;
-                }
-            });
+                    });
         }
         else{
             setData(firstLeaderboardData, firstUserData, first1stPlayerData, first2ndPlayerData, first3rdPlayerData);
@@ -137,33 +137,33 @@ public class LeaderboardRepository {
                     .orderBy("timeStamp", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    boolean found = false;
-                    int index = 0;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        RegionalHighestScoreRank temp = new RegionalHighestScoreRank(document.getString("username"), document.get("score", Integer.class));
-                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
-                            secondUserData = temp;
-                            found = true;
+                        if (task.isSuccessful()) {
+                            boolean found = false;
+                            int index = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                RegionalHighestScoreRank temp = new RegionalHighestScoreRank(document.getString("username"), document.get("score", Integer.class));
+                                if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                                    secondUserData = temp;
+                                    found = true;
+                                }
+                                if (index == 0){
+                                    second1stPlayerData = temp;
+                                }
+                                else if (index == 1){
+                                    second2ndPlayerData = temp;
+                                }
+                                else if (index == 2){
+                                    second3rdPlayerData = temp;
+                                }
+                                else{
+                                    secondLeaderboardData.add(temp);
+                                }
+                                index++;
+                            }
+                            setData(secondLeaderboardData, secondUserData, second1stPlayerData, second2ndPlayerData, second3rdPlayerData);
+                            fetchSecondLeaderboard = true;
                         }
-                        if (index == 0){
-                            second1stPlayerData = temp;
-                        }
-                        else if (index == 1){
-                            second2ndPlayerData = temp;
-                        }
-                        else if (index == 2){
-                            second3rdPlayerData = temp;
-                        }
-                        else{
-                            secondLeaderboardData.add(temp);
-                        }
-                        index++;
-                    }
-                    setData(secondLeaderboardData, secondUserData, second1stPlayerData, second2ndPlayerData, second3rdPlayerData);
-                    fetchSecondLeaderboard = true;
-                }
-            });
+                    });
         }
         else{
             setData(secondLeaderboardData, secondUserData, second1stPlayerData, second2ndPlayerData, second3rdPlayerData);
@@ -178,33 +178,33 @@ public class LeaderboardRepository {
                     .orderBy("hasScanned", Query.Direction.DESCENDING)
                     .get()
                     .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    boolean found = false;
-                    int index = 0;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        ScannedNumberRank temp = new ScannedNumberRank(document.getString("username"), document.get("hasScanned", Integer.class));
-                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
-                            thirdUserData = temp;
-                            found = true;
+                        if (task.isSuccessful()) {
+                            boolean found = false;
+                            int index = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                ScannedNumberRank temp = new ScannedNumberRank(document.getString("username"), document.get("hasScanned", Integer.class));
+                                if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                                    thirdUserData = temp;
+                                    found = true;
+                                }
+                                if (index == 0){
+                                    third1stPlayerData = temp;
+                                }
+                                else if (index == 1){
+                                    third2ndPlayerData = temp;
+                                }
+                                else if (index == 2){
+                                    third3rdPlayerData = temp;
+                                }
+                                else{
+                                    thirdLeaderboardData.add(temp);
+                                }
+                                index++;
+                            }
+                            setData(thirdLeaderboardData, thirdUserData, third1stPlayerData, third2ndPlayerData, third3rdPlayerData);
+                            fetchThirdLeaderboard = true;
                         }
-                        if (index == 0){
-                            third1stPlayerData = temp;
-                        }
-                        else if (index == 1){
-                            third2ndPlayerData = temp;
-                        }
-                        else if (index == 2){
-                            third3rdPlayerData = temp;
-                        }
-                        else{
-                            thirdLeaderboardData.add(temp);
-                        }
-                        index++;
-                    }
-                    setData(thirdLeaderboardData, thirdUserData, third1stPlayerData, third2ndPlayerData, third3rdPlayerData);
-                    fetchThirdLeaderboard = true;
-                }
-            });
+                    });
         }
         else{
             setData(thirdLeaderboardData, thirdUserData, third1stPlayerData, third2ndPlayerData, third3rdPlayerData);
@@ -219,33 +219,33 @@ public class LeaderboardRepository {
                     .orderBy("score", Query.Direction.DESCENDING)
                     .get()
                     .addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    boolean found = false;
-                    int index = 0;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        TotalScoreRank temp = new TotalScoreRank(document.getString("username"), document.get("score", Integer.class));
-                        if (Objects.equals(temp.getIdentifier(), username) && !found) {
-                            lastUserData = temp;
-                            found = true;
+                        if (task.isSuccessful()) {
+                            boolean found = false;
+                            int index = 0;
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                TotalScoreRank temp = new TotalScoreRank(document.getString("username"), document.get("score", Integer.class));
+                                if (Objects.equals(temp.getIdentifier(), username) && !found) {
+                                    lastUserData = temp;
+                                    found = true;
+                                }
+                                if (index == 0){
+                                    last1stPlayerData = temp;
+                                }
+                                else if (index == 1){
+                                    last2ndPlayerData = temp;
+                                }
+                                else if (index == 2){
+                                    last3rdPlayerData = temp;
+                                }
+                                else{
+                                    lastLeaderboardData.add(temp);
+                                }
+                                index++;
+                            }
+                            setData(lastLeaderboardData, lastUserData, last1stPlayerData, last2ndPlayerData, last3rdPlayerData);
+                            fetchLastLeaderboard = true;
                         }
-                        if (index == 0){
-                            last1stPlayerData = temp;
-                        }
-                        else if (index == 1){
-                            last2ndPlayerData = temp;
-                        }
-                        else if (index == 2){
-                            last3rdPlayerData = temp;
-                        }
-                        else{
-                            lastLeaderboardData.add(temp);
-                        }
-                        index++;
-                    }
-                    setData(lastLeaderboardData, lastUserData, last1stPlayerData, last2ndPlayerData, last3rdPlayerData);
-                    fetchLastLeaderboard = true;
-                }
-            });
+                    });
         }
         else{
             setData(lastLeaderboardData, lastUserData, last1stPlayerData, last2ndPlayerData, last3rdPlayerData);
