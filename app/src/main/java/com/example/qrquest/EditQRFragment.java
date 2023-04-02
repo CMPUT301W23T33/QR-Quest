@@ -175,7 +175,6 @@ public class EditQRFragment extends Fragment {
 
             // start qr display activity
             else startActivity(intent);
-
         });
 
         binding.buttonClose.setOnClickListener(v -> requireActivity().finish());

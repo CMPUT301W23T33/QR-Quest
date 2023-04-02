@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class QRDisplayFragment extends Fragment {
         hashString = bundle.getString("hashString");
         qrName = bundle.getString("qrName");
 
+
         binding.qrNameText.setText(qrName);
         binding.qrScoreText.setText(String.valueOf(bundle.getInt("qrScore")));
 
@@ -85,7 +87,7 @@ public class QRDisplayFragment extends Fragment {
                 (tab, position) -> tab.setText("")
         ).attach();
 
-        //
+        // Initialize Firestore database connection
         db = FirebaseFirestore.getInstance();
 
         // Initialize view model
@@ -157,4 +159,5 @@ public class QRDisplayFragment extends Fragment {
 
         return view;
     }
+
 }

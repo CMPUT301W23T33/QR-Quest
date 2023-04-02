@@ -66,6 +66,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private LocationRequest locationRequest;
+    SharedPreferences sharedPref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,7 +95,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         MainViewModel viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         // get username from Shared Preferences
-        SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+        sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         username = sharedPref.getString("username", "");
 
         // Camera button
