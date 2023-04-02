@@ -48,7 +48,6 @@ public class AddCommentFragment extends DialogFragment {
         // button add
         binding.buttonCheck.setOnClickListener(v -> {
             String comment = binding.commentText.getText().toString();
-            Log.d("COMMENT", comment);
 
             // Initialize database connection, view model and get username
             FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -24,9 +24,10 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
         value = itemView.findViewById(R.id.search_screen_score_text);
     }
 
-    public void bind(Rank item){
-        username.setText(item.getIdentifier());
-        value.setText(String.valueOf(item.getValue()));
+    public void bind(Rank rank){
+        username.setText(rank.getIdentifier());
+        value.setText(String.valueOf(rank.getValue()));
+        Log.d("TestSearch", rank.getIdentifier());
     }
 
     static SearchViewHolder create(ViewGroup parent){

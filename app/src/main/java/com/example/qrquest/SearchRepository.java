@@ -1,7 +1,5 @@
 package com.example.qrquest;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -10,7 +8,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 
 /**
- * This class defines the repository for the leaderboard activity
+ * This class defines the repository for the search activity
  * @author Dang Viet Anh Dinh
  */
 public class SearchRepository {
@@ -58,7 +56,6 @@ public class SearchRepository {
                             searchResult.setValue(searchResultData);
                             lastSearchedKeyword.setValue(keyword);
                             searchingDone.setValue(true);
-                            Log.d("Just Updated", String.valueOf(true));
                         }
                     });
         }

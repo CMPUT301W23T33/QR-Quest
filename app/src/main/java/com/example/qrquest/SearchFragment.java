@@ -7,27 +7,25 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
-
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.Objects;
 
+/**
+ * This class defines the search screen
+ * @author Dang Viet Anh Dinh
+ */
 public class SearchFragment extends Fragment {
 
     RecyclerView recyclerView;
@@ -90,9 +88,7 @@ public class SearchFragment extends Fragment {
         //
         viewModel.getSearchingDone().observe(requireActivity(), aBoolean -> {
             if (aBoolean){
-                Log.d("Keyword Diff", searchKeyword + "/" + lastSearchedKeyword);
                 if (!Objects.equals(searchKeyword, lastSearchedKeyword)){
-                    Log.d("Check Searching State", "Different!");
                     updateScreen();
                 }
             }

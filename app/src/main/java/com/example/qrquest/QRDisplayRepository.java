@@ -92,7 +92,8 @@ public class QRDisplayRepository {
     // Set the players who scanned the QR Code for display
     public void setPlayers(FirebaseFirestore db, String qrName){
         db.collection("main")
-                .whereEqualTo("hashedQRCode", qrName)
+//                .whereEqualTo("hashedQRCode", qrName)
+                .whereEqualTo("qrCode", qrName)
                 .orderBy("timeStamp", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -100,7 +101,6 @@ public class QRDisplayRepository {
                         for (QueryDocumentSnapshot document : task.getResult()){
                             playerData.add(new Player(document.getString("username")));
                         }
-                        Log.d("CheckDataQueried", String.valueOf(playerData.size()));
                         players.setValue(playerData);
                     }
                 });
