@@ -52,6 +52,9 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
         else if (item.uri != null) holder.imageView.setImageURI(Uri.parse(item.uri));
         else holder.imageView.setImageResource(item.imageId);
 
+        if (position == 0 && item.bitmap != null)
+            holder.imageView.setImageBitmap(item.bitmap);
+
     }
 
     @Override

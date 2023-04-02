@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class represents the Edit QR Screen and displays the hashed QR name, QR score, and QR
@@ -38,14 +39,9 @@ public class EditQRFragment extends Fragment {
     FragmentEditQrBinding binding;
     FirebaseFirestore db;
     CollectionReference qrCodeRef;
-    String qrName;
-    String uri;
     int qrScore;
-    double latitude;
-    double longitude;
-    String username;
-    String region;
-    String comment;
+    double latitude, longitude;
+    String qrName, uri, hashString, username, region, comment;
     boolean newHighest = false;
     boolean isCloud = false;
 
@@ -58,6 +54,7 @@ public class EditQRFragment extends Fragment {
         // take bundle
         Bundle bundle = getArguments();
         if (bundle != null) {
+            hashString = bundle.getString("hashString", "");
             qrName = bundle.getString("qrName", "");
             qrScore = bundle.getInt("qrScore", 0);
             uri = bundle.getString("uri", null);
@@ -76,7 +73,9 @@ public class EditQRFragment extends Fragment {
 
         // set up viewPager2
         arrayList = new ArrayList<>();
-        arrayList.add(new VPItem(this, uri, isCloud));
+        arrayList.add(new VPItem(this, Utilities.hashImage(hashString)));
+        if (uri != null)
+            arrayList.add(new VPItem(this, uri, isCloud));
 
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
@@ -112,9 +111,9 @@ public class EditQRFragment extends Fragment {
                 intent.putExtras(bundle);
 
             // Collection "QR Code"
-            QRCode qrCode = new QRCode(qrName, qrScore, latitude, longitude);
+            QRCode qrCode = new QRCode(hashString, qrName, qrScore, latitude, longitude);
 
-            qrCodeRef.document(qrCode.getHashedQRCode())
+            qrCodeRef.document(qrName)
                     .set(qrCode)
                     .addOnSuccessListener(unused ->
                             Log.d("SET", "Added document successfully"))
@@ -123,8 +122,8 @@ public class EditQRFragment extends Fragment {
 
             // Collection "main"
             comment = binding.commentText.getText().toString();
-            Info info = new Info(comment, latitude, longitude,
-                    qrName, region, qrScore, date, username);
+            Info info = new Info(comment, hashString, latitude, longitude, qrName, region, qrScore,
+                    date, username);
 
             Log.d("Document", documentName);
             db.collection("main").document(documentName).set(info)
@@ -166,8 +165,7 @@ public class EditQRFragment extends Fragment {
                     Log.d("EditQRFragment", "Upload imaged unsuccessfully");
                 }).addOnSuccessListener(taskSnapshot -> {
                     Log.d("EditQRFragment", "Upload imaged successfully");
-                    Log.d("EditQRFragment", taskSnapshot.getMetadata().toString());
-                    intent.putExtra("uri", taskSnapshot.getMetadata().getPath());
+                    intent.putExtra("uri", Objects.requireNonNull(taskSnapshot.getMetadata()).getPath());
                     intent.putExtra("isCloud", true);
                     startActivity(intent);
                 });

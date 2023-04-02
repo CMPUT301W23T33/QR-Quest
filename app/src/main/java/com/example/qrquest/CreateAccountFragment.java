@@ -16,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.qrquest.databinding.CreateAccountFragmentBinding;
+import com.google.common.hash.Hashing;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 /**
@@ -31,7 +33,7 @@ public class CreateAccountFragment extends Fragment {
     FirebaseFirestore db;
     private Player newPlayer;
     private CollectionReference playerRef;
-    private String randomName;
+    private String randomName, hashString;
     private int createAccount = 0;
     private CreateAccountFragmentBinding binding;
 
@@ -49,7 +51,10 @@ public class CreateAccountFragment extends Fragment {
         newPlayer = new Player();
 
         // generate unique name
-        randomName = Utilities.hashName(UUID.randomUUID().toString());
+        hashString = Hashing.sha256()
+                .hashString(UUID.randomUUID().toString(), StandardCharsets.UTF_8)
+                .toString();
+        randomName = Utilities.hashName(hashString);
         binding.nameText.setText(randomName);
 
         // back button
@@ -71,7 +76,10 @@ public class CreateAccountFragment extends Fragment {
 
         // another button (secondary button) (re-generate)
         binding.buttonElevatedSecondary.setOnClickListener(v -> {
-            randomName = Utilities.hashName(UUID.randomUUID().toString());
+            hashString = Hashing.sha256()
+                    .hashString(UUID.randomUUID().toString(), StandardCharsets.UTF_8)
+                    .toString();
+            randomName = Utilities.hashName(hashString);
             binding.nameText.setText(randomName);
         });
 

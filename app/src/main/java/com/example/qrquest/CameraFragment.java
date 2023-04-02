@@ -2,20 +2,14 @@ package com.example.qrquest;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.media.Image;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
-import androidx.camera.core.AspectRatio;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.app.ActivityCompat;
@@ -26,12 +20,12 @@ import androidx.navigation.Navigation;
 import android.util.Log;
 import android.util.Size;
 import android.view.LayoutInflater;
-import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.qrquest.databinding.CameraScreenBinding;
+import com.google.common.hash.Hashing;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -39,10 +33,8 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -59,7 +51,7 @@ public class CameraFragment extends Fragment {
     private View cameraFragmentView;
     private ListenableFuture<ProcessCameraProvider> cameraProviderListenableFuture;
     private ImageCapture imageCapture;
-    private String rawValue;
+    private String hashString;
     Bundle bundle;
     private final BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
             .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
@@ -186,12 +178,15 @@ public class CameraFragment extends Fragment {
 
                     scanner.process(inputImage).addOnSuccessListener(barcodes -> {
                         // if a barcode is detected, then enable camera button
-                        rawValue = "";
+                        hashString = "";
                         if (barcodes.size() > 0) {
-                            rawValue = barcodes.get(barcodes.size() - 1).getRawValue();
+                            hashString = barcodes.get(barcodes.size() - 1).getRawValue();
                             if (bundle == null) {
                                 Bundle bundle1 = new Bundle();
-                                bundle1.putString("rawValue", rawValue);
+                                final String hashString = Hashing.sha256()
+                                        .hashString(this.hashString, StandardCharsets.UTF_8)
+                                        .toString();
+                                bundle1.putString("hashString", hashString);
 
                                 Navigation.findNavController(cameraFragmentView)
                                         .navigate(R.id.action_camera_to_QRDetectedFragment,

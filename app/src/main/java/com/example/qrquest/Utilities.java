@@ -1,11 +1,12 @@
 package com.example.qrquest;
 
-
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
-
-import com.google.common.hash.Hashing;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -78,11 +80,11 @@ public class Utilities {
 
     /**
      * This method hashes an integer from the given string
-     * @param hexString a string that needs to be hashed
+     * @param hashString a string that needs to be hashed
      * @return a hashed integer
      */
-    public static int hashScore(@NonNull String hexString) {
-        byte[] byteArray = hexString.getBytes(StandardCharsets.UTF_8);
+    public static int hashScore(@NonNull String hashString) {
+        byte[] byteArray = hashString.getBytes(StandardCharsets.UTF_8);
         int score = 0;
         for (byte b : byteArray) {
             score += b;
@@ -92,16 +94,11 @@ public class Utilities {
 
     /**
      * This method hashes a human-readable name from the given string
-     * @param hexString a string that needs to be hashed
+     * @param hashString a string that needs to be hashed
      * @return a hashed and readable name
      */
     @NonNull
-    public static String hashName(@NonNull String hexString) {
-        // Convert the hex string into 256 hashed bits string
-        final String hashString = Hashing.sha256()
-                .hashString(hexString, StandardCharsets.UTF_8)
-                .toString();
-
+    public static String hashName(@NonNull String hashString) {
         // divide 32 bytes into 4 parts, each part has 8 bytes
         long currentNumber = 0;
         int currentArrays = 0;
@@ -117,5 +114,44 @@ public class Utilities {
             }
         }
         return name.toString();
+    }
+
+    public static Bitmap hashImage(@NonNull String hashString) {
+        // convert to a string of binaries
+        StringBuilder binaryString = new StringBuilder(new BigInteger(hashString, 16).toString(2));
+
+        // add missing leading zeroes
+        while (binaryString.length() < 256)
+            binaryString.insert(0, "0");
+
+        Bitmap bitmap = Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888);
+
+        // create a scaled canvas object (high resolution purpose)
+        Canvas canvas = new Canvas(bitmap);
+        canvas.scale(16, 16);
+
+        Paint paint = new Paint();
+        paint.setStyle(Paint.Style.FILL);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(3);
+
+        // smoothen the bitmap
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+
+        // set the colour to thistle if bit is 1
+        for (int i = 0; i < binaryString.length() / 2; i++) {
+            int width = i % 8;
+            int height = i / 8;
+            int mirrorWidth = 15 - (width % 8);
+
+            if (Integer.parseInt(String.valueOf(binaryString.toString().charAt(i))) == 1)
+                paint.setColor(Color.parseColor("#CDB4DB"));
+            else
+                paint.setColor(Color.parseColor("#2B2D42"));
+            canvas.drawRect(width, height, width + 1, height + 1,  paint);
+            canvas.drawRect(mirrorWidth, height, mirrorWidth + 1, height + 1, paint);
+        }
+        return bitmap;
     }
 }
