@@ -1,12 +1,15 @@
 package com.example.qrquest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +66,12 @@ public class SearchFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getLayoutPosition();
-
+                String otherPlayerName = viewModel.getPlayerName(position);
+                SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+                editor.putBoolean("myProfile", false);
+                editor.putString("otherPlayer", otherPlayerName);
+                editor.apply();
+                Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_profileFragment2);
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);

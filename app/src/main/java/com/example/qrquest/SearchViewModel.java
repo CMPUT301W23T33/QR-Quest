@@ -39,6 +39,9 @@ public class SearchViewModel extends AndroidViewModel {
     //
     public LiveData<String> getLastSearchedKeyword(){return this.lastSearchedKeyword;}
 
+    //
+    public String getPlayerName(int position){return this.searchRepository.getPlayerName(position);}
+
     // Get the last leaderboard (highest sum of QR Codes) for display
     public void setSearchResult(FirebaseFirestore db, String keyword) {this.searchRepository.setSearchResult(db, keyword);}
 

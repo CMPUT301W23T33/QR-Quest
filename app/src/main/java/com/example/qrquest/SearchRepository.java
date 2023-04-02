@@ -64,6 +64,9 @@ public class SearchRepository {
         }
     }
 
+    //
+    public String getPlayerName(int position){return this.searchResultData.get(position).getIdentifier();}
+
     // Clear previous search cache when there is a new search
     private void clearSearchData(){
         searchResultData = new ArrayList<>();

@@ -32,6 +32,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseFirestore db;
     ProfileScreenBinding binding;
     private HistoryAdapter adapter;
+    boolean myProfile = false;
+    String username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,25 +54,32 @@ public class ProfileFragment extends Fragment {
 
         // Get username and user view
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
-        String username = sharedPref.getString("username", "");
-        boolean myProfile = sharedPref.getBoolean("myProfile", false);
+        myProfile = sharedPref.getBoolean("myProfile", false);
+        if (myProfile) {
+            username = sharedPref.getString("otherPlayer", "");
+        }
+        else{
+            username = sharedPref.getString("username", "");
+        }
 
         // Adding touch access to the recycler view
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+        if (myProfile) {
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
 
-            // Swipe to remove a QR Code from the account
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getLayoutPosition();
-                viewModel.deleteQR(db, username, position);
-                adapter.notifyItemRemoved(position);
-            }
-        });
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+                // Swipe to remove a QR Code from the account
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    int position = viewHolder.getLayoutPosition();
+                    viewModel.deleteQR(db, username, position);
+                    adapter.notifyItemRemoved(position);
+                }
+            });
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+        }
 
         // Set profile username
         binding.profileScreenName.setText(username);
@@ -107,12 +116,17 @@ public class ProfileFragment extends Fragment {
         // Reverse sorting order
         binding.profileScreenButtonSort.setOnClickListener(v -> viewModel.reverseHistory());
 
-        // Navigate back to the main screen
+        // Navigate back to the main screen or search screen
         binding.profileScreenButtonBack.setOnClickListener(v -> {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean("myProfile", false);
             editor.apply();
-            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);
+            if (myProfile) {
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);
+            }
+            else {
+                Navigation.findNavController(v).navigate(R.id.action_profileFragment2_to_searchFragment);
+            }
         });
 
         // Navigate to edit profile screen
