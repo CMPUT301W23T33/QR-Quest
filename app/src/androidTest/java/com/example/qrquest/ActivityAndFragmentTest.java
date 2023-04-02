@@ -2,6 +2,8 @@ package com.example.qrquest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -15,6 +17,7 @@ import android.view.View;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.CoordinatesProvider;
 import androidx.test.espresso.action.GeneralClickAction;
 import androidx.test.espresso.action.Press;
@@ -146,15 +149,37 @@ public class ActivityAndFragmentTest {
 
     //
     @Test
-    public void testOnNavigationLeaderboardActivity(){
+    public void testOnNavigationLeaderboardActivity() throws InterruptedException {
 
         // First time using this application
         if (Objects.equals(username, "")){
             testOnNavigationStartActivity();
         }
 
-        //
+        // Main Screen -> Leaderboard
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.layout)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_leaderboard)).perform(click());
 
+        // Leaderboard navigation
+        ViewInteraction screen = onView(withId(R.id.leaderboard_fragment));
+        screen.check(matches(isDisplayed()));
+        Thread.sleep(500);
+        screen.perform(swipeLeft());
+        Thread.sleep(500);
+        screen.perform(swipeLeft());
+        Thread.sleep(500);
+        screen.perform(swipeLeft());
+        Thread.sleep(500);
+        screen.perform(swipeRight());
+        Thread.sleep(500);
+        screen.perform(swipeRight());
+        Thread.sleep(500);
+        screen.perform(swipeRight());
+
+        // Leaderboard -> Main Screen
+        onView(withId(R.id.button_back)).perform(click());
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
 
     }
 
@@ -181,7 +206,7 @@ public class ActivityAndFragmentTest {
             testOnNavigationStartActivity();
         }
 
-        //
+        onView(withId(R.id.button_search)).perform(click());
 
 
     }
