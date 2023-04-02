@@ -7,5 +7,6 @@
 - Write scripts for the demo: All members
 
 ## Meetings
+- Sunday (10 pm) (Discord) (Optional)
 - Wednesday (afternoon) (Campus)
 - Nearly finished...
