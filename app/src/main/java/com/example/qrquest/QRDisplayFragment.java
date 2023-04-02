@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,6 @@ import com.example.qrquest.databinding.FragmentQrDisplayBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,7 +39,7 @@ public class QRDisplayFragment extends Fragment {
     String uri, username, qrName;
     double latitude;
     double longitude;
-    RecyclerView recyclerView;
+    RecyclerView commentRecyclerView;
     QRDisplayViewModel viewModel;
     FirebaseFirestore db;
     CommentAdapter adapter;
@@ -112,11 +109,18 @@ public class QRDisplayFragment extends Fragment {
             dialog.setContentView(bottomSheetView);
             dialog.show();
 
-            recyclerView = bottomSheetView.findViewById(R.id.user_list);
+            commentRecyclerView = bottomSheetView.findViewById(R.id.user_list);
             adapter = new CommentAdapter(new CommentAdapter.commentDiff());
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+            commentRecyclerView.setAdapter(adapter);
+            commentRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
             buttonAdd = bottomSheetView.findViewById(R.id.button_add);
+
+            // ADD ANOTHER RECYCLER VIEW OF THE PLAYER LIST HERE (LOOK AT THE NEW FIGMA FILE FOR VERIFICATION)
+
+
+            // Use this line below to make the list scroll horizontally
+            // playerRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+
 
             // Get the comment(s) to observe changes
             viewModel.getComments().observe(requireActivity(), qrCodeComments -> adapter.submitList(qrCodeComments));
