@@ -158,7 +158,7 @@ public class CameraFragment extends Fragment {
         // Add image capture use case to capture image
         imageCapture = new ImageCapture.Builder()
                 .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                .setTargetResolution(new Size(120,120))
+                .setTargetResolution(new Size(360,360))
                 .build();
 
         // Add image analysis use case to analyze image
