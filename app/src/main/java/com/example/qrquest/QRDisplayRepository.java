@@ -51,7 +51,7 @@ public class QRDisplayRepository {
                     Comment comment = new Comment(document.getString("username"), document.getString("comment"));
                     if (Objects.equals(comment.getUsername(), username)){
                         scannedData = true;
-                        if (Objects.equals(comment.getComment().trim(), "")) {
+                        if (Objects.equals(comment.getComment().trim(), "") || comment.getComment() == null) {
                             commented = false;
                         }
                         else{
@@ -68,6 +68,12 @@ public class QRDisplayRepository {
         });
     }
 
+    //
+    public void setScanned(boolean hasScanned){
+        this.scannedData = hasScanned;
+        this.scanned.setValue(hasScanned);
+    }
+
     // Add comment if the user has scanned the QR Code
     public void addComment(FirebaseFirestore db, String username, String comment){
         if (this.scannedData) {
@@ -82,6 +88,7 @@ public class QRDisplayRepository {
         this.comments.setValue(null);
         this.qrName = "";
         this.scannedData = false;
+        this.scanned.setValue(false);
         this.commented = false;
     }
 
@@ -102,6 +109,7 @@ public class QRDisplayRepository {
         }
         else{
             this.commentData.add(0, new Comment(username, comment));
+            this.commented = true;
         }
         this.comments.setValue(this.commentData);
     }

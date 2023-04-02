@@ -18,20 +18,20 @@ public class QRDisplayViewModel extends AndroidViewModel {
     private static boolean refresh = true;
     private final QRDisplayRepository qrDisplayRepository;
     private MutableLiveData<ArrayList<Comment>> comments;
-    private MutableLiveData<Boolean> commented;
+    private MutableLiveData<Boolean> scanned;
 
     public QRDisplayViewModel(@NonNull Application application) {
         super(application);
         this.qrDisplayRepository = QRDisplayRepository.getInstance();
         this.comments = this.qrDisplayRepository.getComments();
-        this.commented = this.qrDisplayRepository.getScanned();
+        this.scanned = this.qrDisplayRepository.getScanned();
     }
 
     // Get the comment(s) to observe
     public LiveData<ArrayList<Comment>> getComments(){return this.comments;}
 
     // Get if the user has scanned the QR Code to observe
-    public LiveData<Boolean> getScanned(){return this.commented;}
+    public LiveData<Boolean> getScanned(){return this.scanned;}
 
     // Set the comments for display
     public void setComments(FirebaseFirestore db, String username, String qrName){
@@ -41,10 +41,11 @@ public class QRDisplayViewModel extends AndroidViewModel {
         }
     }
 
+    // Set the perspective of the user to the QR Code for display
+    public void setScanned(boolean scanned){this.qrDisplayRepository.setScanned(scanned);}
+
     // Add a comment
-    public void addComment(FirebaseFirestore db, String username, String comment){
-        this.qrDisplayRepository.addComment(db, username, comment);
-    }
+    public void addComment(FirebaseFirestore db, String username, String comment){this.qrDisplayRepository.addComment(db, username, comment);}
 
     // Allow the leaderboard to refresh
     public void refreshHistory(){

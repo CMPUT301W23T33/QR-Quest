@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,6 @@ public class ProfileFragment extends Fragment {
 
     MainViewModel viewModel;
     private FirebaseFirestore db;
-
     ProfileScreenBinding binding;
     private HistoryAdapter adapter;
 
@@ -50,9 +50,10 @@ public class ProfileFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        // Get username
+        // Get username and user view
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         String username = sharedPref.getString("username", "");
+        boolean myProfile = sharedPref.getBoolean("myProfile", false);
 
         // Adding touch access to the recycler view
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -77,8 +78,11 @@ public class ProfileFragment extends Fragment {
         // Initialize view model
         viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
-        // set user profile QR Code history for display
+        // Set QR Code history for display
         viewModel.setHistory(db, username);
+
+        // Set user view for display
+        viewModel.setMyProfile(myProfile);
 
         // Get history to observe
         viewModel.getHistory().observe(requireActivity(), qrCodeHistories -> adapter.submitList(qrCodeHistories));
@@ -89,12 +93,27 @@ public class ProfileFragment extends Fragment {
         // Get total codes to observe
         viewModel.getTotalCodes().observe(requireActivity(), integer -> binding.profileScreenCode.setText(String.valueOf(integer)));
 
+        // Get user view to observe
+        viewModel.getMyProfile().observe(requireActivity(), aBoolean -> {
+            if (aBoolean){
+                binding.profileScreenButtonEdit.setVisibility(View.VISIBLE);
+            }
+            else{
+                binding.profileScreenButtonEdit.setVisibility(View.INVISIBLE);
+            }
+            binding.profileScreenButtonEdit.setEnabled(aBoolean);
+        });
+
         // Reverse sorting order
         binding.profileScreenButtonSort.setOnClickListener(v -> viewModel.reverseHistory());
 
         // Navigate back to the main screen
-        binding.profileScreenButtonBack.setOnClickListener(v ->
-            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment));
+        binding.profileScreenButtonBack.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("myProfile", false);
+            editor.apply();
+            Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);
+        });
 
         // Navigate to edit profile screen
         binding.profileScreenButtonEdit.setOnClickListener(v ->Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_editProfileFragment));

@@ -23,6 +23,7 @@ public class MainViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<History>> history;
     private MutableLiveData<Integer> totalScore;
     private MutableLiveData<Integer> totalCodes;
+    private MutableLiveData<Boolean> myProfile;
 
     // Set up data for the main activity
     public MainViewModel(@NonNull Application application) {
@@ -31,6 +32,7 @@ public class MainViewModel extends AndroidViewModel {
         this.history = this.mainRepository.getHistory();
         this.totalScore = this.mainRepository.getTotalScore();
         this.totalCodes = this.mainRepository.getTotalCodes();
+        this.myProfile = this.mainRepository.getMyProfile();
     }
 
     // Get the history to observe
@@ -44,6 +46,9 @@ public class MainViewModel extends AndroidViewModel {
     // Get the total codes to observe
     public LiveData<Integer> getTotalCodes(){return this.totalCodes;}
 
+    //
+    public LiveData<Boolean> getMyProfile(){return this.myProfile;}
+
     // Get history for display
     public void setHistory(FirebaseFirestore db, String username) {
         if (getRefreshPermission()) {
@@ -51,6 +56,9 @@ public class MainViewModel extends AndroidViewModel {
             refresh = false;
         }
     }
+
+    //
+    public void setMyProfile(boolean isMyProfile) {this.mainRepository.setMyProfile(isMyProfile);}
 
     // Delete a QR Code
     public void deleteQR(FirebaseFirestore db, String username, int position){

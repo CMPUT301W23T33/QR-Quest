@@ -51,6 +51,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This class defines the main screen
@@ -98,26 +99,32 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
 
         // Camera button
         binding.buttonCamera1.setOnClickListener(v -> {
-
-            // Reset view model
-            if (!MainViewModel.getRefreshPermission()) {
-                viewModel.refreshHistory();
-            }
-
+            resetMainViewModel(viewModel);
             Intent intent = new Intent(requireActivity(), CameraActivity.class);
             startActivity(intent);
         });
 
         // Leaderboard button
         binding.buttonLeaderboard.setOnClickListener(v -> {
+            resetMainViewModel(viewModel);
             Intent intent = new Intent(requireActivity(), LeaderboardActivity.class);
             startActivity(intent);
         });
 
+        // Search button
+        binding.buttonSearch.setOnClickListener(v -> {
+            resetMainViewModel(viewModel);
+            Intent intent = new Intent(requireActivity(), SearchActivity.class);
+            startActivity(intent);
+        });
 
         // Navigate to the profile screen
-        binding.profile.setOnClickListener(v -> Navigation.findNavController(v)
-                .navigate(R.id.action_mainFragment_to_profileFragment));
+        binding.profile.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("myProfile", true); // Viewing my profile -> true
+            editor.apply();
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_profileFragment);
+        });
 
         return view;
     }
@@ -331,6 +338,10 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             bundle.putString("latitude", String.valueOf(qrLatitude));
                             bundle.putString("longitude", String.valueOf(qrLongitude));
 
+                            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+                            editor.putBoolean("myQR", Objects.equals(doc.getString("username"), username)); // Viewing QR Codes on the map
+                            editor.apply();
+
                             Intent intent = new Intent(getContext(), QRDisplayActivity.class);
                             intent.putExtras(bundle);
                             startActivity(intent);
@@ -341,4 +352,12 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
             return true;
         });
     }
+
+    // Reset view model
+    private void resetMainViewModel(MainViewModel viewModel){
+        if (!MainViewModel.getRefreshPermission()) {
+            viewModel.refreshHistory();
+        }
+    }
+
 }

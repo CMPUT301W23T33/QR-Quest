@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
-* This class defines the view holder for QR Code.
+* This class defines the view holder for QR Code
+* @author Dang Viet Anh Dinh
 */
 public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
