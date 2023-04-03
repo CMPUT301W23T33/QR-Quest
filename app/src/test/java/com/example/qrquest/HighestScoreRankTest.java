@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,7 +39,34 @@ public class HighestScoreRankTest {
     }
 
     @Test
-    public void getQueryRankTest(){
+    public void getRankTest(){
+        assertEquals(1, this.highestScoreRank1.getRank());
+        assertEquals(2, this.highestScoreRank2.getRank());
+        assertEquals(3, this.highestScoreRank3.getRank());
+        assertEquals(4, this.highestScoreRank4.getRank());
+    }
+
+    @Test
+    public void getIdentifierTest(){
+        assertEquals(this.identifier1, this.highestScoreRank1.getIdentifier());
+        assertEquals(this.identifier2, this.highestScoreRank2.getIdentifier());
+        assertNotEquals(this.identifier4, this.highestScoreRank3.getIdentifier());
+        assertNotEquals(this.identifier3, this.highestScoreRank4.getIdentifier());
+    }
+
+    @Test
+    public void getValueTest(){
+        assertNotEquals(10, this.highestScoreRank1.getValue());
+        assertEquals(100, this.highestScoreRank2.getValue());
+        assertEquals(100, this.highestScoreRank3.getValue());
+        assertNotEquals(1000, this.highestScoreRank4.getValue());
+    }
+
+    @Test
+    public void resetThresholdTest(){
+        this.highestScoreRank1.resetThreshold();
+        HighestScoreRank highestScoreRank5 = new HighestScoreRank("Player 5", 123);
+        assertEquals(1, highestScoreRank5.getRank());
     }
 
 }

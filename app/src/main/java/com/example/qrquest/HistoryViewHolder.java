@@ -9,7 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
-* This class defines the view holder for QR Code.
+* This class defines the view holder for QR Code
+* @author Dang Viet Anh Dinh
 */
 public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
@@ -17,13 +18,13 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
 
     public HistoryViewHolder(@NonNull View itemView) {
         super(itemView);
-        QRName = itemView.findViewById(R.id.qr_code_display_name);
-        QRScore = itemView.findViewById(R.id.qr_code_display_score);
+        this.QRName = itemView.findViewById(R.id.qr_code_display_name);
+        this.QRScore = itemView.findViewById(R.id.qr_code_display_score);
     }
 
     public void bind(History history){
-        QRName.setText(history.getQrCode());
-        QRScore.setText(String.valueOf(history.getScore()));
+        this.QRName.setText(history.getQrCode());
+        this.QRScore.setText(String.valueOf(history.getScore()));
     }
 
     static HistoryViewHolder create(ViewGroup parent){

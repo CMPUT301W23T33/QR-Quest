@@ -15,6 +15,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
+/**
+ * This class defines the adapter for the view pager item
+ * @author Thea Nguyen
+ */
 public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
     private final ArrayList<VPItem> arrayList;
 
@@ -23,6 +27,10 @@ public class VPAdapter extends RecyclerView.Adapter<VPAdapter.ViewHolder> {
         this.arrayList = arrayList;
     }
 
+    /**
+     * This class defines the view holder of the view pager item
+     * @author Thea Nguyen
+     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 

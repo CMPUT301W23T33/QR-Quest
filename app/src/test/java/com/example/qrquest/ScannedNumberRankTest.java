@@ -1,10 +1,13 @@
 package com.example.qrquest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Optional;
 
 /**
  * This class tests class ScannedNumberRank
@@ -39,7 +42,34 @@ public class ScannedNumberRankTest {
     }
 
     @Test
-    public void getQueryRankTest(){
+    public void getRankTest(){
+        assertEquals(1, this.scannedNumberRank1.getRank());
+        assertEquals(2, this.scannedNumberRank2.getRank());
+        assertEquals(3, this.scannedNumberRank3.getRank());
+        assertEquals(4, this.scannedNumberRank4.getRank());
+    }
+
+    @Test
+    public void getIdentifierTest(){
+        assertEquals(this.identifier1, this.scannedNumberRank1.getIdentifier());
+        assertEquals(this.identifier2, this.scannedNumberRank2.getIdentifier());
+        assertNotEquals(this.identifier4, this.scannedNumberRank3.getIdentifier());
+        assertNotEquals(this.identifier3, this.scannedNumberRank4.getIdentifier());
+    }
+
+    @Test
+    public void getValueTest(){
+        assertNotEquals(1, this.scannedNumberRank1.getValue());
+        assertEquals(10, this.scannedNumberRank2.getValue());
+        assertEquals(10, this.scannedNumberRank3.getValue());
+        assertNotEquals(100, this.scannedNumberRank4.getValue());
+    }
+
+    @Test
+    public void resetThresholdTest(){
+        this.scannedNumberRank1.resetThreshold();
+        ScannedNumberRank scannedNumberRank5 = new ScannedNumberRank("Player 5", 123);
+        assertEquals(1, scannedNumberRank5.getRank());
     }
 
 }

@@ -113,7 +113,9 @@ public class LeaderboardFragment extends Fragment {
         return view;
     }
 
-    // Refresh type of leaderboard history
+    /**
+     * This methods resets the type of leaderboard history
+     */
     public static void refreshHistory(){
         first = true;
         second = true;
@@ -128,7 +130,7 @@ public class LeaderboardFragment extends Fragment {
         binding.scoreTextDisplay.setText(String.valueOf(rank.getValue()));
     }
 
-    // Update screen based on the input as the type of leaderboard
+    // Update screen based on the type of leaderboard
     private void updateScreen(int integer){
 
         // First leaderboard

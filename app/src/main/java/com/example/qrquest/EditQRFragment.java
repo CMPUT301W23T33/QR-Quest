@@ -2,6 +2,7 @@ package com.example.qrquest;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,7 @@ public class EditQRFragment extends Fragment {
     String qrName, uri, hashString, username, region, comment;
     boolean newHighest = false;
     boolean isCloud = false;
+    SharedPreferences sharedPref;
 
     @Nullable
     @Override
@@ -93,12 +95,9 @@ public class EditQRFragment extends Fragment {
         // EXISTING DATA)
 
         // Get basic info for updating the database
-        username = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE)
-                .getString("username", "");
-        // username = "UI5";
-        region = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE)
-                .getString("region", "");
-
+        sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+        username = sharedPref.getString("username", "");
+        region = sharedPref.getString("region", "");
         String documentName = username + "_" + qrName;
         Date date = new Date();
 
@@ -106,6 +105,9 @@ public class EditQRFragment extends Fragment {
         binding.buttonCheck.setOnClickListener(v -> {
 
             // Set new intent for new activity
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("myQR", true); // Viewing QR Codes on the map -> false
+            editor.apply();
             Intent intent = new Intent(requireActivity(), QRDisplayActivity.class);
             if (bundle != null)
                 intent.putExtras(bundle);
@@ -137,8 +139,7 @@ public class EditQRFragment extends Fragment {
             db.collection("Player").document(username).get()
                     .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    String strHighestScore = String.valueOf(task.getResult()
-                            .get("highestScore", Integer.class));
+                    String strHighestScore = String.valueOf(task.getResult().get("highestScore", Integer.class));
                     int highestScore = Integer.parseInt(strHighestScore);
                     if (qrScore > highestScore){
                         newHighest = true;
@@ -170,10 +171,9 @@ public class EditQRFragment extends Fragment {
                     startActivity(intent);
                 });
             }
+
             // start qr display activity
             else startActivity(intent);
-
-
         });
 
         binding.buttonClose.setOnClickListener(v -> requireActivity().finish());
@@ -181,6 +181,7 @@ public class EditQRFragment extends Fragment {
 
     }
 
+    // Update collection "Player"
     private void updatePlayer(){
         if (newHighest){
             db.collection("Player").document(username)

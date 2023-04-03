@@ -18,8 +18,8 @@ public class TotalScoreRank extends Rank{
 
     /**
      * This method defines the leaderboard item with its attributes, sets its rank and queried rank when matched
-     * @param identifier: the identifier of the item (username, ...)
-     * @param value: the item value
+     * @param identifier the identifier of the item (username, ...)
+     * @param value the item value
      */
     public TotalScoreRank(String identifier, int value){
         super(identifier, value);
@@ -43,7 +43,7 @@ public class TotalScoreRank extends Rank{
 
     /**
      * This method (re)sets the rank cursor with a new value corresponding to the current item of the leaderboard
-     * @param newRankCursor: the new rank cursor
+     * @param newRankCursor the new rank cursor
      */
     private void resetRankCursor(int newRankCursor){
         rankCursor = newRankCursor;
