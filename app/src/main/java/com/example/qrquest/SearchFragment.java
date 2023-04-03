@@ -35,6 +35,8 @@ public class SearchFragment extends Fragment {
     FirebaseFirestore db;
     String searchKeyword, lastSearchedKeyword;
     ImageButton buttonBack;
+    SharedPreferences sharedPref;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,15 +67,15 @@ public class SearchFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getLayoutPosition();
                 String otherPlayerName = viewModel.getPlayerName(position);
-                SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
+                sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+                editor = sharedPref.edit();
                 String username = sharedPref.getString("username", "");
                 if (username.equals(otherPlayerName)) {
-                    editor.putBoolean("myProfile", false);
-                    editor.putString("otherPlayer", otherPlayerName);
+                    editor.putBoolean("myProfile", true);
                 }
                 else{
-                    editor.putBoolean("myProfile", true);
+                    editor.putBoolean("myProfile", false);
+                    editor.putString("otherPlayer", otherPlayerName);
                 }
                 editor.putBoolean("searching", true);
                 editor.apply();
@@ -125,7 +127,13 @@ public class SearchFragment extends Fragment {
         });
 
         // Navigate back to the main screen
-        buttonBack.setOnClickListener(v -> requireActivity().finish());
+        buttonBack.setOnClickListener(v -> {
+            sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+            editor = sharedPref.edit();
+            editor.putBoolean("searching", false);
+            editor.apply();
+            requireActivity().finish();
+        });
 
         return view;
 

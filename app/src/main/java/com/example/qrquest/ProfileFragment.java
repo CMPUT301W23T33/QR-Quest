@@ -13,6 +13,8 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,10 +56,10 @@ public class ProfileFragment extends Fragment {
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         myProfile = sharedPref.getBoolean("myProfile", false);
         if (myProfile) {
-            username = sharedPref.getString("otherPlayer", "");
+            username = sharedPref.getString("username", "");
         }
         else{
-            username = sharedPref.getString("username", "");
+            username = sharedPref.getString("otherPlayer", "");
         }
 
         // Adding touch access to the recycler view
@@ -119,7 +121,6 @@ public class ProfileFragment extends Fragment {
             boolean searching = sharedPref.getBoolean("searching", false);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean("myProfile", false);
-            editor.putBoolean("searching", false);
             editor.apply();
             if (myProfile) {
                 if (searching) {

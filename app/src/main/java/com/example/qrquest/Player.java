@@ -9,7 +9,7 @@ public class Player {
     /**
      * This member represents the email address (contact information) of the player
      */
-    private String emailAddress;
+    private String emailAddress = "";
 
     /**
      * This member represents the username of the player

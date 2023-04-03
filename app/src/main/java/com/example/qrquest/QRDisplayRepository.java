@@ -91,6 +91,8 @@ public class QRDisplayRepository {
 
     // Set the players who scanned the QR Code for display
     public void setPlayers(FirebaseFirestore db, String qrName){
+        this.playerData = new ArrayList<>();
+        this.players.setValue(null);
         db.collection("main")
                 .whereEqualTo("qrCode", qrName)
                 .orderBy("timeStamp", Query.Direction.ASCENDING)
