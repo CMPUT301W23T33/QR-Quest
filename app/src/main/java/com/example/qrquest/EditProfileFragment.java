@@ -19,8 +19,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.qrquest.databinding.EditProfileBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -36,8 +34,6 @@ public class EditProfileFragment extends Fragment {
     private EditProfileBinding binding;
     private String defaultEmailAddress;
     private String emailAddress;
-    private String defaultPhoneNumber;
-    private String phoneNumber;
     private String username;
 
     @Override
@@ -56,16 +52,13 @@ public class EditProfileFragment extends Fragment {
         SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "");
         defaultEmailAddress = sharedPreferences.getString("emailAddress", "");
-        defaultPhoneNumber = sharedPreferences.getString("phoneNumber", "");
         emailAddress = defaultEmailAddress;
-        phoneNumber = defaultPhoneNumber;
 
         // Set username and default contact info
         binding.editProfileName.setText(username);
 
         // Set user's contact info
         binding.editProfileEmailAddress.setText(defaultEmailAddress);
-        binding.editProfilePhoneNumber.setText(defaultPhoneNumber);
 
         // Get and set user's email address
         if (Objects.equals(defaultEmailAddress, "Not available")) {
@@ -80,16 +73,17 @@ public class EditProfileFragment extends Fragment {
                             emailAddress = "";
                         }
                         binding.editProfileEmailAddress.setText(emailAddress);
+
                     }
                 }
             });
         }
 
+        displaySavedScreen();
         // Update email address
         binding.editProfileEmailAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -106,29 +100,18 @@ public class EditProfileFragment extends Fragment {
                 else{
                     displaySavedScreen();
                 }
-            }
-        });
 
-        // Update phone number
-        binding.editProfilePhoneNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                phoneNumber = s.toString().trim();
-                if (!defaultPhoneNumber.equals(phoneNumber)){
-                    displayUnsavedScreen();
-                }
-                else{
+                if (emailAddress.length() < 12 || !emailAddress.startsWith("@ualberta.ca", emailAddress.length() - 12)) {
                     displaySavedScreen();
+                    binding.warning.setVisibility(View.VISIBLE);
+                }
+                else if (emailAddress.equals(defaultEmailAddress)) {
+                    displaySavedScreen();
+                    binding.warning.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    displayUnsavedScreen();
+                    binding.warning.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -137,31 +120,27 @@ public class EditProfileFragment extends Fragment {
         binding.editProfileButtonBack.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_editProfileFragment_to_profileFragment));
 
         // Update user's contact info on the database
-        binding.editProfileButtonSave.setOnClickListener(v -> {
-            db.collection("Player").document(username).update("emailAddress", emailAddress).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
+        binding.editProfileButtonSave.setOnClickListener(v ->
+            db.collection("Player")
+                    .document(username)
+                    .update("emailAddress", emailAddress)
+                    .addOnCompleteListener(task -> {
 
-                    // Successfully update contact info!
-                    if (task.isSuccessful()){
-                        Toast.makeText(requireActivity(), "Updated successfully!", Toast.LENGTH_SHORT).show();
-                        defaultEmailAddress = emailAddress;
-                        defaultPhoneNumber = phoneNumber;
-                        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
-                        editor.putString("emailAddress", emailAddress);
-                        editor.putString("phoneNumber", phoneNumber);
-                        editor.apply();
-                        displaySavedScreen();
-                    }
+                        // Successfully update contact info!
+                        if (task.isSuccessful()){
+                            Toast.makeText(requireActivity(), "Updated successfully!", Toast.LENGTH_SHORT).show();
+                            defaultEmailAddress = emailAddress;
+                            SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
+                            editor.putString("emailAddress", emailAddress);
+                            editor.apply();
+                            displaySavedScreen();
+                        }
 
-                    // Unsuccessfully update contact info!
-                    else{
-                        Toast.makeText(requireActivity(), "There has been an error! Updated unsuccessfully!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-        });
+                        // Unsuccessfully update contact info!
+                        else{
+                            Toast.makeText(requireActivity(), "There has been an error! Updated unsuccessfully!", Toast.LENGTH_SHORT).show();
+                        }
+                    }));
 
         return view;
 
