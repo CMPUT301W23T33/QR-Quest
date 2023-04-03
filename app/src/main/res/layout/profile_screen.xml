@@ -143,8 +143,6 @@
 
         </LinearLayout>
 
-
-
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -184,8 +182,9 @@
             tools:listitem="@layout/qr_code_display"
             android:id="@+id/profile_screen_qr_codes"
             android:layout_width="match_parent"
+            android:layout_weight="1"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            tools:ignore="NestedWeights" />
     </LinearLayout>
 
 </LinearLayout>
