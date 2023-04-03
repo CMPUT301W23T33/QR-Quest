@@ -12,7 +12,6 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +31,7 @@ public class MainRepository {
     private final MutableLiveData<Boolean> myProfile = new MutableLiveData<>();
 
     // History data
-    private ArrayList<History> historyData = new ArrayList<>();
+    private final ArrayList<History> historyData = new ArrayList<>();
 
     // Total score data
     private Integer totalScoreData = 0;
@@ -92,7 +91,7 @@ public class MainRepository {
                                 if (highestScore == 0) {
                                     highestScore = document.get("score", Integer.class);
                                 }
-                                historyData.add(new History(document.get("qrCode", String.class), document.get("score", Integer.class)));
+                                historyData.add(new History(document.get("hashedQRCode", String.class),document.get("qrCode", String.class), document.get("score", Integer.class)));
                             }
                         }
                         history.setValue(historyData);

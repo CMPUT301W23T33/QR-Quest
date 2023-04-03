@@ -2,12 +2,12 @@ package com.example.qrquest;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -18,13 +18,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.qrquest.databinding.ProfileScreenBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.List;
 
 /**
  * This class defines the profile screen
  * @author Dang Viet Anh Dinh
+ * @author Thea Nguyen
  */
 public class ProfileFragment extends Fragment {
 
@@ -46,9 +51,39 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ProfileScreenBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
+        db = FirebaseFirestore.getInstance();
 
         RecyclerView recyclerView = view.findViewById(R.id.profile_screen_qr_codes);
         adapter = new HistoryAdapter(new HistoryAdapter.historyDiff());
+        adapter.setClickListener((view1, position) -> {
+            List<History> list = adapter.getCurrentList();
+            History history = list.get(position);
+
+            db.collection("main")
+                    .whereEqualTo("qrCode", history.getQrCode())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot doc : task.getResult()) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("hashString", doc.get("hashedQRCode", String.class));
+                                bundle.putString("qrName", doc.get("qrCode", String.class));
+                                bundle.putInt("qrScore", Integer.parseInt(String.valueOf(doc.get("score"))));
+                                bundle.putString("latitude", String.valueOf(doc.get("latitude")));
+                                bundle.putString("longitude", String.valueOf(doc.get("longitude")));
+                                if (doc.get("imagePath") != null)  {
+                                    bundle.putString("uri", doc.get("imagePath", String.class));
+                                    bundle.putBoolean("isCloud", true);
+                                }
+                                bundle.putBoolean("profile", true);
+                                Intent intent = new Intent(getContext(), QRDisplayActivity.class);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

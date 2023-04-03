@@ -40,14 +40,15 @@
                 android:id="@+id/qr_code_display_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="QR CODE #1"
                 android:textColor="@color/pale_dogwood"
-                android:textAppearance="@style/body" />
+                android:textAppearance="@style/body"
+                android:ellipsize="end"
+                android:maxWidth="120dp"
+                android:maxLines="1"/>
             <TextView
                 android:id="@+id/qr_code_display_score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="2506 Pts"
                 android:layout_gravity="bottom"
                 android:textColor="@color/thistle"
                 android:textAppearance="@style/body" />

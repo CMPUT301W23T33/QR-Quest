@@ -9,7 +9,7 @@ public class History {
     /**
      * This member represents the hashed name of the QR Code
      */
-    private String qrCode;
+    private String qrCode, hashString;
 
     /**
      * This member represents the value of the score of the QR Code
@@ -26,9 +26,10 @@ public class History {
      * @param qrCode the QR Code name
      * @param score the QR Code score
      */
-    public History(String qrCode, int score){
-        setQrCode(qrCode);
-        setScore(score);
+    public History(String hashString, String qrCode, int score){
+        this.qrCode = qrCode;
+        this.score = score;
+        this.hashString = hashString;
     }
 
     /**
@@ -63,4 +64,7 @@ public class History {
         this.score = score;
     }
 
+    public String getHashString() {
+        return hashString;
+    }
 }
