@@ -48,7 +48,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.425">
+        android:layout_weight="0.30">
 
         <ImageView
             android:id="@+id/profile_screen_profile"
@@ -64,16 +64,19 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profile_screen_name"
-            style="@style/Heading.4"
-            android:layout_width="wrap_content"
+            style="@style/body"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_screen_profile"
             android:layout_centerInParent="true"
+            android:layout_marginHorizontal="16dp"
             android:ellipsize="end"
             android:maxWidth="240dp"
             android:maxLines="1"
             android:text="@string/username"
-            android:textColor="@color/thistle">
+            android:textAlignment="center"
+            android:textColor="@color/thistle"
+            android:textFontWeight="700">
 
         </com.google.android.material.textview.MaterialTextView>
 
@@ -115,6 +118,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:id="@+id/profile_screen_figure"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/profile_screen_text">
@@ -124,11 +128,12 @@
                 android:gravity="center"
                 android:layout_weight="0.5"
                 android:id="@+id/profile_screen_score"
-                style="@style/Heading.4"
+                style="@style/body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/score_example"
-                android:textColor="@color/white">
+                android:textColor="@color/white"
+                android:textFontWeight="700">
 
             </com.google.android.material.textview.MaterialTextView>
 
@@ -137,22 +142,31 @@
                 android:gravity="center"
                 android:layout_weight="0.5"
                 android:id="@+id/profile_screen_code"
-                style="@style/Heading.4"
+                style="@style/body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/score_example"
-                android:textColor="@color/white">
+                android:textColor="@color/white"
+                android:textFontWeight="700">
 
             </com.google.android.material.textview.MaterialTextView>
 
         </LinearLayout>
 
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:orientation="vertical"
+        >
         <LinearLayout
             android:id="@+id/layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_below="@id/profile_screen_figure"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -176,14 +190,12 @@
                 app:tint="@color/thistle"/>
 
         </LinearLayout>
-
-    </RelativeLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        tools:listitem="@layout/qr_code_display"
-        android:id="@+id/profile_screen_qr_codes"
-        android:layout_weight="0.5"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/qr_code_display"
+            android:id="@+id/profile_screen_qr_codes"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 
 </LinearLayout>
