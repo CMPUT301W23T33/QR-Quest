@@ -2,7 +2,6 @@ package com.example.qrquest;
 
 /**
  * This class defines users' past, compact QR Codes
- * Call ArrayList<UserQRCodeHistory> to use this class
  * @author Dang Viet Anh Dinh
  */
 public class History {
@@ -10,7 +9,7 @@ public class History {
     /**
      * This member represents the hashed name of the QR Code
      */
-    private String qrCode;
+    private String qrCode, hashString;
 
     /**
      * This member represents the value of the score of the QR Code
@@ -24,12 +23,13 @@ public class History {
 
     /**
      * This method defines the compact QR Code scanned by a player
-     * @param qrCode: the QR Code name
-     * @param score: the QR Code score
+     * @param qrCode the QR Code name
+     * @param score the QR Code score
      */
-    public History(String qrCode, int score){
-        setQrCode(qrCode);
-        setScore(score);
+    public History(String hashString, String qrCode, int score){
+        this.qrCode = qrCode;
+        this.score = score;
+        this.hashString = hashString;
     }
 
     /**
@@ -50,7 +50,7 @@ public class History {
 
     /**
      * This method sets the hashed name for the QR Code
-     * @param qrCode: the hashed QR Code name
+     * @param qrCode the hashed QR Code name
      */
     private void setQrCode(String qrCode) {
         this.qrCode = qrCode;
@@ -58,10 +58,13 @@ public class History {
 
     /**
      * This method sets the score for the QR Code
-     * @param score: the score of the QR Code
+     * @param score the score of the QR Code
      */
     private void setScore(int score) {
         this.score = score;
     }
 
+    public String getHashString() {
+        return hashString;
+    }
 }

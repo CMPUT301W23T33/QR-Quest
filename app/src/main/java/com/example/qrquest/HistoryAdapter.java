@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 public class HistoryAdapter extends ListAdapter<History, HistoryViewHolder> {
 
+    private ItemClickListener listener;
     @NonNull
     @Override
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -25,6 +26,8 @@ public class HistoryAdapter extends ListAdapter<History, HistoryViewHolder> {
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         History history = getItem(position);
         holder.bind(history);
+
+        holder.itemView.setOnClickListener(v -> listener.onClick(v, holder.getAbsoluteAdapterPosition()));
     }
 
     protected HistoryAdapter(@NonNull DiffUtil.ItemCallback<History> diffCallback) {
@@ -46,6 +49,10 @@ public class HistoryAdapter extends ListAdapter<History, HistoryViewHolder> {
         public boolean areContentsTheSame(@NonNull History oldItem, @NonNull History newItem) {
             return oldItem.getScore() == newItem.getScore();
         }
+    }
+
+    public void setClickListener(ItemClickListener listener) {
+        this.listener = listener;
     }
 
 }

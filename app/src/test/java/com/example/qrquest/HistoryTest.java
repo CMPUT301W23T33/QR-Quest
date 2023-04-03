@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class HistoryTest {
 
-    private String qrCode;
+    private String qrCode, hashString;
     private Integer qrScore;
     private History qrHistory1, qrHistory2;
 
@@ -20,8 +20,9 @@ public class HistoryTest {
     public void setup() {
         this.qrCode = "QR Code";
         this.qrScore = 1000;
+        this.hashString = "";
         this.qrHistory1 = new History();
-        this.qrHistory2 = new History(this.qrCode, this.qrScore);
+        this.qrHistory2 = new History(this.hashString, this.qrCode, this.qrScore);
     }
 
     @Test

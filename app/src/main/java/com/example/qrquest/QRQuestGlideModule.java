@@ -13,6 +13,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
+/**
+ * This class defines the connection to bind image to be displayed with the corresponding image stored on Google Storage
+ * @author Thea Nguyen
+ */
 @GlideModule
 public class QRQuestGlideModule extends AppGlideModule {
     @Override

@@ -23,28 +23,52 @@ public class MainViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<History>> history;
     private MutableLiveData<Integer> totalScore;
     private MutableLiveData<Integer> totalCodes;
+    private MutableLiveData<Boolean> myProfile;
 
-    // Set up data for the main activity
+    /**
+     * This method defines the view model of main screen
+     * @param application application state
+     */
     public MainViewModel(@NonNull Application application) {
         super(application);
         this.mainRepository = MainRepository.getInstance();
         this.history = this.mainRepository.getHistory();
         this.totalScore = this.mainRepository.getTotalScore();
         this.totalCodes = this.mainRepository.getTotalCodes();
+        this.myProfile = this.mainRepository.getMyProfile();
     }
 
-    // Get the history to observe
+    /**
+     * This method retrieves the QR Code history to be displayed and observed
+     * @return the QR Code history
+     */
     public LiveData<ArrayList<History>> getHistory(){
         return this.history;
     }
 
-    // Get the total score to observe
+    /**
+     * This method retrieves the total score of the user to be displayed and observed
+     * @return the current total score of the user
+     */
     public LiveData<Integer> getTotalScore(){return this.totalScore;}
 
-    // Get the total codes to observe
+    /**
+     * This method retrieves the total number of scanned QR Codes of the user to be displayed and observed
+     * @return the current total number of scanned QR Code of the user
+     */
     public LiveData<Integer> getTotalCodes(){return this.totalCodes;}
 
-    // Get history for display
+    /**
+     * This method retrieves the view of the user on the profile
+     * @return the view of the user on the current profile
+     */
+    public LiveData<Boolean> getMyProfile(){return this.myProfile;}
+
+    /**
+     * This methods populates the QR Code history for display
+     * @param db Firestore database
+     * @param username the current username of the profile
+     */
     public void setHistory(FirebaseFirestore db, String username) {
         if (getRefreshPermission()) {
             this.mainRepository.setHistory(db, username);
@@ -52,21 +76,41 @@ public class MainViewModel extends AndroidViewModel {
         }
     }
 
-    // Delete a QR Code
+    /**
+     * This method sets the view of the user on the current profile
+     * @param isMyProfile the view of the user on the current profile
+     */
+    public void setMyProfile(boolean isMyProfile) {this.mainRepository.setMyProfile(isMyProfile);}
+
+    /**
+     * This method deletes a QR Code from the profile specified by the user
+     * @param db Firestore database
+     * @param username the current username of the profile
+     * @param position the position of the QR COde
+     */
     public void deleteQR(FirebaseFirestore db, String username, int position){
         this.mainRepository.deleteQR(db, username, position);
     }
 
-    // Reverse sorting order
+    /**
+     * This method reverses the QR Code history sorting order
+     */
     public void reverseHistory(){
         this.mainRepository.reverseHistory();
     }
 
+    /**
+     * This method refreshes the QR Code history of the profile
+     */
     public void refreshHistory(){
         refresh = true;
         this.mainRepository.refreshHistory();
     }
 
+    /**
+     * This method retrieves the QR Code history refresh permission
+     * @return the QR Code history refresh permission
+     */
     public static boolean getRefreshPermission(){
         return refresh;
     }

@@ -28,14 +28,14 @@
 
     <!--View/Edit Profile Screen-->
     <string name="unsaved_changes">Unsaved Changes!</string>
-    <string name="_999_999_999">Not Available!</string>
-    <string name="example_email">Not Available!</string>
+    <string name="example_email">Email Address</string>
     <string name="my_profile">My Profile</string>
     <string name="score">SCORE</string>
     <string name="codes">CODES</string>
     <string name="score_example">0</string>
     <string name="history">HISTORY</string>
     <string name="sort">sort</string>
+    <string name="incorrect_format">University of Alberta email only</string>
 
     <!--Main Screen-->
     <string name="leaderboard">leaderboard</string>
@@ -84,5 +84,9 @@
         eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="no_comment">No comment yet…</string>
     <string name="add_comment">Add a comment</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Search Screen-->
+    <string name="search_result_text">Search Result</string>
 
 </resources>

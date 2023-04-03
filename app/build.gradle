@@ -11,11 +11,12 @@ android {
 
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
     defaultConfig {
         applicationId "com.example.qrquest"
-        minSdk 24
+        minSdk 28
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -96,5 +97,8 @@ dependencies {
 
     // Firebase UI for Storage
     implementation 'com.firebaseui:firebase-ui-storage:8.0.2'
+
+    // Javadoc
+//    implementation files("${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar")
 
 }

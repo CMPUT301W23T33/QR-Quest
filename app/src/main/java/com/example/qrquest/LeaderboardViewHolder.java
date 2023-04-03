@@ -23,10 +23,10 @@ public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
         value = itemView.findViewById(R.id.score_text_display);
     }
 
-    public void bind(Rank item){
-        ranking.setText(String.valueOf(item.getRank()));
-        username.setText(item.getIdentifier());
-        value.setText(String.valueOf(item.getValue()));
+    public void bind(Rank rank){
+        ranking.setText(String.valueOf(rank.getRank()));
+        username.setText(rank.getIdentifier());
+        value.setText(String.valueOf(rank.getValue()));
     }
 
     static LeaderboardViewHolder create(ViewGroup parent){
