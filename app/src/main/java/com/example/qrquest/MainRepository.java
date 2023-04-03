@@ -60,7 +60,8 @@ public class MainRepository {
                         if (highestScore == 0) {
                             highestScore = Integer.parseInt(String.valueOf(document.get("score", Integer.class)));
                         }
-                        historyData.add(new History(document.get("qrCode", String.class),
+                        historyData.add(new History(document.get("hashedQRCode", String.class),
+                                document.get("qrCode", String.class),
                                 Integer.parseInt(String.valueOf(document.get("score", Integer.class)))));
                     }
                 }
