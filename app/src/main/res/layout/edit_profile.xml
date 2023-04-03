@@ -44,6 +44,7 @@
             style="@style/body"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_below="@+id/edit_profile_profile"
             android:layout_centerHorizontal="true"
             android:text="@string/username"
@@ -62,15 +63,17 @@
             android:layout_marginTop="32dp"
             android:hint="@string/example_email"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_profile_phone_number"
-            style="@style/Text.Display"
+        <TextView
+            android:id="@+id/warning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/incorrect_format"
+            android:textAppearance="@style/small"
+            android:textColor="@color/thistle_fade"
+            android:layout_marginHorizontal="28dp"
+            android:layout_marginTop="8dp"
             android:layout_below="@id/edit_profile_email_address"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:hint="@string/_999_999_999"/>
+            android:visibility="invisible"/>
 
         <!--Change style to "@style/Button.Save.Unclickable" to make it unclickable-->
         <com.google.android.material.button.MaterialButton
@@ -78,7 +81,7 @@
             style="@style/Button.Save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/edit_profile_phone_number"
+            android:layout_below="@id/warning"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="@string/save_button_description"
