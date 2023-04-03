@@ -31,7 +31,7 @@ public class QRDisplayRepository {
     private String qrName;
 
     // Comments data
-    private ArrayList<Comment> commentData = new ArrayList<>();
+    private final ArrayList<Comment> commentData = new ArrayList<>();
 
     // Players data
     private ArrayList<Player> playerData = new ArrayList<>();

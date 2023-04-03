@@ -29,6 +29,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.qrquest.databinding.FragmentMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -339,6 +340,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                             bundle.putInt("qrScore", qrScore);
                             bundle.putString("latitude", String.valueOf(qrLatitude));
                             bundle.putString("longitude", String.valueOf(qrLongitude));
+                            bundle.putBoolean("isCloud", true);
 
                             SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
                             editor.putBoolean("myQR", Objects.equals(doc.getString("username"), username)); // Viewing QR Codes on the map

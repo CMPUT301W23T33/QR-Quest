@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.qrquest.databinding.FragmentQrDisplayBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -77,9 +78,9 @@ public class QRDisplayFragment extends Fragment {
 
         arrayList = new ArrayList<>();
         arrayList.add(new VPItem(this, Utilities.hashImage(hashString)));
-        if (bundle.getBoolean("isCloud", false))
+        if (bundle.getString("uri") != null)
             arrayList.add(new VPItem(this, bundle.getString("uri"),
-                        bundle.getBoolean("isCloud", false)));
+                    bundle.getBoolean("isCloud", false)));
         VPAdapter vpAdapter = new VPAdapter(arrayList);
         binding.pager.setAdapter(vpAdapter);
 

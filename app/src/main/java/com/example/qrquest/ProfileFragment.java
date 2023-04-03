@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.qrquest.databinding.ProfileScreenBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -70,9 +71,10 @@ public class ProfileFragment extends Fragment {
                                 bundle.putInt("qrScore", Integer.parseInt(String.valueOf(doc.get("score"))));
                                 bundle.putString("latitude", String.valueOf(doc.get("latitude")));
                                 bundle.putString("longitude", String.valueOf(doc.get("longitude")));
-                                if (doc.get("uri") != null)
+                                if (doc.get("imagePath") != null)  {
                                     bundle.putString("uri", doc.get("imagePath", String.class));
-
+                                    bundle.putBoolean("isCloud", true);
+                                }
                                 bundle.putBoolean("profile", true);
                                 Intent intent = new Intent(getContext(), QRDisplayActivity.class);
                                 intent.putExtras(bundle);
