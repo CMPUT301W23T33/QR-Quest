@@ -105,7 +105,7 @@ public class MainRepository {
 
     // Update database
     private void update(@NonNull FirebaseFirestore db, String username, String hashedQRCode){
-        db.collection("main").whereEqualTo("username", username).whereEqualTo("hashedQRCode", hashedQRCode).get().addOnCompleteListener(task -> {
+        db.collection("main").whereEqualTo("username", username).whereEqualTo("qrCode", hashedQRCode).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.exists()) {
@@ -150,11 +150,11 @@ public class MainRepository {
     }
 
     // Update "QR Code" collection
-    private void updateQRCode(@NonNull FirebaseFirestore db, String hashedQRCode){
-        db.collection("main").whereEqualTo("hashedQRCode", hashedQRCode).count().get(AggregateSource.SERVER).addOnCompleteListener(task -> {
+    private void updateQRCode(@NonNull FirebaseFirestore db, String qrCode){
+        db.collection("main").whereEqualTo("qrCode", qrCode).count().get(AggregateSource.SERVER).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 if (task.getResult().getCount() == 0){
-                    db.collection("QR Code").document(hashedQRCode).delete();
+                    db.collection("QR Code").document(qrCode).delete();
                 }
             }
         });
