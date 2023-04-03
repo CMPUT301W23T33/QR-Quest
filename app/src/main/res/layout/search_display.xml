@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="24dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/user_profile_description"
+            android:src="@drawable/baseline_person_24"
+            android:layout_marginEnd="12dp"
+            style="@style/Profile.Display.Leaderboard.List" />
+
+        <TextView
+            android:id="@+id/search_screen_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_name_example"
+            android:textColor="@color/white"
+            android:textAppearance="@style/body"
+            android:layout_weight="0.5"
+            android:ellipsize="end"
+            android:maxWidth="120dp"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/search_screen_score_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_example"
+            android:textColor="@color/white"
+            android:textAppearance="@style/small"
+            android:layout_weight="0.5"
+            android:textAlignment="textEnd"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

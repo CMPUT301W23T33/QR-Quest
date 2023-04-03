@@ -38,13 +38,15 @@ public class Info extends QRCode {
     /**
      * This method defines an existing QR Code in the database comprised with its associated player
      * Use this constructor when getting existing Info from
-     * @param comment: the comment by the player
-     * @param hashedQRCode: the hashed name of the QR Code
-     * @param latitude: the latitude of the QR Code
-     * @param longitude: the longitude of the QR Code
-     * @param qrCode: the un-hashed name of the QR Code
-     * @param score: the score of the QR Code
-     * @param username: the username of the player
+     * @param comment the comment by the player
+     * @param hashedQRCode the hashed name of the QR Code
+     * @param latitude the latitude of the QR Code
+     * @param longitude the longitude of the QR Code
+     * @param qrCode the un-hashed name of the QR Code
+     * @param region the region when the QR Code is scanned
+     * @param score the score of the QR Code
+     * @param timeStamp the date when the QR Code is scanned
+     * @param username the username of the player
      */
     public Info(String comment, String hashedQRCode, double latitude, double longitude, String qrCode, String region, int score, Date timeStamp, String username){
         super(hashedQRCode, qrCode, score, latitude, longitude);
@@ -56,12 +58,14 @@ public class Info extends QRCode {
 
     /**
      * This method defines a new QR Code comprised with its associated player
-     * @param comment: the comment by the player
-     * @param latitude: the latitude of the QR Code
-     * @param longitude: the longitude of the QR Code
-     * @param qrCode: the un-hashed name of the QR Code
-     * @param score: the score of the QR Code
-     * @param username: the username of the player
+     * @param comment the comment by the player
+     * @param latitude the latitude of the QR Code
+     * @param longitude the longitude of the QR Code
+     * @param qrCode the un-hashed name of the QR Code
+     * @param region the region when the QR Code is scanned
+     * @param score the score of the QR Code
+     * @param timeStamp the date when the QR Code is scanned
+     * @param username the username of the player
      */
     public Info(String comment, double latitude, double longitude, String qrCode, String region, int score, Date timeStamp, String username){
         super(qrCode, score, latitude, longitude);
@@ -81,7 +85,7 @@ public class Info extends QRCode {
 
     /**
      * This method sets a comment for the QR Code
-     * @param comment: a comment made by a player
+     * @param comment a comment made by a player
      */
     public void setComment(String comment) {
         this.comment = comment;
@@ -97,7 +101,7 @@ public class Info extends QRCode {
 
     /**
      * This method sets the region for the QR Code when scanned
-     * @param region: the region of the QR Code when scanned
+     * @param region the region of the QR Code when scanned
      */
     public void setRegion(String region) {
         this.region = region;
@@ -113,7 +117,7 @@ public class Info extends QRCode {
 
     /**
      * This method sets the username of the player for the QR Code
-     * @param username: the username of the player that scanned the QR Code
+     * @param username the username of the player that scanned the QR Code
      */
     public void setUsername(String username) {
         this.username = username;
@@ -129,7 +133,7 @@ public class Info extends QRCode {
 
     /**
      * This method sets the original date and time when the QR Code was uploaded to the database
-     * @param timeStamp: the originally recorded date and time of the QR Code
+     * @param timeStamp the originally recorded date and time of the QR Code
      */
     public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
@@ -144,7 +148,5 @@ public class Info extends QRCode {
         return "Images/" + getUsername() + "_" + getQrCode() + "_" + time + ".jpg"; // Depending on the requirement this could be hashed/un-hashed
         // E.g: getImagePath() -> "username1_QRCode1_03_06_2023_04_20_00.jpg"
     }
-
-    // In the future we may need (some) method(s) for comparing the QR Code
 
 }

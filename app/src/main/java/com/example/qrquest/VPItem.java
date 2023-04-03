@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
  * This class represents an item in a ViewPager.
  * It can hold either an image id, a local URI, a cloud URI, a fragment or a bitmap.
  * @author Thea Nguyen
- * @author Dang Viet Anh Dinh
  */
 public class VPItem {
     int imageId;

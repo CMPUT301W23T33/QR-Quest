@@ -2,8 +2,6 @@ package com.example.qrquest;
 
 /**
  * This class defines the ranking of players
- * Call ArrayList<> of classes that inherit this class to use -> one of HighestScoreRank, RegionalHighestScoreRank, QRCodeNumberRank, TotalScoreRank
- * E.g: ArrayList<TotalScoreRank>
  * @author Dang Viet Anh Dinh
  */
 public class Rank{
@@ -59,7 +57,7 @@ public class Rank{
 
     /**
      * This methods sets the identifier for the item
-     * @param identifier: the identifier of the item
+     * @param identifier the identifier of the item
      */
     private void setIdentifier(String identifier){
         this.identifier = identifier;
@@ -67,7 +65,7 @@ public class Rank{
 
     /**
      * This method sets the rank for the item
-     * @param rank: the rank of the item
+     * @param rank the rank of the item
      */
     protected void setRank(int rank) {
         this.rank = rank;
@@ -75,7 +73,7 @@ public class Rank{
 
     /**
      * This method sets the value for the item
-     * @param value: the value of the item
+     * @param value the value of the item
      */
     private void setValue(int value) {
         this.value = value;

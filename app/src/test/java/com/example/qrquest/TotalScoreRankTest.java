@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +40,34 @@ public class TotalScoreRankTest {
     }
 
     @Test
-    public void getQueryRankTest(){
+    public void getRankTest(){
+        assertEquals(1, this.totalScoreRank1.getRank());
+        assertEquals(2, this.totalScoreRank2.getRank());
+        assertEquals(3, this.totalScoreRank3.getRank());
+        assertEquals(4, this.totalScoreRank4.getRank());
+    }
+
+    @Test
+    public void getIdentifierTest(){
+        assertEquals(this.identifier1, this.totalScoreRank1.getIdentifier());
+        assertEquals(this.identifier2, this.totalScoreRank2.getIdentifier());
+        assertNotEquals(this.identifier4, this.totalScoreRank3.getIdentifier());
+        assertNotEquals(this.identifier3, this.totalScoreRank4.getIdentifier());
+    }
+
+    @Test
+    public void getValueTest(){
+        assertNotEquals(100, this.totalScoreRank1.getValue());
+        assertEquals(10000, this.totalScoreRank2.getValue());
+        assertEquals(100, this.totalScoreRank3.getValue());
+        assertNotEquals(100000, this.totalScoreRank4.getValue());
+    }
+
+    @Test
+    public void resetThresholdTest(){
+        this.totalScoreRank1.resetThreshold();
+        TotalScoreRank totalScoreRank5 = new TotalScoreRank("Player 5", 123);
+        assertEquals(1, totalScoreRank5.getRank());
     }
 
 }

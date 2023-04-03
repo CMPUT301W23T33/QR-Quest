@@ -1,7 +1,5 @@
 package com.example.qrquest;
 
-import java.util.ArrayList;
-
 /**
  * This class stores the item information in the leaderboard for the highest QR Code score
  * @author Dang Viet Anh Dinh
@@ -20,8 +18,8 @@ public class HighestScoreRank extends Rank{
 
     /**
      * This method defines the leaderboard item with its attributes, sets its rank and queried rank when matched
-     * @param identifier: the identifier of the item (username, ...)
-     * @param value: the item value
+     * @param identifier the identifier of the item (username, ...)
+     * @param value the item value
      */
     public HighestScoreRank(String identifier, int value){
         super(identifier, value);

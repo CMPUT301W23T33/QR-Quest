@@ -18,13 +18,13 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
     public CommentViewHolder(@NonNull View itemView) {
         super(itemView);
-        username = itemView.findViewById(R.id.name_text_display);
-        comment = itemView.findViewById(R.id.comment_text_display);
+        this.username = itemView.findViewById(R.id.name_text_display);
+        this.comment = itemView.findViewById(R.id.comment_text_display);
     }
 
-    public void bind(Comment item){
-        username.setText(item.getUsername());
-        comment.setText(item.getComment());
+    public void bind(Comment comment){
+        this.username.setText(comment.getUsername());
+        this.comment.setText(comment.getComment());
     }
 
     static CommentViewHolder create(ViewGroup parent){

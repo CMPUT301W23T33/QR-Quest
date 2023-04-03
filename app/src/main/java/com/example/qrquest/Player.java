@@ -1,7 +1,7 @@
 package com.example.qrquest;
 
 /**
- * This class defines new players (end-users)
+ * This class defines players
  * @author Dang Viet Anh Dinh
  */
 public class Player {
@@ -53,12 +53,12 @@ public class Player {
     }
     /**
      * This method defines a new player profile with basic attributes
-     * @param hasScanned: the number of QR Code scanned by the player
-     * @param highestScore: the highest QR Code score of the player
-     * @param region: the region of the player
-     * @param score: the total QR Code score of the player
-     * @param emailAddress: the email address of the player
-     * @param username: the username of the player
+     * @param hasScanned the number of QR Code scanned by the player
+     * @param highestScore the highest QR Code score of the player
+     * @param region the region of the player
+     * @param score the total QR Code score of the player
+     * @param emailAddress the email address of the player
+     * @param username the username of the player
      */
     public Player(int hasScanned, int highestScore, String region, int score, String emailAddress, String username){
         this.hasScanned = hasScanned;
@@ -79,7 +79,7 @@ public class Player {
 
     /**
      * This method sets the email address for the player
-     * @param emailAddress: the email address of the player
+     * @param emailAddress the email address of the player
      */
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
@@ -95,7 +95,7 @@ public class Player {
 
     /**
      * This method sets the username for the player
-     * @param username: the username of the player
+     * @param username the username of the player
      */
     public void setUsername(String username) {
         this.username = username;
@@ -111,7 +111,7 @@ public class Player {
 
     /**
      * This method sets the region for the player
-     * @param region: the region of the player
+     * @param region the region of the player
      */
     public void setRegion(String region) {
         this.region = region;
@@ -127,7 +127,7 @@ public class Player {
 
     /**
      * This method sets the number of scanned QR Codes by the player
-     * @param hasScanned: the number of scanned QR Codes by the player
+     * @param hasScanned the number of scanned QR Codes by the player
      */
     public void setHasScanned(int hasScanned) {
         this.hasScanned = hasScanned;
@@ -143,7 +143,7 @@ public class Player {
 
     /**
      * This method sets the highest QR Code score for the player
-     * @param highestScore: the highest QR Code score for the player
+     * @param highestScore the highest QR Code score for the player
      */
     public void setHighestScore(int highestScore) {
         this.highestScore = highestScore;
@@ -159,7 +159,7 @@ public class Player {
 
     /**
      * This method sets the total score for the player
-     * @param score: the total score of the player
+     * @param score the total score of the player
      */
     public void setScore(int score) {
         this.score = score;
