@@ -147,7 +147,7 @@ public class ActivityAndFragmentTest {
         onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
     }
 
-    //
+    // tests the leaderboard activity navigation
     @Test
     public void testOnNavigationLeaderboardActivity() throws InterruptedException {
 
@@ -183,7 +183,7 @@ public class ActivityAndFragmentTest {
 
     }
 
-    //
+    // tests the navigation of the search activity
     @Test
     public void testOnNavigationSearchActivity(){
 
@@ -192,7 +192,18 @@ public class ActivityAndFragmentTest {
             testOnNavigationStartActivity();
         }
 
+        // Main Screen -> Search Screen
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.layout)).check(matches(isDisplayed()));
         onView(withId(R.id.button_search)).perform(click());
+
+        // clicks the search bar
+        onView(withId(R.id.search_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.search_screen_text)).perform(click());
+
+        // Search Screen -> Main Screen
+        onView(withId(R.id.search_screen_button_back)).perform(click());
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
 
 
     }

@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SearchFragment"
     android:orientation="vertical"
-    android:background="@color/black">
+    android:background="@color/black"
+    android:id="@+id/search_fragment">
 
     <LinearLayout
         android:id="@+id/search_screen_tab"
