@@ -96,6 +96,7 @@ public class QRDisplayFragment extends Fragment {
             }
             Intent intent = new Intent(getActivity(), MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
