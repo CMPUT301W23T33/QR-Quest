@@ -73,7 +73,7 @@ public class MainRepository {
                                 if (highestScore == 0) {
                                     highestScore = document.get("score", Integer.class);
                                 }
-                                historyData.add(new History(document.get("hashedQRCode", String.class), document.get("score", Integer.class)));
+                                historyData.add(new History(document.get("qrCode", String.class), document.get("score", Integer.class)));
                             }
                         }
                         history.setValue(historyData);
@@ -124,10 +124,10 @@ public class MainRepository {
     }
 
     // Update database
-    private void update(FirebaseFirestore db, String username, String hashedQRCode){
+    private void update(FirebaseFirestore db, String username, String qrName){
         db.collection("main")
                 .whereEqualTo("username", username)
-                .whereEqualTo("hashedQRCode", hashedQRCode)
+                .whereEqualTo("qrCode", qrName)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -136,7 +136,7 @@ public class MainRepository {
                                 int score = document.get("score", Integer.class);
                                 updateMain(db, document);
                                 updatePlayer(db, username, score);
-                                updateQRCode(db, hashedQRCode);
+                                updateQRCode(db, qrName);
                             }
                         }
                     }
@@ -179,15 +179,15 @@ public class MainRepository {
     }
 
     // Update "QR Code" collection
-    private void updateQRCode(FirebaseFirestore db, String hashedQRCode){
+    private void updateQRCode(FirebaseFirestore db, String qrName){
         db.collection("main")
-                .whereEqualTo("hashedQRCode", hashedQRCode)
+                .whereEqualTo("qrCode", qrName)
                 .count()
                 .get(AggregateSource.SERVER)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()){
                         if (task.getResult().getCount() == 0){
-                            db.collection("QR Code").document(hashedQRCode).delete();
+                            db.collection("QR Code").document(qrName).delete();
                         }
                     }
                 });

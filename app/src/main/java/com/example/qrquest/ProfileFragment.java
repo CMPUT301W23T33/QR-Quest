@@ -116,11 +116,18 @@ public class ProfileFragment extends Fragment {
 
         // Navigate back to the main screen or search screen
         binding.profileScreenButtonBack.setOnClickListener(v -> {
+            boolean searching = sharedPref.getBoolean("searching", false);
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putBoolean("myProfile", false);
+            editor.putBoolean("searching", false);
             editor.apply();
             if (myProfile) {
-                Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);
+                if (searching) {
+                    Navigation.findNavController(v).navigate(R.id.action_profileFragment2_to_searchFragment);
+                }
+                else{
+                    Navigation.findNavController(v).navigate(R.id.action_profileFragment_to_mainFragment);
+                }
             }
             else {
                 Navigation.findNavController(v).navigate(R.id.action_profileFragment2_to_searchFragment);

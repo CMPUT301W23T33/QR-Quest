@@ -65,9 +65,17 @@ public class SearchFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getLayoutPosition();
                 String otherPlayerName = viewModel.getPlayerName(position);
-                SharedPreferences.Editor editor = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE).edit();
-                editor.putBoolean("myProfile", false);
-                editor.putString("otherPlayer", otherPlayerName);
+                SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                String username = sharedPref.getString("username", "");
+                if (username.equals(otherPlayerName)) {
+                    editor.putBoolean("myProfile", false);
+                    editor.putString("otherPlayer", otherPlayerName);
+                }
+                else{
+                    editor.putBoolean("myProfile", true);
+                }
+                editor.putBoolean("searching", true);
                 editor.apply();
                 Navigation.findNavController(view).navigate(R.id.action_searchFragment_to_profileFragment2);
             }
@@ -85,7 +93,7 @@ public class SearchFragment extends Fragment {
         // Get the search result to observe
         viewModel.getSearchResult().observe(requireActivity(), ranks -> searchAdapter.submitList(ranks));
 
-        //
+        // Get searching state to observe
         viewModel.getSearchingDone().observe(requireActivity(), aBoolean -> {
             if (aBoolean){
                 if (!Objects.equals(searchKeyword, lastSearchedKeyword)){
