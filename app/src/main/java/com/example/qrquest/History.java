@@ -2,7 +2,6 @@ package com.example.qrquest;
 
 /**
  * This class defines users' past, compact QR Codes
- * Call ArrayList<UserQRCodeHistory> to use this class
  * @author Dang Viet Anh Dinh
  */
 public class History {

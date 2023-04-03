@@ -2,8 +2,6 @@ package com.example.qrquest;
 
 /**
  * This class defines the ranking of players
- * Call ArrayList<> of classes that inherit this class to use -> one of HighestScoreRank, RegionalHighestScoreRank, QRCodeNumberRank, TotalScoreRank
- * E.g: ArrayList<TotalScoreRank>
  * @author Dang Viet Anh Dinh
  */
 public class Rank{

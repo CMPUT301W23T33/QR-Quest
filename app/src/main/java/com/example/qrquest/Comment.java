@@ -2,7 +2,6 @@ package com.example.qrquest;
 
 /**
  * This class defines the comments of QR Codes
- * Call ArrayList<Comment> to use this class
  * @author Dang Viet Anh Dinh
  */
 public class Comment {

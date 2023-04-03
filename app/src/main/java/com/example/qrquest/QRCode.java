@@ -3,6 +3,7 @@ package com.example.qrquest;
 
 /**
  * This class defines QR Codes
+ * @author Dang Viet Anh Dinh
  */
 public class QRCode {
 
