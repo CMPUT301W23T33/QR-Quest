@@ -2,6 +2,8 @@ package com.example.qrquest;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -11,8 +13,15 @@ import static org.junit.Assert.assertNotEquals;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.View;
 
 import androidx.test.core.app.ActivityScenario;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.CoordinatesProvider;
+import androidx.test.espresso.action.GeneralClickAction;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Tap;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
@@ -138,35 +147,43 @@ public class ActivityAndFragmentTest {
         onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
     }
 
-    //
+    // tests the leaderboard activity navigation
     @Test
-    public void testOnNavigationLeaderboardActivity(){
+    public void testOnNavigationLeaderboardActivity() throws InterruptedException {
 
         // First time using this application
         if (Objects.equals(username, "")){
             testOnNavigationStartActivity();
         }
 
-        //
+        // Main Screen -> Leaderboard
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.layout)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_leaderboard)).perform(click());
 
+        // Leaderboard navigation
+        ViewInteraction screen = onView(withId(R.id.leaderboard_fragment));
+        screen.check(matches(isDisplayed()));
+        Thread.sleep(500);
+        screen.perform(swipeLeft());
+        Thread.sleep(500);
+        screen.perform(swipeLeft());
+        Thread.sleep(500);
+        screen.perform(swipeLeft());
+        Thread.sleep(500);
+        screen.perform(swipeRight());
+        Thread.sleep(500);
+        screen.perform(swipeRight());
+        Thread.sleep(500);
+        screen.perform(swipeRight());
+
+        // Leaderboard -> Main Screen
+        onView(withId(R.id.button_back)).perform(click());
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
 
     }
 
-    //
-    @Test
-    public void testLeaderboardActivity(){
-
-        // First time using this application
-        if (Objects.equals(username, "")){
-            testOnNavigationStartActivity();
-        }
-
-        //
-
-
-    }
-
-    //
+    // tests the navigation of the search activity
     @Test
     public void testOnNavigationSearchActivity(){
 
@@ -175,49 +192,18 @@ public class ActivityAndFragmentTest {
             testOnNavigationStartActivity();
         }
 
-        //
+        // Main Screen -> Search Screen
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
+        onView(withId(R.id.layout)).check(matches(isDisplayed()));
+        onView(withId(R.id.button_search)).perform(click());
 
+        // clicks the search bar
+        onView(withId(R.id.search_fragment)).check(matches(isDisplayed()));
+        onView(withId(R.id.search_screen_text)).perform(click());
 
-    }
-
-    //
-    @Test
-    public void testSearchActivity(){
-
-        // First time using this application
-        if (Objects.equals(username, "")){
-            testOnNavigationStartActivity();
-        }
-
-        //
-
-
-    }
-
-    //
-    @Test
-    public void testOnNavigationQRDisplayActivity(){
-
-        // First time using this application
-        if (Objects.equals(username, "")){
-            testOnNavigationStartActivity();
-        }
-
-        //
-
-
-    }
-
-    //
-    @Test
-    public void testQRDisplayActivity(){
-
-        // First time using this application
-        if (Objects.equals(username, "")){
-            testOnNavigationStartActivity();
-        }
-
-        //
+        // Search Screen -> Main Screen
+        onView(withId(R.id.search_screen_button_back)).perform(click());
+        onView(withId(R.id.main_activity)).check(matches(isDisplayed()));
 
 
     }
