@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.qrquest.databinding.ProfileScreenBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +48,14 @@ public class ProfileFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.profile_screen_qr_codes);
         adapter = new HistoryAdapter(new HistoryAdapter.historyDiff());
+        adapter.setClickListener(new ItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+
+
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 

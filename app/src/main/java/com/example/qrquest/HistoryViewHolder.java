@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
 * This class defines the view holder for QR Code.
 */
-public class HistoryViewHolder extends RecyclerView.ViewHolder {
-
+public class HistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private static ItemClickListener listener;
     private final TextView QRName, QRScore;
     private final ImageView QRImage;
 
@@ -22,6 +22,8 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
         QRName = itemView.findViewById(R.id.qr_code_display_name);
         QRScore = itemView.findViewById(R.id.qr_code_display_score);
         QRImage = itemView.findViewById(R.id.qr_code_display_picture);
+
+        itemView.setOnClickListener(this);
     }
 
     public void bind(History history){
@@ -35,4 +37,8 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
         return new HistoryViewHolder(view);
     }
 
+    @Override
+    public void onClick(View v) {
+        if (listener != null) listener.onClick(v, getAbsoluteAdapterPosition());
+    }
 }
