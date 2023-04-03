@@ -76,7 +76,7 @@ public class ProfileFragment extends Fragment {
                                     bundle.putBoolean("isCloud", true);
                                 }
                                 bundle.putBoolean("profile", true);
-                                Intent intent = new Intent(getContext(), QRDisplayActivity.class);
+                                Intent intent = new Intent(requireActivity(), QRDisplayActivity.class);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
                             }
@@ -87,11 +87,15 @@ public class ProfileFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
+        // Initialize view model
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
         // Get username and user view
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
         myProfile = sharedPref.getBoolean("myProfile", false);
         if (myProfile) {
             username = sharedPref.getString("username", "");
+            viewModel.refreshHistory();
         }
         else{
             username = sharedPref.getString("otherPlayer", "");
@@ -118,9 +122,6 @@ public class ProfileFragment extends Fragment {
 
         // Set profile username
         binding.profileScreenName.setText(username);
-
-        // Initialize view model
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         // Set QR Code history for display
         viewModel.setHistory(db, username);

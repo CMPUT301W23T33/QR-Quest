@@ -21,6 +21,7 @@ public class SearchRepository {
 
     // Search data
     private ArrayList<Rank> searchResultData = new ArrayList<>();
+    private String lastSearchedKeywordData = "";
 
     /**
      * This method retrieves the representative instance of the searching repository
@@ -59,21 +60,27 @@ public class SearchRepository {
     public void setSearchResult(FirebaseFirestore db, String keyword){
         clearSearchData();
         if (keyword != null && !keyword.equals("")) {
-            searchingDone.setValue(false);
-            db.collection("Player")
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (document.getId().toLowerCase().contains(keyword)) {
-                                    searchResultData.add(new Rank(document.getString("username"), document.get("score", Integer.class)));
+            if (!keyword.equals(this.lastSearchedKeywordData)) {
+                searchingDone.setValue(false);
+                db.collection("Player")
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if (document.getId().toLowerCase().contains(keyword)) {
+                                        searchResultData.add(new Rank(document.getString("username"), document.get("score", Integer.class)));
+                                    }
                                 }
+                                searchResult.setValue(searchResultData);
+                                lastSearchedKeywordData = keyword;
+                                lastSearchedKeyword.setValue(lastSearchedKeywordData);
+                                searchingDone.setValue(true);
                             }
-                            searchResult.setValue(searchResultData);
-                            lastSearchedKeyword.setValue(keyword);
-                            searchingDone.setValue(true);
-                        }
-                    });
+                        });
+            }
+            else{
+                this.searchResult.setValue(this.searchResultData);
+            }
         }
     }
 
@@ -86,8 +93,10 @@ public class SearchRepository {
 
     // Clear previous search cache when there is a new search
     private void clearSearchData(){
-        searchResultData = new ArrayList<>();
+        this.searchResultData = new ArrayList<>();
         this.searchResult.setValue(null);
+        this.lastSearchedKeywordData = "";
+        this.lastSearchedKeyword.setValue("");
     }
 
 }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
@@ -34,9 +35,10 @@ public class SearchFragment extends Fragment {
     TextInputEditText editText;
     FirebaseFirestore db;
     String searchKeyword, lastSearchedKeyword;
-    ImageButton buttonBack;
+    ImageButton buttonBack, buttonSearch;
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    boolean searching;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,12 @@ public class SearchFragment extends Fragment {
         recyclerView = view.findViewById(R.id.search_screen_recycler_view);
         editText = view.findViewById(R.id.search_screen_text);
         buttonBack = view.findViewById(R.id.search_screen_button_back);
+        buttonSearch = view.findViewById(R.id.search_screen_button_search);
         searchAdapter = new SearchAdapter(new SearchAdapter.searchDiff());
         recyclerView.setAdapter(searchAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
+
+        sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
 
         // Adding touch access to the recycler view
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -67,7 +72,6 @@ public class SearchFragment extends Fragment {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getLayoutPosition();
                 String otherPlayerName = viewModel.getPlayerName(position);
-                sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
                 editor = sharedPref.edit();
                 String username = sharedPref.getString("username", "");
                 if (username.equals(otherPlayerName)) {
@@ -90,6 +94,7 @@ public class SearchFragment extends Fragment {
 
         // Set up the search result for display
         searchKeyword = "";
+        searching = sharedPref.getBoolean("searching", false);
         viewModel.setSearchResult(db, searchKeyword);
 
         // Get the search result to observe
@@ -97,38 +102,32 @@ public class SearchFragment extends Fragment {
 
         // Get searching state to observe
         viewModel.getSearchingDone().observe(requireActivity(), aBoolean -> {
+            // Set button search enabled and visibility
             if (aBoolean){
-                if (!Objects.equals(searchKeyword, lastSearchedKeyword)){
-                    updateScreen();
-                }
+//                buttonSearch.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.thistle));
             }
+            else{
+//                buttonSearch.setBackgroundColor(ContextCompat.getColor(requireActivity(), R.color.black));
+            }
+            buttonSearch.setEnabled(aBoolean);
         });
 
         // Get the most recent searched keyword to observe
         viewModel.getLastSearchedKeyword().observe(requireActivity(), s -> lastSearchedKeyword = s);
 
-        // Get the most up-to-date keyword entered
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        //
+        if (searching){
+            editText.setText(lastSearchedKeyword);
+            viewModel.setSearchResult(db, lastSearchedKeyword);
+        }
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                searchKeyword = s.toString().trim();
-                updateScreen();
-            }
+        //
+        buttonSearch.setOnClickListener(v -> {
+            viewModel.setSearchResult(db, Objects.requireNonNull(editText.getText()).toString().trim());
         });
 
         // Navigate back to the main screen
         buttonBack.setOnClickListener(v -> {
-            sharedPref = requireActivity().getSharedPreferences("sp", Context.MODE_PRIVATE);
             editor = sharedPref.edit();
             editor.putBoolean("searching", false);
             editor.apply();
@@ -137,11 +136,6 @@ public class SearchFragment extends Fragment {
 
         return view;
 
-    }
-
-    // Update UI according to the search keyword
-    private void updateScreen(){
-        viewModel.setSearchResult(db, searchKeyword);
     }
 
 }

@@ -88,5 +88,6 @@
 
     <!--    Search Screen-->
     <string name="search_result_text">Search Result</string>
+    <string name="search_button">Search button</string>
 
 </resources>
