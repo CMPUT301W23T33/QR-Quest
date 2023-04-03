@@ -214,7 +214,7 @@ public class CameraFragment extends Fragment {
         if (!photoDir.exists())
             if (!photoDir.mkdir()) {
                 Log.d("CameraFragment", "Folder created unsuccessfully");
-            };
+            }
         Date date = new Date();
         String timestamp = String.valueOf(date.getTime());
         String photoFilePath = photoDir.getAbsolutePath() + "/" + timestamp + ".jpg";
