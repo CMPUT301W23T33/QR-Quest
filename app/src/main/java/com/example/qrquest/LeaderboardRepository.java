@@ -1,5 +1,7 @@
 package com.example.qrquest;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -106,6 +108,7 @@ public class LeaderboardRepository {
      */
     public void setFirstLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
+        Log.d("LeaderboardRepository", String.valueOf(this.fetchFirstLeaderboard));
         if (!this.fetchFirstLeaderboard) {
             db.collection("main")
                     .orderBy("score", Query.Direction.DESCENDING)
@@ -305,6 +308,10 @@ public class LeaderboardRepository {
         third.resetThreshold();
         TotalScoreRank last = new TotalScoreRank();
         last.resetThreshold();
+        this.fetchFirstLeaderboard = false;
+        this.fetchSecondLeaderboard = false;
+        this.fetchThirdLeaderboard = false;
+        this.fetchLastLeaderboard = false;
     }
 
     // Set data for display

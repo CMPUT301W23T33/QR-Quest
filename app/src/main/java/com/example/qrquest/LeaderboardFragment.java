@@ -3,6 +3,7 @@ package com.example.qrquest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -179,4 +180,18 @@ public class LeaderboardFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.refreshHistory();
+        refreshHistory();
+        Log.d("LeaderboardFragment", "On Resume");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        viewModel.refreshHistory();
+        refreshHistory();
+    }
 }
