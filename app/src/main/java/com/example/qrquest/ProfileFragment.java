@@ -41,7 +41,7 @@ public class ProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
     }
 
-    @SuppressLint({"DefaultLocale", "NotifyDataSetChanged"})
+    @SuppressLint("DefaultLocale")
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = ProfileScreenBinding.inflate(inflater, container, false);

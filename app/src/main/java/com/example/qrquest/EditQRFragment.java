@@ -181,6 +181,7 @@ public class EditQRFragment extends Fragment {
 
     }
 
+    // Update collection "Player"
     private void updatePlayer(){
         if (newHighest){
             db.collection("Player").document(username)

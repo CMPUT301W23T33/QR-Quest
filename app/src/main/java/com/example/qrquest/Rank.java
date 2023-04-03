@@ -57,7 +57,7 @@ public class Rank{
 
     /**
      * This methods sets the identifier for the item
-     * @param identifier: the identifier of the item
+     * @param identifier the identifier of the item
      */
     private void setIdentifier(String identifier){
         this.identifier = identifier;
@@ -65,7 +65,7 @@ public class Rank{
 
     /**
      * This method sets the rank for the item
-     * @param rank: the rank of the item
+     * @param rank the rank of the item
      */
     protected void setRank(int rank) {
         this.rank = rank;
@@ -73,7 +73,7 @@ public class Rank{
 
     /**
      * This method sets the value for the item
-     * @param value: the value of the item
+     * @param value the value of the item
      */
     private void setValue(int value) {
         this.value = value;

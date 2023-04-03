@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 
 import androidx.fragment.app.Fragment;
 
+/**
+ * This class defines the view pager item
+ * @author Thea Nguyen
+ */
 public class VPItem {
     int imageId;
     String uri;

@@ -36,7 +36,10 @@ public class QRDisplayRepository {
     // Players data
     private ArrayList<Player> playerData = new ArrayList<>();
 
-    // Get a representative instance of the class
+    /**
+     * This method retrieves the representative instance of the QR display repository
+     * @return the repository to populate data for display QR Code
+     */
     public static QRDisplayRepository getInstance(){
         if (qrDisplayRepository == null){
             qrDisplayRepository = new QRDisplayRepository();
@@ -44,16 +47,30 @@ public class QRDisplayRepository {
         return qrDisplayRepository;
     }
 
-    // Comments on the QR Code
+    /**
+     * This method retrieves the QR Code comments to be displayed and observed
+     * @return the QR Code comments
+     */
     public MutableLiveData<ArrayList<Comment>> getComments(){return this.comments;}
 
-    // If the user has scanned the QR Code
+    /**
+     * This method retrieves state if the user has scanned the QR Code to be displayed and observed
+     * @return the QR Code history
+     */
     public MutableLiveData<Boolean> getScanned(){return this.scanned;}
 
-    // Players who scanned the QR Code
+    /**
+     * This method retrieves the players who has scanned the QR Code to be displayed and observed
+     * @return the players who has scanned the QR Code
+     */
     public MutableLiveData<ArrayList<Player>> getPlayers(){return this.players;}
 
-    // Get comments for display
+    /**
+     * This method queries the comments about the QR Code
+     * @param db Firestore database
+     * @param username the user's username
+     * @param qrName the QR Code name
+     */
     public void setComments(FirebaseFirestore db, String username, String qrName){
         this.qrName = qrName;
         db.collection("main")
@@ -83,13 +100,20 @@ public class QRDisplayRepository {
                 });
     }
 
-    // Set the view of the user to the QR Code for display
+    /**
+     * This method sets the view of the user with respect to the QR Code
+     * @param hasScanned the view of the user with respect to the QR Code
+     */
     public void setScanned(boolean hasScanned){
         this.scannedData = hasScanned;
         this.scanned.setValue(hasScanned);
     }
 
-    // Set the players who scanned the QR Code for display
+    /**
+     * This method queries the players who has scanned the QR Code
+     * @param db Firestore database
+     * @param qrName the QR Code name
+     */
     public void setPlayers(FirebaseFirestore db, String qrName){
         this.playerData = new ArrayList<>();
         this.players.setValue(null);
@@ -107,7 +131,12 @@ public class QRDisplayRepository {
                 });
     }
 
-    // Add comment if the user has scanned the QR Code
+    /**
+     * This method adds/overrides a comment
+     * @param db Firestore database
+     * @param username the user's username
+     * @param comment the comment made by the user
+     */
     public void addComment(FirebaseFirestore db, String username, String comment){
         if (this.scannedData) {
             updateDatabase(db, username, this.qrName, comment);
@@ -115,7 +144,9 @@ public class QRDisplayRepository {
         }
     }
 
-    // Refresh data
+    /**
+     * This method refreshes the QR Code queried data
+     */
     public void refreshHistory(){
         this.commentData.clear();
         this.comments.setValue(null);
@@ -142,14 +173,15 @@ public class QRDisplayRepository {
     // Update UI when adding a comment
     private void updateScreen(String username, String comment){
         this.comments.setValue(null);
-        if (this.commented){
-            this.commentData.set(0, new Comment(username, comment));
+        if (!comment.trim().equals("")) {
+            if (this.commented) {
+                this.commentData.set(0, new Comment(username, comment));
+            } else {
+                this.commentData.add(0, new Comment(username, comment));
+                this.commented = true;
+            }
+            this.comments.setValue(this.commentData);
         }
-        else{
-            this.commentData.add(0, new Comment(username, comment));
-            this.commented = true;
-        }
-        this.comments.setValue(this.commentData);
     }
 
 }

@@ -51,7 +51,10 @@ public class LeaderboardRepository {
     private Rank last2ndPlayerData = new Rank();
     private Rank last3rdPlayerData = new Rank();
 
-    // Get a representative instance of the class
+    /**
+     * This methods retrieves a representative instance of the leaderboard repository
+     * @return the repository to populate data for the leaderboard
+     */
     public static LeaderboardRepository getInstance(){
         if (leaderboardRepository == null){
             leaderboardRepository = new LeaderboardRepository();
@@ -59,25 +62,48 @@ public class LeaderboardRepository {
         return leaderboardRepository;
     }
 
-    // Get leaderboard
+    /**
+     * This method retrieves the leaderboard (from top 4) to be displayed and observed
+     * @return the current leaderboard
+     */
     public MutableLiveData<ArrayList<Rank>> getLeaderboard(){return this.leaderboard;}
 
-    // Get user
+    /**
+     * This method retrieves the user  to be displayed and observed
+     * @return the current user statistics on the leaderboard
+     */
     public MutableLiveData<Rank> getUser(){return this.user;}
 
-    // Get 1st player
+
+    /**
+     * This method retrieves the top 1 player statistics on the leaderboard to be displayed and observed
+     * @return the current top 1 player on the leaderboard
+     */
     public MutableLiveData<Rank> getFirst(){return this.first;}
 
-    // Get 2nd player
+    /**
+     * This method retrieves the top 2 player statistics on the leaderboard to be displayed and observed
+     * @return the current top 2 player on the leaderboard
+     */
     public MutableLiveData<Rank> getSecond(){return this.second;}
 
-    // Get 3rd player
+    /**
+     * This method retrieves the top 3 player statistics on the leaderboard to be displayed and observed
+     * @return the current top 3 player on the leaderboard
+     */
     public MutableLiveData<Rank> getThird(){return this.third;}
 
-    // Get type of leaderboard
+    /**
+     * This method retrieves the type of the currently displayed leaderboard to be observed
+     * @return the type of the currently displayed leaderboard
+     */
     public MutableLiveData<Integer> getLeaderboardPosition(){return this.leaderboardPosition;}
 
-    // Set the first leaderboard for display
+    /**
+     * This method queries data for the first leaderboard (Highest Score QR Code)
+     * @param db Firestore database
+     * @param username the user's username
+     */
     public void setFirstLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
         if (!this.fetchFirstLeaderboard) {
@@ -119,7 +145,12 @@ public class LeaderboardRepository {
         }
     }
 
-    // Set the second leaderboard for display
+    /**
+     * This method queries data for the second leaderboard (Regional Highest Score QR Code)
+     * @param db Firestore database
+     * @param username the user's username
+     * @param region the user's region
+     */
     public void setSecondLeaderboard(FirebaseFirestore db, String username, String region){
         this.leaderboard.setValue(null);
         if (!this.fetchSecondLeaderboard) {
@@ -162,7 +193,11 @@ public class LeaderboardRepository {
         }
     }
 
-    // Set the third leaderboard for display
+    /**
+     * This method queries data for the third leaderboard (Highest Number of Scanned QR Codes)
+     * @param db Firestore database
+     * @param username the user's username
+     */
     public void setThirdLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
         if (!this.fetchThirdLeaderboard) {
@@ -203,7 +238,11 @@ public class LeaderboardRepository {
         }
     }
 
-    // Set the last leaderboard for display
+    /**
+     * This method queries data for the last leaderboard (Highest Total Score)
+     * @param db Firestore database
+     * @param username the user's username
+     */
     public void setLastLeaderboard(FirebaseFirestore db, String username){
         this.leaderboard.setValue(null);
         if (!this.fetchLastLeaderboard) {
@@ -244,12 +283,19 @@ public class LeaderboardRepository {
         }
     }
 
-    // Set the type of leaderboard
+    /**
+     * This method updates the current type of leaderboard
+     * @param position the current type of leaderboard (first, second, third, last)
+     */
     public void setLeaderboardPosition(int position){
         this.leaderboardPosition.setValue(position);
     }
 
     // Refresh rank thresholds
+
+    /**
+     * This method resets the thresholds of all leaderboard
+     */
     public void refreshHistory(){
         HighestScoreRank first = new HighestScoreRank();
         first.resetThreshold();

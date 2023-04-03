@@ -21,6 +21,10 @@ public class QRDisplayViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> scanned;
     private MutableLiveData<ArrayList<Player>> players;
 
+    /**
+     * This method defines the view model of QR display screen
+     * @param application application state
+     */
     public QRDisplayViewModel(@NonNull Application application) {
         super(application);
         this.qrDisplayRepository = QRDisplayRepository.getInstance();
@@ -29,16 +33,30 @@ public class QRDisplayViewModel extends AndroidViewModel {
         this.players = this.qrDisplayRepository.getPlayers();
     }
 
-    // Get the comment(s) to observe
+    /**
+     * This method retrieves the QR Code comments to be displayed and observed
+     * @return the QR Code comments
+     */
     public LiveData<ArrayList<Comment>> getComments(){return this.comments;}
 
-    // Get if the user has scanned the QR Code to observe
+    /**
+     * This method retrieves state if the user has scanned the QR Code to be displayed and observed
+     * @return the QR Code history
+     */
     public LiveData<Boolean> getScanned(){return this.scanned;}
 
-    // Get the player(s) who scanned the QR Code to observe
+    /**
+     * This method retrieves the players who has scanned the QR Code to be displayed and observed
+     * @return the players who has scanned the QR Code
+     */
     public LiveData<ArrayList<Player>> getPlayers(){return this.players;}
 
-    // Set the comments for display
+    /**
+     * This method populates the comments about the QR Code
+     * @param db Firestore database
+     * @param username the user's username
+     * @param qrName the QR Code name
+     */
     public void setComments(FirebaseFirestore db, String username, String qrName){
         if (getRefreshPermission()){
             this.qrDisplayRepository.setComments(db, username, qrName);
@@ -46,22 +64,39 @@ public class QRDisplayViewModel extends AndroidViewModel {
         }
     }
 
-    // Set the view of the user to the QR Code for display
-    public void setScanned(boolean scanned){this.qrDisplayRepository.setScanned(scanned);}
+    /**
+     * This method sets the view of the user with respect to the QR Code
+     * @param hasScanned the view of the user with respect to the QR Code
+     */
+    public void setScanned(boolean hasScanned){this.qrDisplayRepository.setScanned(hasScanned);}
 
-    // Set the players who scanned the QR Code for display
+    /**
+     * This method populates the players who has scanned the QR Code
+     * @param db Firestore database
+     * @param qrName the QR Code name
+     */
     public void setPlayers(FirebaseFirestore db, String qrName){this.qrDisplayRepository.setPlayers(db, qrName);}
 
-    // Add a comment
+    /**
+     * This method adds/overrides a comment
+     * @param db Firestore database
+     * @param username the user's username
+     * @param comment the comment made by the user
+     */
     public void addComment(FirebaseFirestore db, String username, String comment){this.qrDisplayRepository.addComment(db, username, comment);}
 
-    // Allow the leaderboard to refresh
+    /**
+     * This method refreshes the QR Code queried data
+     */
     public void refreshHistory(){
         refresh = true;
         this.qrDisplayRepository.refreshHistory();
     }
 
-    // Get current refresh permission
+    /**
+     * This method retrieves the QR Code refresh permission
+     * @return the QR Code history refresh permission
+     */
     public static boolean getRefreshPermission(){
         return refresh;
     }

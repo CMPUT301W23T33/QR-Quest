@@ -1,6 +1,7 @@
 package com.example.qrquest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -39,7 +40,34 @@ public class RegionalHighestScoreRankTest {
     }
 
     @Test
-    public void getQueryRankTest(){
+    public void getRankTest(){
+        assertEquals(1, this.regionalHighestScoreRank1.getRank());
+        assertEquals(2, this.regionalHighestScoreRank2.getRank());
+        assertEquals(3, this.regionalHighestScoreRank3.getRank());
+        assertEquals(4, this.regionalHighestScoreRank4.getRank());
+    }
+
+    @Test
+    public void getIdentifierTest(){
+        assertEquals(this.identifier1, this.regionalHighestScoreRank1.getIdentifier());
+        assertEquals(this.identifier2, this.regionalHighestScoreRank2.getIdentifier());
+        assertNotEquals(this.identifier4, this.regionalHighestScoreRank3.getIdentifier());
+        assertNotEquals(this.identifier3, this.regionalHighestScoreRank4.getIdentifier());
+    }
+
+    @Test
+    public void getValueTest(){
+        assertNotEquals(5, this.regionalHighestScoreRank1.getValue());
+        assertEquals(50, this.regionalHighestScoreRank2.getValue());
+        assertEquals(50, this.regionalHighestScoreRank3.getValue());
+        assertNotEquals(500, this.regionalHighestScoreRank4.getValue());
+    }
+
+    @Test
+    public void resetThresholdTest(){
+        this.regionalHighestScoreRank1.resetThreshold();
+        RegionalHighestScoreRank regionalHighestScoreRank5 = new RegionalHighestScoreRank("Player 5", 123);
+        assertEquals(1, regionalHighestScoreRank5.getRank());
     }
 
 }

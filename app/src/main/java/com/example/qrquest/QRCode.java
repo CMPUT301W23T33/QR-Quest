@@ -39,11 +39,11 @@ public class QRCode {
 
     /**
      * This method defines an existing QR Code in the database
-     * @param hashedQRCode: the hashed name of the QR Code
-     * @param qrCode: the un-hashed name of the QR Code
-     * @param score: the score of the QR Code
-     * @param latitude: the latitude of the QR Code
-     * @param longitude: the longitude of the QR Code
+     * @param hashedQRCode the hashed name of the QR Code
+     * @param qrCode the un-hashed name of the QR Code
+     * @param score the score of the QR Code
+     * @param latitude the latitude of the QR Code
+     * @param longitude the longitude of the QR Code
      */
     public QRCode(String hashedQRCode, String qrCode, int score, double latitude, double longitude){
         setHashedQRCode(hashedQRCode);
@@ -55,10 +55,10 @@ public class QRCode {
 
     /**
      * This method defines a new QR Code
-     * @param hashedQRCode: the un-hashed name of the QR Code
-     * @param score: the score of the QR Code
-     * @param latitude: the latitude of the QR Code
-     * @param longitude: the longitude of the QR Code
+     * @param hashedQRCode the un-hashed name of the QR Code
+     * @param score the score of the QR Code
+     * @param latitude the latitude of the QR Code
+     * @param longitude the longitude of the QR Code
      */
     public QRCode(String hashedQRCode, int score, double latitude, double longitude){
         this.hashedQRCode = hashedQRCode;
@@ -78,7 +78,7 @@ public class QRCode {
 
     /**
      * This method set the un-hashed name for the QR Code and performs QR Code hashing
-     * @param qrCode: the un-hashed name of the QR Code
+     * @param qrCode the un-hashed name of the QR Code
      */
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
@@ -94,7 +94,7 @@ public class QRCode {
 
     /**
      * This method sets the hashed name (if provided) for the QR Code
-     * @param hashedQRCode: the hashed name of the QR Code
+     * @param hashedQRCode the hashed name of the QR Code
      */
     public void setHashedQRCode(String hashedQRCode){
         this.hashedQRCode = hashedQRCode;
@@ -110,7 +110,7 @@ public class QRCode {
 
     /**
      * This method sets the score for the QR Code
-     * @param score: the score of the QR Code
+     * @param score the score of the QR Code
      */
     public void setScore(int score) {
         this.score = score;
@@ -126,7 +126,7 @@ public class QRCode {
 
     /**
      * This method sets the latitude for the QR Code
-     * @param latitude: the latitude of the QR Code
+     * @param latitude the latitude of the QR Code
      */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
@@ -142,7 +142,7 @@ public class QRCode {
 
     /**
      * This method sets the longitude for the QR Code
-     * @param longitude: the longitude of a geolocation
+     * @param longitude the longitude of a geolocation
      */
     public void setLongitude(double longitude) {
         this.longitude = longitude;

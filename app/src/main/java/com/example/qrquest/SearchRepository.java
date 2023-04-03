@@ -22,7 +22,10 @@ public class SearchRepository {
     // Search data
     private ArrayList<Rank> searchResultData = new ArrayList<>();
 
-    // Get a representative instance of the class
+    /**
+     * This method retrieves the representative instance of the searching repository
+     * @return the repository to populate data for searching players
+     */
     public static SearchRepository getInstance(){
         if (searchRepository == null){
             searchRepository = new SearchRepository();
@@ -30,16 +33,29 @@ public class SearchRepository {
         return searchRepository;
     }
 
-    // Get search result
+    /**
+     * This method retrieves the search results to be displayed and observed
+     * @return the search results
+     */
     public MutableLiveData<ArrayList<Rank>> getSearchResult(){return this.searchResult;}
 
-    // Get searching state
+    /**
+     * This method retrieves the searching state to be displayed and observed
+     * @return the searching state
+     */
     public MutableLiveData<Boolean> getSearchingDone(){return this.searchingDone;}
 
-    // Get the last searched keyword
+    /**
+     * This method retrieves the last searched keyword to be displayed and observed
+     * @return the last searched keyword
+     */
     public MutableLiveData<String> getLastSearchedKeyword(){return this.lastSearchedKeyword;}
 
-    // Set search result for display
+    /**
+     * This method queries the search results
+     * @param db Firestore database
+     * @param keyword the search keyword
+     */
     public void setSearchResult(FirebaseFirestore db, String keyword){
         clearSearchData();
         if (keyword != null && !keyword.equals("")) {
@@ -61,7 +77,11 @@ public class SearchRepository {
         }
     }
 
-    //
+    /**
+     * This method retrieves the username of the specified player
+     * @param position the position of the specified player on the list
+     * @return the username of the chosen player
+     */
     public String getPlayerName(int position){return this.searchResultData.get(position).getIdentifier();}
 
     // Clear previous search cache when there is a new search

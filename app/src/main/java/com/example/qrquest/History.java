@@ -23,8 +23,8 @@ public class History {
 
     /**
      * This method defines the compact QR Code scanned by a player
-     * @param qrCode: the QR Code name
-     * @param score: the QR Code score
+     * @param qrCode the QR Code name
+     * @param score the QR Code score
      */
     public History(String qrCode, int score){
         setQrCode(qrCode);
@@ -49,7 +49,7 @@ public class History {
 
     /**
      * This method sets the hashed name for the QR Code
-     * @param qrCode: the hashed QR Code name
+     * @param qrCode the hashed QR Code name
      */
     private void setQrCode(String qrCode) {
         this.qrCode = qrCode;
@@ -57,7 +57,7 @@ public class History {
 
     /**
      * This method sets the score for the QR Code
-     * @param score: the score of the QR Code
+     * @param score the score of the QR Code
      */
     private void setScore(int score) {
         this.score = score;

@@ -333,6 +333,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
                                 Uri qrUri = Uri.parse(String.valueOf(doc.get("imagePath")));
                                 bundle.putString("uri", String.valueOf(qrUri));
                             }
+
                             bundle.putString("hashString", hashString);
                             bundle.putString("qrName", qrName);
                             bundle.putInt("qrScore", qrScore);

@@ -21,7 +21,10 @@ public class SearchViewModel extends AndroidViewModel {
     private MutableLiveData<Boolean> searchingDone;
     private MutableLiveData<String> lastSearchedKeyword;
 
-    // Set up data for the search activity
+    /**
+     * This method defines the view model of search screen
+     * @param application application state
+     */
     public SearchViewModel(@NonNull Application application) {
         super(application);
         this.searchRepository = SearchRepository.getInstance();
@@ -30,19 +33,36 @@ public class SearchViewModel extends AndroidViewModel {
         this.lastSearchedKeyword = this.searchRepository.getLastSearchedKeyword();
     }
 
-    // Get the search result to observe
+    /**
+     * This method retrieves the search results to be displayed and observed
+     * @return the search results
+     */
     public LiveData<ArrayList<Rank>> getSearchResult(){return this.searchResult;}
 
-    //
+    /**
+     * This method retrieves the searching state to be displayed and observed
+     * @return the searching state
+     */
     public LiveData<Boolean> getSearchingDone(){return this.searchingDone;}
 
-    //
+    /**
+     * This method retrieves the last searched keyword to be displayed and observed
+     * @return the last searched keyword
+     */
     public LiveData<String> getLastSearchedKeyword(){return this.lastSearchedKeyword;}
 
-    //
+    /**
+     * This method retrieves the username of the specified player
+     * @param position the position of the specified player on the list
+     * @return the username of the chosen player
+     */
     public String getPlayerName(int position){return this.searchRepository.getPlayerName(position);}
 
-    // Get the last leaderboard (highest sum of QR Codes) for display
+    /**
+     * This method populates the search results
+     * @param db Firestore database
+     * @param keyword the search keyword
+     */
     public void setSearchResult(FirebaseFirestore db, String keyword) {this.searchRepository.setSearchResult(db, keyword);}
 
 }

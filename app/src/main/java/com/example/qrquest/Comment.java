@@ -23,8 +23,8 @@ public class Comment {
 
     /**
      * This method defines a comment made by a player
-     * @param username: the username of the one who made the comment
-     * @param comment: the comment made by the player
+     * @param username the username of the one who made the comment
+     * @param comment the comment made by the player
      */
     public Comment(String username, String comment){
         setUsername(username);
@@ -49,7 +49,7 @@ public class Comment {
 
     /**
      * This method sets the username for the one who made the comment
-     * @param username: the username of the player
+     * @param username the username of the player
      */
     private void setUsername(String username) {
         this.username = username;
@@ -57,7 +57,7 @@ public class Comment {
 
     /**
      * This method sets the comment content made by the player
-     * @param comment: the comment made by the player
+     * @param comment the comment made by the player
      */
     private void setComment(String comment) {
         this.comment = comment;
