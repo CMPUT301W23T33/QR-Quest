@@ -41,13 +41,14 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/edit_profile_name"
-            style="@style/Heading.4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edit_profile_profile"
             android:layout_centerHorizontal="true"
             android:text="@string/username"
-            android:textColor="@color/thistle">
+            android:textColor="@color/thistle"
+            android:textFontWeight="700"
+            style="@style/body">
 
         </com.google.android.material.textview.MaterialTextView>
 
@@ -58,7 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/edit_profile_name"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginBottom="8dp"
             android:hint="@string/example_email"/>
 
         <com.google.android.material.textfield.TextInputEditText
@@ -68,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/edit_profile_email_address"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
             android:hint="@string/_999_999_999"/>
 
         <!--Change style to "@style/Button.Save.Unclickable" to make it unclickable-->
