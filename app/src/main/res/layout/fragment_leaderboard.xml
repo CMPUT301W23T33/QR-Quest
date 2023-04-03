@@ -202,7 +202,7 @@
         android:orientation="horizontal"
         android:background="@drawable/rounded_top_corners_small"
         android:backgroundTint="@color/black"
-        android:paddingHorizontal="20dp"
+        android:paddingHorizontal="8dp"
         android:paddingVertical="16dp"
         android:gravity="center_vertical"
         app:layout_constraintStart_toStartOf="parent"

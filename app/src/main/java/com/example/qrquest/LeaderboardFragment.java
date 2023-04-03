@@ -180,18 +180,4 @@ public class LeaderboardFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.refreshHistory();
-        refreshHistory();
-        Log.d("LeaderboardFragment", "On Resume");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        viewModel.refreshHistory();
-        refreshHistory();
-    }
 }
