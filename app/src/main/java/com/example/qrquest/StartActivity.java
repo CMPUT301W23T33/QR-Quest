@@ -16,6 +16,7 @@ import java.io.IOException;
  * This Activity is used to host fragment navigation.
  * Its fragments consist of CreateAccountFragment, StartFragment.
  * @author Thea Nguyen
+ * @author Dang Viet Anh Dinh
  */
 public class StartActivity extends AppCompatActivity {
 

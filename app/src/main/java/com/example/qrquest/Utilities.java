@@ -26,7 +26,7 @@ import kotlin.text.Charsets;
  * @author Jay Pasrija
  * @author Michael Wolowyk
  * @author Thea Nguyen
- * */
+ */
 public class Utilities {
 
     private static String[] adverbs, adjectives, nouns;
@@ -116,6 +116,12 @@ public class Utilities {
         return name.toString();
     }
 
+    /**
+     * This method generates a 256x256 Bitmap object based on a hexadecimal hash string.
+     * @param hashString A hexadecimal string representing the hash value of an image.
+     * @return A Bitmap object representing the hash value of the input image.
+     * @throws NullPointerException if the input hash string is null.
+     */
     public static Bitmap hashImage(@NonNull String hashString) {
         // convert to a string of binaries
         StringBuilder binaryString = new StringBuilder(new BigInteger(hashString, 16).toString(2));
