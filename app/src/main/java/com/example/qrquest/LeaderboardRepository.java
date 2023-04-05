@@ -26,28 +26,28 @@ public class LeaderboardRepository {
     private final MutableLiveData<Rank> third = new MutableLiveData<>();
 
     // First leaderboard data
-    private final ArrayList<Rank> firstLeaderboardData = new ArrayList<>();
+    private ArrayList<Rank> firstLeaderboardData = new ArrayList<>();
     private Rank firstUserData = new Rank();
     private Rank first1stPlayerData = new Rank();
     private Rank first2ndPlayerData = new Rank();
     private Rank first3rdPlayerData = new Rank();
 
     // Second leaderboard data
-    private final ArrayList<Rank> secondLeaderboardData = new ArrayList<>();
+    private ArrayList<Rank> secondLeaderboardData = new ArrayList<>();
     private Rank secondUserData = new Rank();
     private Rank second1stPlayerData = new Rank();
     private Rank second2ndPlayerData = new Rank();
     private Rank second3rdPlayerData = new Rank();
 
     // Third leaderboard data
-    private final ArrayList<Rank> thirdLeaderboardData = new ArrayList<>();
+    private ArrayList<Rank> thirdLeaderboardData = new ArrayList<>();
     private Rank thirdUserData = new Rank();
     private Rank third1stPlayerData = new Rank();
     private Rank third2ndPlayerData = new Rank();
     private Rank third3rdPlayerData = new Rank();
 
     // Last leaderboard data
-    private final ArrayList<Rank> lastLeaderboardData = new ArrayList<>();
+    private ArrayList<Rank> lastLeaderboardData = new ArrayList<>();
     private Rank lastUserData = new Rank();
     private Rank last1stPlayerData = new Rank();
     private Rank last2ndPlayerData = new Rank();
@@ -300,6 +300,7 @@ public class LeaderboardRepository {
      * This method resets the thresholds of all leaderboard
      */
     public void refreshHistory(){
+
         HighestScoreRank first = new HighestScoreRank();
         first.resetThreshold();
         RegionalHighestScoreRank second = new RegionalHighestScoreRank();
@@ -308,6 +309,34 @@ public class LeaderboardRepository {
         third.resetThreshold();
         TotalScoreRank last = new TotalScoreRank();
         last.resetThreshold();
+
+        this.first1stPlayerData = new Rank();
+        this.first2ndPlayerData = new Rank();
+        this.first3rdPlayerData = new Rank();
+
+        this.second1stPlayerData = new Rank();
+        this.second2ndPlayerData = new Rank();
+        this.second3rdPlayerData = new Rank();
+
+        this.third1stPlayerData = new Rank();
+        this.third2ndPlayerData = new Rank();
+        this.third3rdPlayerData = new Rank();
+
+        this.last1stPlayerData = new Rank();
+        this.last2ndPlayerData = new Rank();
+        this.last3rdPlayerData = new Rank();
+
+        this.firstLeaderboardData = new ArrayList<>();
+        this.secondLeaderboardData = new ArrayList<>();
+        this.thirdLeaderboardData = new ArrayList<>();
+        this.lastLeaderboardData = new ArrayList<>();
+
+        this.leaderboard.setValue(null);
+        this.user.setValue(new Rank());
+        this.first.setValue(new Rank());
+        this.second.setValue(new Rank());
+        this.third.setValue(new Rank());
+
         this.fetchFirstLeaderboard = false;
         this.fetchSecondLeaderboard = false;
         this.fetchThirdLeaderboard = false;
