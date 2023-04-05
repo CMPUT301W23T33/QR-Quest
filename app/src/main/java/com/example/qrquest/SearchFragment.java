@@ -123,7 +123,7 @@ public class SearchFragment extends Fragment {
 
         //
         buttonSearch.setOnClickListener(v -> {
-            viewModel.setSearchResult(db, Objects.requireNonNull(editText.getText()).toString().trim());
+            viewModel.setSearchResult(db, Objects.requireNonNull(editText.getText()).toString().toLowerCase().trim());
         });
 
         // Navigate back to the main screen
