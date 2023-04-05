@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.qrquest.databinding.FragmentMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -291,7 +290,7 @@ public class MainFragment extends Fragment implements OnMapReadyCallback {
         }
 
         // set markers for nearby QR codes
-        db.collection("main").get().addOnCompleteListener(task -> {
+        db.collection("QR Code").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot doc : task.getResult()) {
                     double latitude = Double.parseDouble(String.valueOf(doc.get("latitude")));
